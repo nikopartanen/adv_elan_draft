@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced ELAN manipulation and analysis</title>
+  <meta name="description" content="These are teaching materials on Niko Partanen’s course.">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced ELAN manipulation and analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="These are teaching materials on Niko Partanen’s course." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced ELAN manipulation and analysis" />
+  
+  <meta name="twitter:description" content="These are teaching materials on Niko Partanen’s course." />
+  
+
+<meta name="author" content="Niko Partanen">
+
+
+<meta name="date" content="2017-09-05">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="pympi-examples.html">
+<link rel="next" href="example-interaction-with-emur.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced ELAN</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Info</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#course-goals"><i class="fa fa-check"></i><b>1.1</b> Course goals</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#course-structure"><i class="fa fa-check"></i><b>1.2</b> Course structure</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i><b>1.3</b> Resources</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#practical-info"><i class="fa fa-check"></i><b>1.4</b> Practical info</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#linguistic-software"><i class="fa fa-check"></i><b>2.1</b> Linguistic software</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#elan-corpora"><i class="fa fa-check"></i><b>2.2</b> ELAN corpora</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tools.html"><a href="tools.html"><i class="fa fa-check"></i><b>3</b> Tools</a><ul>
+<li class="chapter" data-level="3.1" data-path="tools.html"><a href="tools.html#r"><i class="fa fa-check"></i><b>3.1</b> R</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="tools.html"><a href="tools.html#tidytext"><i class="fa fa-check"></i><b>3.1.1</b> <code>tidytext</code></a></li>
+<li class="chapter" data-level="3.1.2" data-path="tools.html"><a href="tools.html#xml2"><i class="fa fa-check"></i><b>3.1.2</b> <code>xml2</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="tools.html"><a href="tools.html#python"><i class="fa fa-check"></i><b>3.2</b> Python</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="tools.html"><a href="tools.html#pympi"><i class="fa fa-check"></i><b>3.2.1</b> <code>pympi</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="tools.html"><a href="tools.html#praatscript"><i class="fa fa-check"></i><b>3.3</b> PraatScript</a></li>
+<li class="chapter" data-level="3.4" data-path="tools.html"><a href="tools.html#xpath"><i class="fa fa-check"></i><b>3.4</b> XPath</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="tools.html"><a href="tools.html#examples"><i class="fa fa-check"></i><b>3.4.1</b> Examples</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="elan-file-structure.html"><a href="elan-file-structure.html"><i class="fa fa-check"></i><b>4</b> ELAN file structure</a><ul>
+<li class="chapter" data-level="4.1" data-path="elan-file-structure.html"><a href="elan-file-structure.html#minimal-file"><i class="fa fa-check"></i><b>4.1</b> Minimal file</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="elan-file-structure.html"><a href="elan-file-structure.html#participant-name-convention"><i class="fa fa-check"></i><b>4.1.1</b> Participant name convention</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="elan-file-structure.html"><a href="elan-file-structure.html#tier-type-naming-convention"><i class="fa fa-check"></i><b>4.2</b> Tier type naming convention</a></li>
+<li class="chapter" data-level="4.3" data-path="elan-file-structure.html"><a href="elan-file-structure.html#hierarchies"><i class="fa fa-check"></i><b>4.3</b> Hierarchies</a></li>
+<li class="chapter" data-level="4.4" data-path="elan-file-structure.html"><a href="elan-file-structure.html#discussion"><i class="fa fa-check"></i><b>4.4</b> Discussion</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html"><i class="fa fa-check"></i><b>5</b> Parsing ELAN files to R</a><ul>
+<li class="chapter" data-level="5.1" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html#parsing-with-frelan-package"><i class="fa fa-check"></i><b>5.1</b> Parsing with FRelan package</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manipulating-elan-files-with-pympi.html"><a href="manipulating-elan-files-with-pympi.html"><i class="fa fa-check"></i><b>6</b> Manipulating ELAN files with Pympi</a></li>
+<li class="chapter" data-level="7" data-path="pympi-examples.html"><a href="pympi-examples.html"><i class="fa fa-check"></i><b>7</b> Pympi examples</a><ul>
+<li class="chapter" data-level="7.1" data-path="pympi-examples.html"><a href="pympi-examples.html#creating-a-new-elan-file"><i class="fa fa-check"></i><b>7.1</b> Creating a new ELAN file</a></li>
+<li class="chapter" data-level="7.2" data-path="pympi-examples.html"><a href="pympi-examples.html#populating-the-elan-file-with-content"><i class="fa fa-check"></i><b>7.2</b> Populating the ELAN file with content</a></li>
+<li class="chapter" data-level="7.3" data-path="pympi-examples.html"><a href="pympi-examples.html#merging-elan-files"><i class="fa fa-check"></i><b>7.3</b> Merging ELAN files</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="shiny-components.html"><a href="shiny-components.html"><i class="fa fa-check"></i><b>8</b> Shiny components</a><ul>
+<li class="chapter" data-level="8.1" data-path="shiny-components.html"><a href="shiny-components.html#dt"><i class="fa fa-check"></i><b>8.1</b> DT</a></li>
+<li class="chapter" data-level="8.2" data-path="shiny-components.html"><a href="shiny-components.html#leaflet"><i class="fa fa-check"></i><b>8.2</b> Leaflet</a></li>
+<li class="chapter" data-level="8.3" data-path="shiny-components.html"><a href="shiny-components.html#ggplot2"><i class="fa fa-check"></i><b>8.3</b> ggplot2</a></li>
+<li class="chapter" data-level="8.4" data-path="shiny-components.html"><a href="shiny-components.html#advantages-and-disadvantages-of-shiny"><i class="fa fa-check"></i><b>8.4</b> Advantages and disadvantages of Shiny</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="example-interaction-with-emur.html"><a href="example-interaction-with-emur.html"><i class="fa fa-check"></i><b>9</b> Example: Interaction with emuR</a><ul>
+<li class="chapter" data-level="9.1" data-path="example-interaction-with-emur.html"><a href="example-interaction-with-emur.html#procedure"><i class="fa fa-check"></i><b>9.1</b> Procedure</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html"><i class="fa fa-check"></i><b>10</b> Example: Interaction with Praat</a><ul>
+<li class="chapter" data-level="10.1" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#research-questions"><i class="fa fa-check"></i><b>10.1</b> Research questions</a></li>
+<li class="chapter" data-level="10.2" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#implementation"><i class="fa fa-check"></i><b>10.2</b> Implementation</a></li>
+<li class="chapter" data-level="10.3" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#shiny-application"><i class="fa fa-check"></i><b>10.3</b> Shiny application</a></li>
+<li class="chapter" data-level="10.4" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#observations"><i class="fa fa-check"></i><b>10.4</b> Observations</a></li>
+<li class="chapter" data-level="10.5" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#exercise"><i class="fa fa-check"></i><b>10.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="example-concordances-and-map.html"><a href="example-concordances-and-map.html"><i class="fa fa-check"></i><b>11</b> Example: Concordances and map</a><ul>
+<li class="chapter" data-level="11.1" data-path="example-concordances-and-map.html"><a href="example-concordances-and-map.html#use"><i class="fa fa-check"></i><b>11.1</b> Use</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>12</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Draft version, not to be cited without permission.</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced ELAN manipulation and analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="shiny-components" class="section level1">
+<h1><span class="header-section-number">Section 8</span> Shiny components</h1>
+<p>The easiest way to build a new Shiny application is to find the pieces you need from <a href="">Shiny Gallery</a> and start adjusting from this. Shiny applications and their functions differ from normal R functions in what are called <code>reactive functions</code>. These functions are constructed so that they can get their arguments interactively from the UI part of Shiny code. Grasping how the reactive functions work is little bit challenging, but once you get touch to it the basic concept will not change.</p>
+<p>The Shiny application has two parts. They are called <code>ui</code> and <code>server</code>. The code is executed on the server side, and the variables that the user manipulates are on UI side. The results computed on the server code will again be placed as output functions to the UI, which creates clear interaction between these parts.</p>
+<p>It is possible to have the Shiny app in two different files called <code>ui.R</code> and <code>server.R</code>, but they can also be in one function. With more complicated applications it is often easier to put them into different files, but there are also situations where compactness of one file can make it easier to follow. I often do the first prototype into one function and split it later when I start adding bells and whistles.</p>
+<p>In this point it is good to mention, that there is a specific set of HTML Widgets that interact very well with Shiny. They are different from Shiny applications as they are just plain HTML and JavaScript and can be opened in any browser, and they also can be interactive, but the interactivity is usually somewhat limited. Shiny can be used to tie easily two distinct processes into one another. There are new HTML Widgets coming all the time, and apparently creating new ones is not too difficult. The idea in an HTML Widget is that an R object is transformed into HTML which contains JavaScript. Thereby it is not necessary to write JavaScript ourselves, but we get to benefit from large variety of already well working and pretty visualizations. These are called JavaScript library <em>bindings</em>. The concept exists also in Python.</p>
+<p>This comes with a caveout that if something in the JavaScript library is not yet implemented in the binding R function, it can be quite tricky to get it work the intended way without touching more into JavaScript. JavaScript is nice language, and there is a good introduction <a href="">JavaScript for Cats</a>, but this can still be something that takes unexpectedly much time.</p>
+<p>So if your supervisor or colleague sees your HTML Widget or Shiny application, they may suggest different kinds of additions. Do not say yes before googling a bit. The situation is paradoxical in the sense that very impressive presentations can be created with few lines of code, but a small adjustment can be very difficult to set up.</p>
+<p>Next I will present the HTML Widgets which in my opinion have been the most useful while working with linguistic data. They are also used in later examples.</p>
+<div id="dt" class="section level2">
+<h2><span class="header-section-number">8.1</span> DT</h2>
+<p><a href="">datatables</a> is a JavaScript library that can be used to make very nice looking tables. In principle a KWIC style concordance is also just a table with specific formatting, as seen in Example…</p>
+</div>
+<div id="leaflet" class="section level2">
+<h2><span class="header-section-number">8.2</span> Leaflet</h2>
+<p>This is the best package for creating interactive maps at the moment. This is demonstrated in Example…</p>
+</div>
+<div id="ggplot2" class="section level2">
+<h2><span class="header-section-number">8.3</span> ggplot2</h2>
+<p>This is kind of an old work horse, it is probably the “basic” plotting library in R nowadays, and having familiarity with this will come handy later. It is also easy to make it interact with Shiny, as seen in Example…</p>
+</div>
+<div id="advantages-and-disadvantages-of-shiny" class="section level2">
+<h2><span class="header-section-number">8.4</span> Advantages and disadvantages of Shiny</h2>
+<p>If the concept you have in mind is simple enough to be realized as an HTML Widget, then that is a better way to go. Those can be hosted online anywhere, for example in GitHub, and they work very reliably on any browser. The trick here is that HTML Widget executes only JavaScript in the end, so using it doesn’t differ from any other website which has some JavaScript based visualizations.</p>
+<p>With Shiny applications the situation is more complicated. They can be ran locally, and then the application can also easily access all local files. They can also be ran on server, but this needs bit more work as it doesn’t seem to be so trivial to set up one, although there are <a href="">good instructions online</a>.</p>
+<p>The most common way to host a Shiny application online is probably through RStudio owned website <a href="">shinyapps.io</a>, and this is usually a very sufficient alternative. On the free account there are limits into how much the application can be used in a month, but for small number of users this shouldn’t be any problem. Of course this all leaves a nagging feeling, as it is always possible to come up with something that has more vivid number of users, and I’m rather sure in this case the free account would run out of allocated minutes very fast.</p>
+<p>One good midway is to host the application in GitHub, and instruct the user to run it directly from there on their own computer with a function <code>shiny::runGitHub</code>. This is not the same as having it available online for everybody, but it is one way which I have preferred.</p>
+<p>To be clear, the reason why the Shiny application has to be hosted on the server is that there R code being executed while you use it, and this is something web browser doesn’t handle. I assume the functionality of any Shiny application could be replicated in JavaScript, and then it would work in browser as such, but I can’t even imagine how many lines of code that would eventually demand.</p>
+<p>This leads to the one of the key aspects of Shiny: rapid prototyping time. Once you know the basic logic of the app, it is possible to implement entirely new kind of interface in a matter of hours. If we spend some time in standardizing our data, so that we all use same concepts when we speak refer to metadata and different parts of our annotations, I could imagine many parts of code can be freely reused as such.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="pympi-examples.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="example-interaction-with-emur.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

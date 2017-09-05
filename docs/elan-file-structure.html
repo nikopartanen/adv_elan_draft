@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced ELAN manipulation and analysis</title>
+  <meta name="description" content="These are teaching materials on Niko Partanen’s course.">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced ELAN manipulation and analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="These are teaching materials on Niko Partanen’s course." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced ELAN manipulation and analysis" />
+  
+  <meta name="twitter:description" content="These are teaching materials on Niko Partanen’s course." />
+  
+
+<meta name="author" content="Niko Partanen">
+
+
+<meta name="date" content="2017-09-05">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="tools.html">
+<link rel="next" href="parsing-elan-files-to-r.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced ELAN</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Info</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#course-goals"><i class="fa fa-check"></i><b>1.1</b> Course goals</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#course-structure"><i class="fa fa-check"></i><b>1.2</b> Course structure</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i><b>1.3</b> Resources</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#practical-info"><i class="fa fa-check"></i><b>1.4</b> Practical info</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#linguistic-software"><i class="fa fa-check"></i><b>2.1</b> Linguistic software</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#elan-corpora"><i class="fa fa-check"></i><b>2.2</b> ELAN corpora</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tools.html"><a href="tools.html"><i class="fa fa-check"></i><b>3</b> Tools</a><ul>
+<li class="chapter" data-level="3.1" data-path="tools.html"><a href="tools.html#r"><i class="fa fa-check"></i><b>3.1</b> R</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="tools.html"><a href="tools.html#tidytext"><i class="fa fa-check"></i><b>3.1.1</b> <code>tidytext</code></a></li>
+<li class="chapter" data-level="3.1.2" data-path="tools.html"><a href="tools.html#xml2"><i class="fa fa-check"></i><b>3.1.2</b> <code>xml2</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="tools.html"><a href="tools.html#python"><i class="fa fa-check"></i><b>3.2</b> Python</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="tools.html"><a href="tools.html#pympi"><i class="fa fa-check"></i><b>3.2.1</b> <code>pympi</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="tools.html"><a href="tools.html#praatscript"><i class="fa fa-check"></i><b>3.3</b> PraatScript</a></li>
+<li class="chapter" data-level="3.4" data-path="tools.html"><a href="tools.html#xpath"><i class="fa fa-check"></i><b>3.4</b> XPath</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="tools.html"><a href="tools.html#examples"><i class="fa fa-check"></i><b>3.4.1</b> Examples</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="elan-file-structure.html"><a href="elan-file-structure.html"><i class="fa fa-check"></i><b>4</b> ELAN file structure</a><ul>
+<li class="chapter" data-level="4.1" data-path="elan-file-structure.html"><a href="elan-file-structure.html#minimal-file"><i class="fa fa-check"></i><b>4.1</b> Minimal file</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="elan-file-structure.html"><a href="elan-file-structure.html#participant-name-convention"><i class="fa fa-check"></i><b>4.1.1</b> Participant name convention</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="elan-file-structure.html"><a href="elan-file-structure.html#tier-type-naming-convention"><i class="fa fa-check"></i><b>4.2</b> Tier type naming convention</a></li>
+<li class="chapter" data-level="4.3" data-path="elan-file-structure.html"><a href="elan-file-structure.html#hierarchies"><i class="fa fa-check"></i><b>4.3</b> Hierarchies</a></li>
+<li class="chapter" data-level="4.4" data-path="elan-file-structure.html"><a href="elan-file-structure.html#discussion"><i class="fa fa-check"></i><b>4.4</b> Discussion</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html"><i class="fa fa-check"></i><b>5</b> Parsing ELAN files to R</a><ul>
+<li class="chapter" data-level="5.1" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html#parsing-with-frelan-package"><i class="fa fa-check"></i><b>5.1</b> Parsing with FRelan package</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manipulating-elan-files-with-pympi.html"><a href="manipulating-elan-files-with-pympi.html"><i class="fa fa-check"></i><b>6</b> Manipulating ELAN files with Pympi</a></li>
+<li class="chapter" data-level="7" data-path="pympi-examples.html"><a href="pympi-examples.html"><i class="fa fa-check"></i><b>7</b> Pympi examples</a><ul>
+<li class="chapter" data-level="7.1" data-path="pympi-examples.html"><a href="pympi-examples.html#creating-a-new-elan-file"><i class="fa fa-check"></i><b>7.1</b> Creating a new ELAN file</a></li>
+<li class="chapter" data-level="7.2" data-path="pympi-examples.html"><a href="pympi-examples.html#populating-the-elan-file-with-content"><i class="fa fa-check"></i><b>7.2</b> Populating the ELAN file with content</a></li>
+<li class="chapter" data-level="7.3" data-path="pympi-examples.html"><a href="pympi-examples.html#merging-elan-files"><i class="fa fa-check"></i><b>7.3</b> Merging ELAN files</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="shiny-components.html"><a href="shiny-components.html"><i class="fa fa-check"></i><b>8</b> Shiny components</a><ul>
+<li class="chapter" data-level="8.1" data-path="shiny-components.html"><a href="shiny-components.html#dt"><i class="fa fa-check"></i><b>8.1</b> DT</a></li>
+<li class="chapter" data-level="8.2" data-path="shiny-components.html"><a href="shiny-components.html#leaflet"><i class="fa fa-check"></i><b>8.2</b> Leaflet</a></li>
+<li class="chapter" data-level="8.3" data-path="shiny-components.html"><a href="shiny-components.html#ggplot2"><i class="fa fa-check"></i><b>8.3</b> ggplot2</a></li>
+<li class="chapter" data-level="8.4" data-path="shiny-components.html"><a href="shiny-components.html#advantages-and-disadvantages-of-shiny"><i class="fa fa-check"></i><b>8.4</b> Advantages and disadvantages of Shiny</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="example-interaction-with-emur.html"><a href="example-interaction-with-emur.html"><i class="fa fa-check"></i><b>9</b> Example: Interaction with emuR</a><ul>
+<li class="chapter" data-level="9.1" data-path="example-interaction-with-emur.html"><a href="example-interaction-with-emur.html#procedure"><i class="fa fa-check"></i><b>9.1</b> Procedure</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html"><i class="fa fa-check"></i><b>10</b> Example: Interaction with Praat</a><ul>
+<li class="chapter" data-level="10.1" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#research-questions"><i class="fa fa-check"></i><b>10.1</b> Research questions</a></li>
+<li class="chapter" data-level="10.2" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#implementation"><i class="fa fa-check"></i><b>10.2</b> Implementation</a></li>
+<li class="chapter" data-level="10.3" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#shiny-application"><i class="fa fa-check"></i><b>10.3</b> Shiny application</a></li>
+<li class="chapter" data-level="10.4" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#observations"><i class="fa fa-check"></i><b>10.4</b> Observations</a></li>
+<li class="chapter" data-level="10.5" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#exercise"><i class="fa fa-check"></i><b>10.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="example-concordances-and-map.html"><a href="example-concordances-and-map.html"><i class="fa fa-check"></i><b>11</b> Example: Concordances and map</a><ul>
+<li class="chapter" data-level="11.1" data-path="example-concordances-and-map.html"><a href="example-concordances-and-map.html#use"><i class="fa fa-check"></i><b>11.1</b> Use</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>12</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Draft version, not to be cited without permission.</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced ELAN manipulation and analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="elan-file-structure" class="section level1">
+<h1><span class="header-section-number">Section 4</span> ELAN file structure</h1>
+<p>In this part we go into deeper details of ELAN XML structure. It is important to understand how ELAN stores information into different tiers, so that we can easily extract the parts we need. It is also very good test for data integrity to parse all the data from ELAN file, since this verifies that all data is stored in retrievable manner.</p>
+<div id="minimal-file" class="section level2">
+<h2><span class="header-section-number">4.1</span> Minimal file</h2>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;ANNOTATION_DOCUMENT AUTHOR=&quot;&quot; DATE=&quot;2017-09-05T14:53:24+06:00&quot; FORMAT=&quot;3.0&quot; VERSION=&quot;3.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:noNamespaceSchemaLocation=&quot;http://www.mpi.nl/tools/elan/EAFv3.0.xsd&quot;&gt;
+    &lt;HEADER MEDIA_FILE=&quot;&quot; TIME_UNITS=&quot;milliseconds&quot;&gt;
+        &lt;MEDIA_DESCRIPTOR MEDIA_URL=&quot;file:///Users/niko/audio.wav&quot; MIME_TYPE=&quot;audio/x-wav&quot; RELATIVE_MEDIA_URL=&quot;../../audio.wav&quot;/&gt;
+        &lt;PROPERTY NAME=&quot;URN&quot;&gt;urn:nl-mpi-tools-elan-eaf:7e5bf3cc-a72f-4868-810b-2ca34876e64c&lt;/PROPERTY&gt;
+        &lt;PROPERTY NAME=&quot;lastUsedAnnotationId&quot;&gt;5&lt;/PROPERTY&gt;
+    &lt;/HEADER&gt;
+    &lt;TIME_ORDER&gt;
+        &lt;TIME_SLOT TIME_SLOT_ID=&quot;ts1&quot; TIME_VALUE=&quot;0&quot;/&gt;
+        &lt;TIME_SLOT TIME_SLOT_ID=&quot;ts2&quot; TIME_VALUE=&quot;1000&quot;/&gt;
+    &lt;/TIME_ORDER&gt;
+    &lt;TIER LINGUISTIC_TYPE_REF=&quot;refT&quot; PARTICIPANT=&quot;Niko&quot; TIER_ID=&quot;ref@Niko&quot;&gt;
+        &lt;ANNOTATION&gt;
+            &lt;ALIGNABLE_ANNOTATION ANNOTATION_ID=&quot;a1&quot; TIME_SLOT_REF1=&quot;ts1&quot; TIME_SLOT_REF2=&quot;ts2&quot;&gt;
+                &lt;ANNOTATION_VALUE&gt;.001&lt;/ANNOTATION_VALUE&gt;
+            &lt;/ALIGNABLE_ANNOTATION&gt;
+        &lt;/ANNOTATION&gt;
+    &lt;/TIER&gt;
+    &lt;TIER LINGUISTIC_TYPE_REF=&quot;orthT&quot; PARENT_REF=&quot;ref@Niko&quot; PARTICIPANT=&quot;Niko&quot; TIER_ID=&quot;orth@Niko&quot;&gt;
+        &lt;ANNOTATION&gt;
+            &lt;REF_ANNOTATION ANNOTATION_ID=&quot;a2&quot; ANNOTATION_REF=&quot;a1&quot;&gt;
+                &lt;ANNOTATION_VALUE&gt;words here&lt;/ANNOTATION_VALUE&gt;
+            &lt;/REF_ANNOTATION&gt;
+        &lt;/ANNOTATION&gt;
+    &lt;/TIER&gt;
+    &lt;TIER LINGUISTIC_TYPE_REF=&quot;wordT&quot; PARENT_REF=&quot;orth@Niko&quot; PARTICIPANT=&quot;Niko&quot; TIER_ID=&quot;word@Niko&quot;&gt;
+        &lt;ANNOTATION&gt;
+            &lt;REF_ANNOTATION ANNOTATION_ID=&quot;a4&quot; ANNOTATION_REF=&quot;a2&quot;&gt;
+                &lt;ANNOTATION_VALUE&gt;words&lt;/ANNOTATION_VALUE&gt;
+            &lt;/REF_ANNOTATION&gt;
+        &lt;/ANNOTATION&gt;
+        &lt;ANNOTATION&gt;
+            &lt;REF_ANNOTATION ANNOTATION_ID=&quot;a5&quot; ANNOTATION_REF=&quot;a2&quot; PREVIOUS_ANNOTATION=&quot;a4&quot;&gt;
+                &lt;ANNOTATION_VALUE&gt;here&lt;/ANNOTATION_VALUE&gt;
+            &lt;/REF_ANNOTATION&gt;
+        &lt;/ANNOTATION&gt;
+    &lt;/TIER&gt;
+    &lt;LINGUISTIC_TYPE GRAPHIC_REFERENCES=&quot;false&quot; LINGUISTIC_TYPE_ID=&quot;refT&quot; TIME_ALIGNABLE=&quot;true&quot;/&gt;
+    &lt;LINGUISTIC_TYPE CONSTRAINTS=&quot;Symbolic_Association&quot; GRAPHIC_REFERENCES=&quot;false&quot; LINGUISTIC_TYPE_ID=&quot;orthT&quot; TIME_ALIGNABLE=&quot;false&quot;/&gt;
+    &lt;LINGUISTIC_TYPE CONSTRAINTS=&quot;Symbolic_Subdivision&quot; GRAPHIC_REFERENCES=&quot;false&quot; LINGUISTIC_TYPE_ID=&quot;wordT&quot; TIME_ALIGNABLE=&quot;false&quot;/&gt;
+    &lt;CONSTRAINT DESCRIPTION=&quot;Time subdivision of parent annotation&#39;s time interval, no time gaps allowed within this interval&quot; STEREOTYPE=&quot;Time_Subdivision&quot;/&gt;
+    &lt;CONSTRAINT DESCRIPTION=&quot;Symbolic subdivision of a parent annotation. Annotations refering to the same parent are ordered&quot; STEREOTYPE=&quot;Symbolic_Subdivision&quot;/&gt;
+    &lt;CONSTRAINT DESCRIPTION=&quot;1-1 association with a parent annotation&quot; STEREOTYPE=&quot;Symbolic_Association&quot;/&gt;
+    &lt;CONSTRAINT DESCRIPTION=&quot;Time alignable annotations within the parent annotation&#39;s time interval, gaps are allowed&quot; STEREOTYPE=&quot;Included_In&quot;/&gt;
+&lt;/ANNOTATION_DOCUMENT&gt;</code></pre>
+<p>This is one file with three tiers. The first is reference tier, containing the ID for the utterance, the second is the transcription, and the last one contains the tokenized words. It is the kind of structure used in language documentation projects connected to Freiburg. Other structures are certainly possible, although some kind of hierarchy between tiers is generally encouraged. At least following guidelines can be distinguished:</p>
+<ul>
+<li>Each content type should have its own tier type</li>
+<li>If there is a hierarchical relation, it should be used instead of independent tiers</li>
+</ul>
+<div id="participant-name-convention" class="section level3">
+<h3><span class="header-section-number">4.1.1</span> Participant name convention</h3>
+<p>Some parts are more a matter of preferred convention. Each tier contains information about participants in two possible places:</p>
+<pre><code>PARTICIPANT=&quot;Niko&quot; TIER_ID=&quot;ref@Niko</code></pre>
+<p>This makes a difference in which convention has to be used in order to select the nodes of this speaker.</p>
+</div>
+</div>
+<div id="tier-type-naming-convention" class="section level2">
+<h2><span class="header-section-number">4.2</span> Tier type naming convention</h2>
+<p>The situation is similar with selecting all tiers of specific type:</p>
+<pre><code>LINGUISTIC_TYPE_REF=&quot;refT&quot; TIER_ID=&quot;ref@Niko&quot;</code></pre>
+<p>Also here the tier type is specified in both the type name and as part of the tier ID. So the following commands are in this case identical:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(tidyverse))
+<span class="kw">library</span>(xml2)
+
+<span class="kw">read_xml</span>(<span class="st">&#39;test.eaf&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">xml_find_all</span>(<span class="st">&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;wordT&#39;]/ANNOTATION/*/ANNOTATION_VALUE&quot;</span>)</code></pre></div>
+<pre><code>## {xml_nodeset (2)}
+## [1] &lt;ANNOTATION_VALUE&gt;words&lt;/ANNOTATION_VALUE&gt;
+## [2] &lt;ANNOTATION_VALUE&gt;here&lt;/ANNOTATION_VALUE&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_xml</span>(<span class="st">&#39;test.eaf&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">xml_find_all</span>(<span class="st">&quot;//TIER[starts-with(@TIER_ID, &#39;word&#39;)]/ANNOTATION/*/ANNOTATION_VALUE&quot;</span>)</code></pre></div>
+<pre><code>## {xml_nodeset (2)}
+## [1] &lt;ANNOTATION_VALUE&gt;words&lt;/ANNOTATION_VALUE&gt;
+## [2] &lt;ANNOTATION_VALUE&gt;here&lt;/ANNOTATION_VALUE&gt;</code></pre>
+<p>In the situations where every content type doesn’t have its own type, it may be more useful to select them by part of the tier ID.</p>
+</div>
+<div id="hierarchies" class="section level2">
+<h2><span class="header-section-number">4.3</span> Hierarchies</h2>
+<p>Very often we want to have the time spans of different units, even when we are dealing with symbolically subdivided words that don’t have this information for the units themselves. Only the highermost tier in ELAN has the information about the time codes, so associating lower level tiers with their times usually demands reconstructing the hierarchies in the file.</p>
+</div>
+<div id="discussion" class="section level2">
+<h2><span class="header-section-number">4.4</span> Discussion</h2>
+<p>The conventions specified above define how we are supposed to extract the wanted information. Usually this is done with the goal to get all content of all speakers from the tier X. We want all utterances, or all words. However, often we would like to have a file that contains larger amount of data in one structure.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="tools.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="parsing-elan-files-to-r.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
