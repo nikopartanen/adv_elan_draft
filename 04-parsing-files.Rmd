@@ -1,0 +1,36 @@
+# Parsing ELAN files to R
+
+The kind of structures I have usually been working with in R are like this:
+
+**Note:** Update the example to have better column names
+
+![](./images/elan-R.png)
+
+This is one place where standardized and cross-comparable metadata would be useful.
+
+The idea behind this structure is that we can consider each token as one observation, and this format with one token per row allows easy plotting and statistical testing without issues.
+
+I have written in [this blog](http://langdoc.github.io/2016-06-04-ELAN-to-R.html) about more exact conventions in parsing ELAN files, especially within [FRelan](https://github.com/langdoc/FRelan) R package that I have built to work with Freiburg project ELAN files. However, I have not been very succesful in getting some system to work so that it would be easily and intuitively adapted into project with an entirely different tier structure. Probably the easiest way is to modify the code every time there is a new tier structure.
+
+## Why to read ELAN files into R?
+
+I have often seen and read the idea that in order to analyze linguistic data in R the first task should be to export data from ELAN into a spreadsheet. The problems with this approachs are manifold:
+
+- The spreadsheet has to be manually updated every time the ELAN file changes
+- If the spreadsheet is annotated further, it will not match with the updates done into ELAN files after original export
+
+From this point of view the ideal solution would be to store all information into ELAN file and create an automatic export procedure to analyse the data further, or store it in other format such as spreadsheet in case this is needed for some reason.
+
+Only way to keep this working is through meticulous working practices. There is no way over this. However, these practices can be easened and made more robust by adopting workflows which minimize the possibilities to deviate from the convention. The most simple mechanism for this is to have a system that is as minimal as possible, still allowing the tasks we want to achieve.
+
+Unfortunately the situations and the tools we work with are never perfect, and there may be situations where we settle into a workflow far from ideal, due to different constraints: time, practicality, limitations of software. In these cases it is important to notice where these compromises have been made. I have included into each example presented here also the points which will make this procedure difficult to maintain, if these can be easily imagined.
+
+## Parsing with FRelan package
+
+The function I have in the FRelan package for parsing one tier looks like this:
+
+```{r}
+FRelan::read_tier
+```
+
+It works fine, but I have not yet updated it to use `map()` function from `purrr` package. It also has some extra parts in it to parse either an XML file or an XML file already read into memory. We usually want to read several tiers and merge them together, and in this context it is not good to open the XML file again every time we read it, as this would slow the function down very much.

@@ -1,0 +1,244 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# Introduction {#intro}
+
+## Elan and Praat -- strengths and weaknesses
+
+
+
+## Linguistic software
+
+It seems to me that in linguistic research there are roughly two different approaches to software. One is focused to programs with GUIs and interfaces, and assumes the user to do specific set of tasks with their data through this tool. There are two main problems with this approach:
+
+- Actions done with mouse are impossible to record and repeat
+- User is limited to actions (or their combinations) implemented in GUI
+    - In the worst cases the data is actually locked into the GUI so that the user can do nothing besides what is allowed there
+
+Another approach, arguably more common or vibrant at the moment, is to express the research procedures directly in programming languages, so that executing the code performs the wanted analysis. This approach also has its own issues, and it is never trivial to run old code on a new computer or after long time has passed, but there are many people working with these questions right now. 
+
+One issue here is that there are many research tasks which need or are significantly simplified when there is a visual environment of some sort. Part of this is already solved by different methods of data visualization, but it is also possible to create more interactive environments.
+
+During the course we will go through several examples that are in different ways combining the programmatic automatized analysis into relatively shallow GUIs. It is rather easy nowadays to create a small interface in ad-hoc manner, as this doesn't require very much time to set up. This differs radically from the traditional GUI perspective, since usually designing and building an user interface for anything has demanded well paid programmers to work for longer periods of time.
+
+## ELAN corpora
+
+There are some aspects of ELAN corpora that are very particular for this kind of data. Part of this comes from the fact that these corpora tend to be done with endangered minority languages. From this follows that there are very few Natural Language Processing tools that can be used readily out of the box with these languages. In this sense the NLP tools could often be called majority language processing tools, since even the most basic operations can get fiendishly complicated when we throw in very non-standard linguistic data.
+
+At least following traits seem to be common for ELAN corpora, although there are always exceptions too:
+
+- Mainly spoken language data
+- Audio and video media often available
+- Relatively small size
+- Integration into larger workflows with Toolbox or FLEx
+    - Part of the data may not be in ELAN files, or it may have done a round-trip somewhere else
+- Lack of consistency
+    - ELAN has very few ways to monitor structural similarity between different ELAN files, and as they are often manually edited, the errors creep in
+- Done with a small team over prolonged period of time
+- Data is stored in ELAN XML, in the structure defined by researcher, not necessarily the person who tries to parse the file
+    - Machine readability may be an issue
+
+This makes use of ELAN corpora bit of a challenge when compared to large corpora on majority languages which may have been built with better resources.
+
+## Preprocessing
+
+I often write about automatic preprocessing of data. By this I refer to practices we can do on basis of already existing annotations, usually with their classification and manipulation based on the data we already have. There is no manual intervention, so the process can be repeated every time to the original data.
+
+In my experience a large portion of the manual work later on consists of correcting the outcome of the preprocessing phase. It is a very common scenario that we can locate automatically all the cases we are interested about, but there are some false hits. So removing those false cases is often a simple manual task. In some cases it can also be automatized, but it often demands very specific knowledge and human judgement, so in some situations the automatization may not even be desiderable. 
+
+Some of the most basic preprocessing tools are `stringr` library and `if_else` function from [dplyr](http://dplyr.tidyverse.org/). In order to access adjacent rows we can use functions `lag` and `lead`, and combining the query into multiple `if_else` statements it is possible to classify all cases we have.
+
+### Example of preprocessing workflow
+
+While coming up with a regular expression and `if_else` loop, it makes sense to test it first with a dummy data that you know contains all the cases, or all the cases you can envision, in the real data. Already in this point we can wrap the preprocessing workflow into a function that can be applied in an identical manner to the dummy data and the real data.
+
+```{r}
+## In principle four patterns: мунісныс, мунісны, муніны, муніныс
+## Only two first occur in this data, but the regex would in principle capture all of them
+
+dummy_data <- tibble(token = c('мунісныс', 'мунісны', 'муніны', 'муніныс'))
+
+filter_verbs <- function(data){
+  data %>% mutate(type = if_else(str_detect(token, 'сн..$') & str_detect(token, 'с$'), 
+                        true = 'snɨs', 
+                        false = if_else(str_detect(token, 'сн.') & str_detect(token, 'ы$'),
+                                        true = 'snɨ', 
+                                        false = if_else(str_detect(token, '([^с]ныс$)'),
+                                                                   true = 'inɨs', 
+                                                                   false = 'inɨ')))) %>%
+    mutate(type_final = as.factor(if_else(str_detect(type, 's$'), 
+                                        true = 's-final', 
+                                        false = 'vowel-final'))) %>%
+    mutate(type_medial = as.factor(if_else(str_detect(type, 'sn'), 
+                                        true = 's-medial', 
+                                        false = 'vowel-medial')))
+}
+
+dummy_data %>% filter_verbs()
+
+```
+
+It seems that the result is correct, so we can start to apply it to the real data.
+
+```{r}
+
+kpv <- read_rds('corpus.rds')
+verbs <- kpv %>% 
+  filter(str_detect(token, '(и|і)(с)?ны(с)?$')) %>%
+  filter_verbs() %>% # Here we call the function we set up above
+  select(token, type, everything())
+
+verbs %>% count(type)
+verbs %>% count(token) %>% arrange(desc(n))
+
+```
+
+Often the actual benefit of having the data in a programmatic environment instead of just ELAN is that can use in the research variables from metadata that cannot be accessed in ELAN. In our participant naming system we use usually the convention
+
+```{r}
+
+verbs <- verbs %>% mutate(gender = str_extract(participant, '(?<=-)[MF](?=-)')) %>%
+  select(token, type, gender, participant, everything()) 
+
+verbs %>%
+  count(gender)
+
+```
+
+Here we see that for some speakers we didn't find the gender specified as is described in the convention. The reason is that there are some old transcribed texts for which we don't know who is the speaker -- very likely the same text has been elicitated from several speakers and is some kind of a synthesis of those. We simply don't know. This is somewhat typical for fieldwork data from the 19th and early 20th century, although variation in practices is also great. In this case we know (after looking a bit better which files are having this problem) what is the reason for this problem, and we can decide to leave out those cases if necessary. However, it is good to take into account that if there are missing values, it is very important to examine what is going on behind them.
+
+```{r}
+
+verbs %>%
+  filter(is.na(gender)) %>%
+  count(type)
+
+```
+
+In this point we can take a note that in the oldest data available there are very few examples of the s-final forms.
+
+Before advancing further, we can add one more variable to the dataframe we are working with.
+
+```{r}
+verbs <- verbs %>% 
+  mutate(year = str_extract(session_name, '\\d{4}(?=\\d{4})')) %>% 
+  select(token, type, gender, year, everything())
+```
+
+Year is of course a bit problematic variable as we aren't really having that much data for each year. So let's add a new column for the decade.
+
+```{r}
+verbs <- verbs %>% 
+  mutate(type = as.factor(type)) %>%
+  mutate(year = as.numeric(year)) %>%
+  mutate(decade = (year %/% 10) * 10) %>%
+  select(token, type, gender, year, decade, everything())
+
+```
+
+
+After this the plotting will work nicely:
+
+```{r}
+ggplot(verbs %>%
+         filter(year > 1900)) +
+  geom_bar(mapping = aes(x = decade, fill = type), position = "fill")
+       
+```
+
+```{r}
+# verbs %>% arrange(token) %>% distinct(token) %>% write_csv('data/izva_verbs.csv')
+
+verbs %>% filter(str_detect(token, 'j'))
+
+verbs %>% mutate(variant = str_extract(session_name, '(?<=kpv_)[a-z]+(?=\\d)')) %>% count(variant)
+#verbs %>% left_join()
+```
+
+This kind of file can be easily edited in LibreOffice.
+
+![example](https://i.imgur.com/idlutqq.png)
+
+## Analysis workflows
+
+There are numerous ways to arrange the workflows around research. It is also important to realize it may not be possible to arrange everything perfectly. One reason is that at times the software we use just doesn't allow the structure that would be ideal. Or it is allowed, but actually using it would be too slow and impractical. This depends entirely from the question, but it is something good to keep in mind.
+
+There are situations where the corpora we use already contain all the annotations we need. Everything. But this is often not the case, and it is necessary to make some new annotations, or modify the existing ones to mark some distinctions which are not currently there. However, it is worth noting that for quite tasks and especially corpus inspection we can just read the corpus in as it is.
+
+These new annotations in all cases create a derivative work from the earlier corpus. This makes it important to consider the licenses of the corpora being used. It also rises the question whether the new annotations should be integrated into the corpus itself.
+
+```{r}
+library(DiagrammeR)
+mermaid('
+graph LR
+ELAN --> analysis'
+)
+```
+
+One possible workflow is diagrammed below. It includes creating a CSV export with R or Python, manipulating that manually, then reading that into analytical environment for further work.
+
+```{r}
+mermaid('
+graph LR
+ELAN --> processing
+processing --> CSV 
+CSV --> analysis')
+```
+
+In this scenario the new annotations are made in CSV, and are thus eventually disconnected from the ELAN corpus. It is important to understand that they are disconnected only after the original ELAN corpus is modified in one way or another. If no changes occur, and the spreadsheet contains some identifiers for each processed unit, then in principle the situation is entirely unproblematic.
+
+The drawback of this method is that we lose easy connection to the interactive environment in ELAN. Most important part of that being the possibility to listen audio files easily on utterance level. The workflow below describes a method where the annotations are written back to ELAN, either through a spreadsheet or directly from the programming language used for preprocessing.
+
+```{r}
+mermaid('
+graph LR
+ELAN --> processing
+processing --> CSV
+processing --> ELAN
+CSV --> ELAN
+ELAN --> analysis')
+```
+
+On the other hand, ELAN doesn't offer a very smooth environment to annotate anything below the word-level, so especially in cases where where we want to work with phonetics it can be more desiderable to write the interesting units into Praat's TextGrid files.
+
+```{r}
+mermaid('
+graph LR
+ELAN --> processing
+processing --> Praat
+Praat --> analysis')
+```
+
+The advantage of this is that we can use [PraatScript]() to do different kind of analysis to the annotated units.
+
+## When to write back to ELAN file
+
+In one of the workflow scenarios I discussed the possibility of writing the automatically or manually processed data back to ELAN. There are roughly two situations where this is needed.
+
+1. The annotations are of types that benefit from being done in ELAN
+2. The annotations are intended to be integrated to the corpus itself
+
+The second option is something that rises several new issues. The first of these is whether the modified new corpus is intended as a direct new version of the original one, or whether it is a derivative work that would be distributed separatedly from the original. It is worth noticing that currently there are very few examples of new data being integrated into corpora this way, although there are many ways this could be beneficial. The new annotations add new information, and further research could be conducted by someone else by continuing from this work that is already done.
+
+Problem with adding the new annotations into corpus itself is that there is a question of maintenance responsibility. The new annotations depend from the annotations above them, and if those are modified, it is very easy to end up with a situation where the annotations are not matching with one another any longer, which can have disastrous results for people who try to use the corpus later.
+
+As far as I see, new annotations should be integrated to the corpus mainly in cases where they somehow connect to the larger annotation plans of the current corpus curators.
+
+There are also license issues to consider. If the corpus you are using is licensed with ND-clause, this effectively bans further derivative works. New annotation layers certainly count as this, so it may be complicated to share this kind of work with other researchers. On the other hand, many of the corpora we are using are so large, that generally speaking their sharing and distribution is a complex issue of its own.
+
+## Annotations as an independent dataset
+
+It is also possible to distribute the new annotation layers as an independent dataset. This would demand knowledge of following pieces of information:
+
+- Version number and source of the corpus used
+- ID's of the annotations referred to
+
+There are cases where different annotation layers have different licenses, which leads into situations as with the NYUAD Arabic UD treebank (https://github.com/UniversalDependencies/UD_Arabic-NYUAD) (Example taken with [this](http://bionlp-www.utu.fi/dep_search/query?search=_%20%3Cnmod%20_&db=UD_Arabic-NYUAD-v2&case_sensitive=True&hits_per_page=10) query:
+
+![Imgur](https://i.imgur.com/tiyKNcI.png)
+
+The annotations and corpus are stored separatedly, but there is a script provided that allows merging these back together.
+
+Although this may look a bit complicated, I think this model will become more popular in the future, as so many datasets are made accessible with unclear licenses. This is unfortunate as the situation could be avoided with clearer licensing practices to start with, but on the other hand it forces to develop more consistent practices with linked datasets, of which the corpus and distinct annotation layer are one example.

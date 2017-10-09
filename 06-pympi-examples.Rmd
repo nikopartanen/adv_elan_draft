@@ -1,0 +1,7 @@
+# Pympi examples
+
+## Creating a new ELAN file
+
+## Populating the ELAN file with content
+
+## Merging ELAN files

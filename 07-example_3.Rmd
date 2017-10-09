@@ -1,0 +1,22 @@
+# Example: Concordances and map
+
+This example is very simple and involves some manipulation of data table object created with [DT]() package. Idea is to create a simple search interface, which can be used conveniently in the end of longer command with the pipe operator.
+
+![](./images/FRorpus_example_ig.png)
+
+Since DT package outputs normal JavaScript object, there are numerous ways to manipulate it with JavaScript besides R. I'm not going into this now.
+
+This application also illustrates some ways to add new information into different tabs.
+
+Because the object displayed in the table is just a data frame that has gone through the filtering specified in the boxes above, it is also possible to visualize data that is part of the same data frame, even when it is not present in that table. So in this case all the data comes also with coordinates, which are mapped with the package [leaflet]().
+
+## Use
+
+```{r, eval=FALSE}
+
+corpus %>% 
+  filter(gender == 'M') %>%
+  FRorpus()
+
+```
+

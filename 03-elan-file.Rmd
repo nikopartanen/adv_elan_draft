@@ -1,0 +1,96 @@
+# ELAN file structure
+
+In this part we go into deeper details of ELAN XML structure. It is important to understand how ELAN stores information into different tiers, so that we can easily extract the parts we need. It is also very good test for data integrity to parse all the data from ELAN file, since this verifies that all data is stored in retrievable manner.
+
+## Minimal file
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<ANNOTATION_DOCUMENT AUTHOR="" DATE="2017-09-05T14:53:24+06:00" FORMAT="3.0" VERSION="3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.mpi.nl/tools/elan/EAFv3.0.xsd">
+    <HEADER MEDIA_FILE="" TIME_UNITS="milliseconds">
+        <MEDIA_DESCRIPTOR MEDIA_URL="file:///Users/niko/audio.wav" MIME_TYPE="audio/x-wav" RELATIVE_MEDIA_URL="../../audio.wav"/>
+        <PROPERTY NAME="URN">urn:nl-mpi-tools-elan-eaf:7e5bf3cc-a72f-4868-810b-2ca34876e64c</PROPERTY>
+        <PROPERTY NAME="lastUsedAnnotationId">5</PROPERTY>
+    </HEADER>
+    <TIME_ORDER>
+        <TIME_SLOT TIME_SLOT_ID="ts1" TIME_VALUE="0"/>
+        <TIME_SLOT TIME_SLOT_ID="ts2" TIME_VALUE="1000"/>
+    </TIME_ORDER>
+    <TIER LINGUISTIC_TYPE_REF="refT" PARTICIPANT="Niko" TIER_ID="ref@Niko">
+        <ANNOTATION>
+            <ALIGNABLE_ANNOTATION ANNOTATION_ID="a1" TIME_SLOT_REF1="ts1" TIME_SLOT_REF2="ts2">
+                <ANNOTATION_VALUE>.001</ANNOTATION_VALUE>
+            </ALIGNABLE_ANNOTATION>
+        </ANNOTATION>
+    </TIER>
+    <TIER LINGUISTIC_TYPE_REF="orthT" PARENT_REF="ref@Niko" PARTICIPANT="Niko" TIER_ID="orth@Niko">
+        <ANNOTATION>
+            <REF_ANNOTATION ANNOTATION_ID="a2" ANNOTATION_REF="a1">
+                <ANNOTATION_VALUE>words here</ANNOTATION_VALUE>
+            </REF_ANNOTATION>
+        </ANNOTATION>
+    </TIER>
+    <TIER LINGUISTIC_TYPE_REF="wordT" PARENT_REF="orth@Niko" PARTICIPANT="Niko" TIER_ID="word@Niko">
+        <ANNOTATION>
+            <REF_ANNOTATION ANNOTATION_ID="a4" ANNOTATION_REF="a2">
+                <ANNOTATION_VALUE>words</ANNOTATION_VALUE>
+            </REF_ANNOTATION>
+        </ANNOTATION>
+        <ANNOTATION>
+            <REF_ANNOTATION ANNOTATION_ID="a5" ANNOTATION_REF="a2" PREVIOUS_ANNOTATION="a4">
+                <ANNOTATION_VALUE>here</ANNOTATION_VALUE>
+            </REF_ANNOTATION>
+        </ANNOTATION>
+    </TIER>
+    <LINGUISTIC_TYPE GRAPHIC_REFERENCES="false" LINGUISTIC_TYPE_ID="refT" TIME_ALIGNABLE="true"/>
+    <LINGUISTIC_TYPE CONSTRAINTS="Symbolic_Association" GRAPHIC_REFERENCES="false" LINGUISTIC_TYPE_ID="orthT" TIME_ALIGNABLE="false"/>
+    <LINGUISTIC_TYPE CONSTRAINTS="Symbolic_Subdivision" GRAPHIC_REFERENCES="false" LINGUISTIC_TYPE_ID="wordT" TIME_ALIGNABLE="false"/>
+    <CONSTRAINT DESCRIPTION="Time subdivision of parent annotation's time interval, no time gaps allowed within this interval" STEREOTYPE="Time_Subdivision"/>
+    <CONSTRAINT DESCRIPTION="Symbolic subdivision of a parent annotation. Annotations refering to the same parent are ordered" STEREOTYPE="Symbolic_Subdivision"/>
+    <CONSTRAINT DESCRIPTION="1-1 association with a parent annotation" STEREOTYPE="Symbolic_Association"/>
+    <CONSTRAINT DESCRIPTION="Time alignable annotations within the parent annotation's time interval, gaps are allowed" STEREOTYPE="Included_In"/>
+</ANNOTATION_DOCUMENT>
+```
+
+This is one file with three tiers. The first is reference tier, containing the ID for the utterance, the second is the transcription, and the last one contains the tokenized words. It is the kind of structure used in language documentation projects connected to Freiburg. Other structures are certainly possible, although some kind of hierarchy between tiers is generally encouraged. At least following guidelines can be distinguished:
+
+- Each content type should have its own tier type
+- If there is a hierarchical relation, it should be used instead of independent tiers
+
+### Participant name convention
+
+Some parts are more a matter of preferred convention. Each tier contains information about participants in two possible places:
+
+    PARTICIPANT="Niko" TIER_ID="ref@Niko
+
+This makes a difference in which convention has to be used in order to select the nodes of this speaker.
+
+## Tier type naming convention
+
+The situation is similar with selecting all tiers of specific type:
+
+    LINGUISTIC_TYPE_REF="refT" TIER_ID="ref@Niko"
+
+Also here the tier type is specified in both the type name and as part of the tier ID. So the following commands are in this case identical:
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+library(xml2)
+
+read_xml('test.eaf') %>% 
+  xml_find_all("//TIER[@LINGUISTIC_TYPE_REF='wordT']/ANNOTATION/*/ANNOTATION_VALUE")
+
+read_xml('test.eaf') %>% 
+  xml_find_all("//TIER[starts-with(@TIER_ID, 'word')]/ANNOTATION/*/ANNOTATION_VALUE")
+
+```
+
+In the situations where every content type doesn't have its own type, it may be more useful to select them by part of the tier ID.
+
+## Hierarchies
+
+Very often we want to have the time spans of different units, even when we are dealing with symbolically subdivided words that don't have this information for the units themselves. Only the highermost tier in ELAN has the information about the time codes, so associating lower level tiers with their times usually demands reconstructing the hierarchies in the file.
+
+## Discussion
+
+The conventions specified above define how we are supposed to extract the wanted information. Usually this is done with the goal to get all content of all speakers from the tier X. We want all utterances, or all words. However, often we would like to have a file that contains larger amount of data in one structure.

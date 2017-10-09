@@ -1,0 +1,26 @@
+# Example: Interaction with emuR
+
+This is a bit specific example and basically just copies the example code from emuR package documentation. This R package connects into tools set up in the University of Munchen. What we are doing here is so called **forced alignation**. This means automatic matching of text and speech signal.
+
+The problem here is that I don't consider forced alignation to be satisfactorily solved for our use at the moment, not in the way the method is normally used. The tools normally assume that there is 100% correspondence between the transcribed text and audio, and try to align that as exactly as possible. This works well, but this kind of correspondence is much rarer than we would hope for. 
+
+It is very common that transcriptions have been edited and the original audio contains only some parts of the text, or have segments which are missing from the transcriptions. I haven't found yet a tool that could do forced alignation well enough with the transcriptions and recordings I have at hand from archives and old publications.
+
+The situation is different when we adjust the scale, on small segments the performance is better. And the way forced alignation is done is often such that we get lots of extra information: word and phoneme boundaries. This way forced alignation can well be used with the file typically contained in ELAN files.
+
+## Procedure
+
+In this example we use a script that cuts each utterance in the ELAN file into a new WAV-file, and saves the content of the transcription as a new text file. These two files will be matched by their names. This gives us small snippets of WAV files, which still correspond exactly with what we have in the ELAN file.
+
+There are inherent problems in taking data out from ELAN this way. What if we decide to change the transcription in original ELAN file? We are going to derive a bunch of new files, and do we also have to keep those synchronized somehow? The main question is how we make sure that we know into what data we are referring to later on. I leave this question unanswered now, but I have to emphasize that this is something we can't avoid thinking.
+
+So the steps we need to do are:
+
+- Find all utterances
+- Split file by those boundaries and save the results
+- Save the utterance text files
+- Send those to Munchen with emuR
+- Manipulate the emuR result until you have nice Praat files
+
+After this it is necessary to fix the segmentation, as it is certainly not perfect. It can be pretty good with a language officially supported by MAUS tools, but with languages like Komi we have to do all kinds of ugly hacks to get it work. Anyway the amount of work is reduced significantly, and we can focus into the most important part of it: deciding with our expert knowledge where the correct phoneme boundaries are.
+

@@ -1,0 +1,17 @@
+# Final Words
+
+We are living in very interesting times where many technologies are just making their appearance. It is certain that our work practices will also shift and change. If we are working with smaller or less standardized languages, the things will certainly take their time before everything is available for us as well.
+
+It is thereby hard to draw a line between the problems which we can label solved and unsolved, because even if something is considered solved, it may not work at all with our languages. However, I think following parts we commonly work with will in some point be automatically done:
+
+- Segmentation
+- Speaker recognition
+- Speech recognition
+- POS tagging
+- Syntactic annotation
+- Named Entity Recognition
+- …
+
+What is important to see here, is that this course did not touch any of these topics as such, but we have been only discussing the possible ways to analyse and manipulate the data which we have got one way or another, usually through longer manual work.
+
+Having more data automatically will not change the need to be able to manipulate and analyse the data we have, on contrary, it certainly will require even more knowledge about these issues than now, as the datasets become too large to be manually adjusted or examined.

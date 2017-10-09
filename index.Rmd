@@ -1,0 +1,66 @@
+--- 
+title: "Advanced ELAN manipulation and analysis"
+author: "Niko Partanen"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "These are teaching materials on Niko Partanen's course."
+---
+
+# Info
+
+## Course goals
+
+I have been teaching on courses, informal workshops and meetings the basic use of ELAN and Praat. It seems to me that instructions of how these programs are used are included in many courses and summer schools, but it is not maybe so common to move beyond from that. In principle there is no need for this: once the researcher is familiar with the GUI, basic usage and search principles, there is not necessarily that much more to cover in the program itself. I strongly believe that a course of some week and intensive use of few more is enough to master ELAN.
+
+On the other hand, many courses and handbooks focus into statistical analysis of linguistic data. I think there is a clear need for more discussion about the ways how do we get our linguistic data most effectively into statistical or analytical software we intend to use. This may sound like a topic that is not worth that much thought, but as is often said that 80% of data analysis is data manipulation, the topic is eventually more central for our daily work than we may think.
+
+There are numerous ways to work programmatically with ELAN files, and this can be very useful both while producing the new data or analysing existing files. Although the focus is in ELAN, I will also mention Praat from time to time. These two programs have somewhat different goals and niches, which are covered better in its own section. There is also a very different approach in these tools, since Praat can be very far manipulated through PraatScript, whereas with ELAN the means available are bit different.
+
+This course is not an introduction to ELAN or Praat, and it is neither an introduction to programming. Basic knowledge of R or Python will help a lot, but brave mind will probably be enough. I think we have to take as starting point that the majority of us are researchers first, and programming is neither our job or best skill. However, we can all learn to pay attention to some basic programming practices that make our work easier to adopt for others. These includes code comments and version control, among some other conventions.
+
+The main goal of this course is to help thinking about ways to automatize some parts of our workflows related to linguistic research. There are numerous tasks we do which demand hundreds and hundreds of clicks on mouse, and in all these situations we have to ask: **are we spending time with something that can be automatized, or with something that demands our expert knowledge to be solved?** We have to maximize the latter, also the time we spend when we try to get into that level of our work, instead of fighting against the cumbersome manual workflow where emphasis is easily in unnecessary parts of the task. Research necessarily is somewhat "boring", it is inevitable that we do some thing thousands of times just to find out that we didn't really learn that much. If we can find ways to speed up the manual parts of the process, we have the possibility to wander on even more unnecessary and poorly rewarding veins of though, which will eventually lead us to larger questions and their answers.
+
+<!-- The course partially reflects my own background with longer use of R, with more regular use of Python in the last years. So especially from this perspective it should be clear that the ideas here are not necessarily central through their exact implementation, as lots of content could had been replaced with one language or another. Concepts behind the text and examples are, I assume, still valid no matter in which form they have been currently written in. -->
+
+## Course structure
+
+The course materials will be divided into several parts, and which all are used depends from the length of the course. Some parts can be skipped, and some can be used only as a reference. For example, the part about tools contains brief descriptions of the R and Python packages mainly discussed here with their most commonly used functions, so that can be a good place to look for help. I have also included there a list of useful references and links about basic usage of R and Python, just to get everyone onward.
+
+1. Introduction
+    - ELAN corpora
+    - Goals of this work
+    - Available tools
+2. Structure of the ELAN file
+    - XML structure
+    - Most needed XPath commands
+    - How ELAN interacts with its own XML?
+3. Python examples
+    - Creating new files with Pympi
+    - Manipulating ELAN file with Pympi
+4. R examples
+    - Interaction with emuR
+    - Interaction between Praat and R
+    - Creating new ELAN tiers in R
+5. Summary
+
+## Resources
+
+The whole course exists as an R package, which contains all functions discussed in the material. It can be installed with:
+
+```{r eval=FALSE}
+# comment: fix this later
+library(devtools)
+install_github('langdoc/adv_elan')
+```
+
+Besides the R package, the course repository also contains all Python code examples from the course. They are maybe also put into a module if there is time.
+
+The course materials also contain an example ELAN corpus with associated audio files.
+
+## Practical info
+
+Place: Freiburg, November 2017. More info will follow.

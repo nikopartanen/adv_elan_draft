@@ -1,0 +1,121 @@
+# Tools
+
+This course has in its name both R and Python. I understand this can be criticized, as it is often mentioned that focusing into one or another would be "the best choice" in the long run. I think this thinking fails to understand the actual landscape these programming languages are located in, at least from the perspective of a linguist. I think many discussions about which programming language to focus into comes also from the perspective of professional programmers, and it sounds very plausible that longer and more concentrated work with one language eventually pays off in grandeous mastering of that one. However, for many of us the primary goal may be to get something to work. One solution to this is R package [reticulate](https://rstudio.github.io/reticulate/index.html), which allows using Python from within an R session.
+
+First thing to notice is that this ecosystem is on the move. The programming languages themselves are rather stable (well, R really is not), but there are continuously new packages and workflows that can be adapted into our uses. If something already exists in one language, but not in another, I think it is usually easiest to use the already finished and tested implementation. This is especially the case with more complex tasks which have a large amount of corner cases and questions that aren't obvious in the beginning.
+
+In this vein, none of the exact methods in this course are meant as something that will be forever applicable as such, but especially in several years many things get outdated and there will be better and more elegant methods available. However, I think the basic ideas should be valid also in the longer run. There are also tools such as [packrat](https://rstudio.github.io/packrat/) for R and [Anaconda](https://docs.anaconda.com/anaconda/) or [virtualenv](https://virtualenv.pypa.io/en/stable/) for Python, which allow storing exact information about the environment where the code was run.
+
+Of course there are also available paths which are not at all touched here. For example, ELAN is written in Java, and the source code is available. It could be very useful to hack into that and extract some of the methods as their own more independent command line tools. ELAN code looks very nice and well written, so manipulating the tool directly should also be a real option and not very difficult for someone who knows Java well. Binding some of the native Java methods into R or Python functions could be a very safe way to manipulate ELAN files, as there would be no difference between this and GUI output.
+
+So my main idea here is that just use all tools that are available and which you bother to learn, and if there is something that gets too complicated, just hire someone who knows it to do it fast and effectively. But most importantly, if you do the latter, pay lots of attention to communication so that you all know what you want to be able to do. As far as I see, R and Python are both quite simple and easy to learn as interner is so full of resources, but of course both need more attention to be learned solidly. This, on the other hand, comes easiest after trying to build something you currently need.
+
+Maybe the most difficult part in programming nowadays is to figure out the ways how to call the things you want to do. Most of the problems we have are already solved, we just have to find the examples that can be adapted into our needs. In the beginning there are many difficulties, but this comes often from uncertainty of how to call what you want to do.
+
+## Git
+
+One of the most important tools we can use is a version control system. There are many alternatives, but at the moment Git can maybe be considered as one of the most supported and accessible systems. This is not to say that Git would be always very straightforward, but especially when we have scenarios where an individual researcher is working with one dataset, the things tend be quite simple.
+
+The biggest advantage of version control is that immediately when we get a corpus, we can put all files in it under monitoring that ensures they don't overgo changes. There is always a possibility that we accidentally change something we didn't intend, and this may even change our results in the longer run.
+
+## R
+
+The R NLP ecosystem is now changing very fast. One of the most interesting new developments is [tidytext](https://cran.r-project.org/web/packages/tidytext/index.html), which is an R package that allows working with text data in so called *tidy* R framework. This package contains very good function for tokenization, `unnest_tokens()`, and generally speaking it is worth looking into. The package authors have also written a book, [Text mining with R](http://tidytextmining.com/).
+
+From ELAN perspective, the most useful package is certainly [xml2](https://cran.r-project.org/web/packages/xml2/index.html). There is also an older package [XML](https://cran.r-project.org/web/packages/XML/index.html), but it is rather difficult to use in the end.
+
+
+
+### `tidytext`
+
+### `xml2`
+
+
+## Python
+
+Python package [Pympi](https://github.com/dopefishh/pympi) is certainly the most advanced tool currently to manipulate ELAN files programmatically. I think it touches well one of the most basic problems of interacting with the ELAN files: creating new tiers gets very difficult and dangerous.
+
+### `pympi`
+
+Pympi can be installed with:
+
+    pip3 install pympi-ling
+
+As a warning I must mention that I think Pympi doesn't in all cases follow the original ELAN specifications, and the files created with it differ slightly from the ones created when same is done through ELAN GUI. This can be fine, and I don't think there are parts that do not work, but in some sense it is always good to keep this in mind. We do not know if non-standard structures in some places are always accepted by all ELAN versions.
+
+## Anaconda
+
+    conda create --name adv_elan
+    source activate adv_elan
+    pip install pympi-ling
+
+## reticulate
+
+There is an R package [reticulate](https://rstudio.github.io/reticulate/) which allows accessing Python from R. This can be very useful if you don't want to switch your working environment all the time, although of course setting up things like these doesn't necessarily make anything *easier*. But it is an interesting alternative.
+
+```{r, echo=FALSE}
+# library(reticulate)
+# 
+# pympi <- import('pympi')
+# py <- import_builtins()
+# 
+# eaf <- pympi$Eaf('/Users/niko/langdoc/kpv/kpv_csys19570000-291_1a-Mezador/kpv_csys19570000-291_1a-Mezador.eaf')
+# types_dict <- eaf$get_linguistic_type_names()
+# types <- py$list(types)
+# 
+# types
+
+```
+
+## PraatScript
+
+When we work with extracting information from the audio files, the situation is commonly that Praat can do big part of the analysis already, and if it can be done in Praat, it can be automatized with PraatScript. This can be executed from R or Python as well. There are also R and Python packages for interacting with Praat, but as far as I see, these are also usually bound to PraatScript in the end, and using them tends to result in complex mixture of the programming language and PraatScript. This surely works when you know both of those well, and I will also study these packages further, but for now I have found it cleaner to keep these two separated. There are few reasons:
+
+- It is easier to find help for PraatScript or the programming language alone
+- This way PraatScript is easier to reuse for people who just want to deal with PraatScript
+
+This said, I don't really know very much about these packages, so if someone has good experiences, please let me know! I guess my main point is that PraatScript is really useful, and if you do something repeatedly in Praat, please check it and see if it can be adapted into your use. One of the best introductions to the topic is [here]().
+
+## XPath
+
+<!--I have always said that it is a problem in language documentation that everyone is encouraged to use XML without questions, but very few people know well the tools to work with XML. This is very problematic, since it leads to bad XML structures as nobody has to think about actually parsing and using them. More severe issue is that storing data in XML makes it little bit difficult to use without specific tools.-->
+
+Although XML is usually considered a human readable file format, I personally would advice against modifying XML directly in the text editor unless there is a specific case what you know you want to do there.
+
+The most advanced tool to work with XML files is XSLT. Unfortunately XSLT is very difficult to use and learn. However, there is one part of these core XML technologies which we inevitably need: XPath. It is a small language of its own that can be used to select parts of XML file. It also has a number of functions of its own.
+
+### Examples
+
+- `//node` = select any node with this name
+- `//node/@attribute` = select an attribute
+- `//node[@attribute='something']` = select node which has an attribute with value
+- `//node[@attribute='starts-with(someth)']` = select node which has an attribute which starts with
+- `./child/child` = move down to child
+- `./../..` = move up to parent
+
+In xml2 R package the XPath expression goes into R function `xml_find_all()`. With function `xml_text()` we can retrieve the text of currently selected nodes.
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+library(xml2)
+
+read_xml('test.eaf') %>% 
+  xml_find_all("//TIER[@LINGUISTIC_TYPE_REF='wordT']/ANNOTATION/*/ANNOTATION_VALUE")
+
+read_xml('test.eaf') %>% 
+  xml_find_all("//TIER[@LINGUISTIC_TYPE_REF='wordT']/ANNOTATION/*/ANNOTATION_VALUE") %>% 
+  xml_text()
+
+```
+
+
+It is important to understand that `xml_find_all()` function selects the nodes, **but all adjacent nodes are still present in the tree**. This is demonstrated below:
+
+```{r}
+read_xml('test.eaf') %>%
+  xml_find_all("//TIER[@LINGUISTIC_TYPE_REF='wordT']/ANNOTATION/*/ANNOTATION_VALUE") %>%
+  xml_find_all("../../..") %>%
+  xml_attr('PARTICIPANT')
+```
+
+So although we have selected something, we can still access all other content in the tree.

@@ -1,0 +1,51 @@
+# Shiny components
+
+The easiest way to build a new Shiny application is to find the pieces you need from [Shiny Gallery]() and start adjusting from this. Shiny applications and their functions differ from normal R functions in what are called `reactive functions`. These functions are constructed so that they can get their arguments interactively from the UI part of Shiny code. Grasping how the reactive functions work is little bit challenging, but once you get touch to it the basic concept will not change.
+
+The Shiny application has two parts. They are called `ui` and `server`. The code is executed on the server side, and the variables that the user manipulates are on UI side. The results computed on the server code will again be placed as output functions to the UI, which creates clear interaction between these parts.
+
+It is possible to have the Shiny app in two different files called `ui.R` and `server.R`, but they can also be in one function. With more complicated applications it is often easier to put them into different files, but there are also situations where compactness of one file can make it easier to follow. I often do the first prototype into one function and split it later when I start adding bells and whistles.
+
+In this point it is good to mention, that there is a specific set of HTML Widgets that interact very well with Shiny. They are different from Shiny applications as they are just plain HTML and JavaScript and can be opened in any browser, and they also can be interactive, but the interactivity is usually somewhat limited. Shiny can be used to tie easily two distinct processes into one another. There are new HTML Widgets coming all the time, and apparently creating new ones is not too difficult. The idea in an HTML Widget is that an R object is transformed into HTML which contains JavaScript. Thereby it is not necessary to write JavaScript ourselves, but we get to benefit from large variety of already well working and pretty visualizations. These are called JavaScript library *bindings*. The concept exists also in Python.
+
+This comes with a caveout that if something in the JavaScript library is not yet implemented in the binding R function, it can be quite tricky to get it work the intended way without touching more into JavaScript. JavaScript is nice language, and there is a good introduction [JavaScript for Cats](), but this can still be something that takes unexpectedly much time.
+
+So if your supervisor or colleague sees your HTML Widget or Shiny application, they may suggest different kinds of additions. Do not say yes before googling a bit. The situation is paradoxical in the sense that very impressive presentations can be created with few lines of code, but a small adjustment can be very difficult to set up.
+
+Next I will present the HTML Widgets which in my opinion have been the most useful while working with linguistic data. They are also used in later examples.
+
+## DT
+
+[datatables]() is a JavaScript library that can be used to make very nice looking tables. In principle a KWIC style concordance is also just a table with specific formatting, as seen in Example…
+
+```{r}
+
+```
+
+
+## Leaflet
+
+This is the best package for creating interactive maps at the moment. This is demonstrated in Example…
+
+```{r}
+
+```
+
+
+## ggplot2
+
+This is kind of an old work horse, it is probably the "basic" plotting library in R nowadays, and having familiarity with this will come handy later. It is also easy to make it interact with Shiny, as seen in Example…
+
+## Advantages and disadvantages of Shiny
+
+If the concept you have in mind is simple enough to be realized as an HTML Widget, then that is a better way to go. Those can be hosted online anywhere, for example in GitHub, and they work very reliably on any browser. The trick here is that HTML Widget executes only JavaScript in the end, so using it doesn't differ from any other website which has some JavaScript based visualizations.
+
+With Shiny applications the situation is more complicated. They can be ran locally, and then the application can also easily access all local files. They can also be ran on server, but this needs bit more work as it doesn't seem to be so trivial to set up one, although there are [good instructions online]().
+
+The most common way to host a Shiny application online is probably through RStudio owned website [shinyapps.io](), and this is usually a very sufficient alternative. On the free account there are limits into how much the application can be used in a month, but for small number of users this shouldn't be any problem. Of course this all leaves a nagging feeling, as it is always possible to come up with something that has more vivid number of users, and I'm rather sure in this case the free account would run out of allocated minutes very fast.
+
+One good midway is to host the application in GitHub, and instruct the user to run it directly from there on their own computer with a function `shiny::runGitHub`. This is not the same as having it available online for everybody, but it is one way which I have preferred.
+
+To be clear, the reason why the Shiny application has to be hosted on the server is that there R code being executed while you use it, and this is something web browser doesn't handle. I assume the functionality of any Shiny application could be replicated in JavaScript, and then it would work in browser as such, but I can't even imagine how many lines of code that would eventually demand.
+
+This leads to the one of the key aspects of Shiny: rapid prototyping time. Once you know the basic logic of the app, it is possible to implement entirely new kind of interface in a matter of hours. If we spend some time in standardizing our data, so that we all use same concepts when we speak refer to metadata and different parts of our annotations, I could imagine many parts of code can be freely reused as such.
