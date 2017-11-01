@@ -25,7 +25,7 @@
 <meta name="author" content="Niko Partanen">
 
 
-<meta name="date" content="2017-09-05">
+<meta name="date" content="2017-11-01">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -47,6 +47,14 @@
 
 
 
+<script src="libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<script src="libs/d3-3.3.8/d3.min.js"></script>
+<script src="libs/dagre-0.4.0/dagre-d3.min.js"></script>
+<link href="libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
+<script src="libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/chromatography-0.1/chromatography.js"></script>
+<script src="libs/DiagrammeR-binding-0.9.2/DiagrammeR.js"></script>
 
 
 <style type="text/css">
@@ -106,24 +114,35 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Info</a><ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#course-goals"><i class="fa fa-check"></i><b>1.1</b> Course goals</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#course-structure"><i class="fa fa-check"></i><b>1.2</b> Course structure</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i><b>1.3</b> Resources</a></li>
-<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#practical-info"><i class="fa fa-check"></i><b>1.4</b> Practical info</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#schedule"><i class="fa fa-check"></i><b>1.3</b> Schedule</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i><b>1.4</b> Resources</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#practical-info"><i class="fa fa-check"></i><b>1.5</b> Practical info</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
-<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#linguistic-software"><i class="fa fa-check"></i><b>2.1</b> Linguistic software</a></li>
-<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#elan-corpora"><i class="fa fa-check"></i><b>2.2</b> ELAN corpora</a></li>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#elan-and-praat-strengths-and-weaknesses"><i class="fa fa-check"></i><b>2.1</b> Elan and Praat – strengths and weaknesses</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#linguistic-software"><i class="fa fa-check"></i><b>2.2</b> Linguistic software</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#elan-corpora"><i class="fa fa-check"></i><b>2.3</b> ELAN corpora</a></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#preprocessing"><i class="fa fa-check"></i><b>2.4</b> Preprocessing</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#example-of-preprocessing-workflow"><i class="fa fa-check"></i><b>2.4.1</b> Example of preprocessing workflow</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#analysis-workflows"><i class="fa fa-check"></i><b>2.5</b> Analysis workflows</a></li>
+<li class="chapter" data-level="2.6" data-path="intro.html"><a href="intro.html#when-to-write-back-to-elan-file"><i class="fa fa-check"></i><b>2.6</b> When to write back to ELAN file</a></li>
+<li class="chapter" data-level="2.7" data-path="intro.html"><a href="intro.html#annotations-as-an-independent-dataset"><i class="fa fa-check"></i><b>2.7</b> Annotations as an independent dataset</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="tools.html"><a href="tools.html"><i class="fa fa-check"></i><b>3</b> Tools</a><ul>
-<li class="chapter" data-level="3.1" data-path="tools.html"><a href="tools.html#r"><i class="fa fa-check"></i><b>3.1</b> R</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="tools.html"><a href="tools.html#tidytext"><i class="fa fa-check"></i><b>3.1.1</b> <code>tidytext</code></a></li>
-<li class="chapter" data-level="3.1.2" data-path="tools.html"><a href="tools.html#xml2"><i class="fa fa-check"></i><b>3.1.2</b> <code>xml2</code></a></li>
+<li class="chapter" data-level="3.1" data-path="tools.html"><a href="tools.html#git"><i class="fa fa-check"></i><b>3.1</b> Git</a></li>
+<li class="chapter" data-level="3.2" data-path="tools.html"><a href="tools.html#r"><i class="fa fa-check"></i><b>3.2</b> R</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="tools.html"><a href="tools.html#tidytext"><i class="fa fa-check"></i><b>3.2.1</b> <code>tidytext</code></a></li>
+<li class="chapter" data-level="3.2.2" data-path="tools.html"><a href="tools.html#xml2"><i class="fa fa-check"></i><b>3.2.2</b> <code>xml2</code></a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="tools.html"><a href="tools.html#python"><i class="fa fa-check"></i><b>3.2</b> Python</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="tools.html"><a href="tools.html#pympi"><i class="fa fa-check"></i><b>3.2.1</b> <code>pympi</code></a></li>
+<li class="chapter" data-level="3.3" data-path="tools.html"><a href="tools.html#python"><i class="fa fa-check"></i><b>3.3</b> Python</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="tools.html"><a href="tools.html#pympi"><i class="fa fa-check"></i><b>3.3.1</b> <code>pympi</code></a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="tools.html"><a href="tools.html#praatscript"><i class="fa fa-check"></i><b>3.3</b> PraatScript</a></li>
-<li class="chapter" data-level="3.4" data-path="tools.html"><a href="tools.html#xpath"><i class="fa fa-check"></i><b>3.4</b> XPath</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="tools.html"><a href="tools.html#examples"><i class="fa fa-check"></i><b>3.4.1</b> Examples</a></li>
+<li class="chapter" data-level="3.4" data-path="tools.html"><a href="tools.html#anaconda"><i class="fa fa-check"></i><b>3.4</b> Anaconda</a></li>
+<li class="chapter" data-level="3.5" data-path="tools.html"><a href="tools.html#reticulate"><i class="fa fa-check"></i><b>3.5</b> reticulate</a></li>
+<li class="chapter" data-level="3.6" data-path="tools.html"><a href="tools.html#praatscript"><i class="fa fa-check"></i><b>3.6</b> PraatScript</a></li>
+<li class="chapter" data-level="3.7" data-path="tools.html"><a href="tools.html#xpath"><i class="fa fa-check"></i><b>3.7</b> XPath</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="tools.html"><a href="tools.html#examples"><i class="fa fa-check"></i><b>3.7.1</b> Examples</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="elan-file-structure.html"><a href="elan-file-structure.html"><i class="fa fa-check"></i><b>4</b> ELAN file structure</a><ul>
@@ -135,7 +154,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.4" data-path="elan-file-structure.html"><a href="elan-file-structure.html#discussion"><i class="fa fa-check"></i><b>4.4</b> Discussion</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html"><i class="fa fa-check"></i><b>5</b> Parsing ELAN files to R</a><ul>
-<li class="chapter" data-level="5.1" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html#parsing-with-frelan-package"><i class="fa fa-check"></i><b>5.1</b> Parsing with FRelan package</a></li>
+<li class="chapter" data-level="5.1" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html#why-to-read-elan-files-into-r"><i class="fa fa-check"></i><b>5.1</b> Why to read ELAN files into R?</a></li>
+<li class="chapter" data-level="5.2" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html#parsing-with-frelan-package"><i class="fa fa-check"></i><b>5.2</b> Parsing with FRelan package</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="manipulating-elan-files-with-pympi.html"><a href="manipulating-elan-files-with-pympi.html"><i class="fa fa-check"></i><b>6</b> Manipulating ELAN files with Pympi</a></li>
 <li class="chapter" data-level="7" data-path="pympi-examples.html"><a href="pympi-examples.html"><i class="fa fa-check"></i><b>7</b> Pympi examples</a><ul>
@@ -162,7 +182,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="11" data-path="example-concordances-and-map.html"><a href="example-concordances-and-map.html"><i class="fa fa-check"></i><b>11</b> Example: Concordances and map</a><ul>
 <li class="chapter" data-level="11.1" data-path="example-concordances-and-map.html"><a href="example-concordances-and-map.html#use"><i class="fa fa-check"></i><b>11.1</b> Use</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>12</b> Final Words</a></li>
+<li class="chapter" data-level="12" data-path="example-preprocessing-workflow.html"><a href="example-preprocessing-workflow.html"><i class="fa fa-check"></i><b>12</b> Example: Preprocessing workflow</a><ul>
+<li class="chapter" data-level="12.1" data-path="example-preprocessing-workflow.html"><a href="example-preprocessing-workflow.html#from-points-to-polygon"><i class="fa fa-check"></i><b>12.1</b> From points to polygon</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>13</b> Final Words</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Draft version, not to be cited without permission.</a></li>
@@ -186,14 +209,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Advanced ELAN manipulation and analysis</h1>
 <h4 class="author"><em>Niko Partanen</em></h4>
-<h4 class="date"><em>2017-09-05</em></h4>
+<h4 class="date"><em>2017-11-01</em></h4>
 </div>
 <div id="info" class="section level1">
 <h1><span class="header-section-number">Section 1</span> Info</h1>
 <div id="course-goals" class="section level2">
 <h2><span class="header-section-number">1.1</span> Course goals</h2>
 <p>I have been teaching on courses, informal workshops and meetings the basic use of ELAN and Praat. It seems to me that instructions of how these programs are used are included in many courses and summer schools, but it is not maybe so common to move beyond from that. In principle there is no need for this: once the researcher is familiar with the GUI, basic usage and search principles, there is not necessarily that much more to cover in the program itself. I strongly believe that a course of some week and intensive use of few more is enough to master ELAN.</p>
-<p>However, there are numerous ways to work programmatically with ELAN files, and this can be very useful both while producing the new data or analysing existing files. Although the focus is in ELAN, I will also start Praat from time to time. These two programs have somewhat different goals and niches, which are covered better in its own section. There is also a very different approach in these tools, since Praat can be very far manipulated through PraatScript, whereas with ELAN the means available are bit different.</p>
+<p>On the other hand, many courses and handbooks focus into statistical analysis of linguistic data. I think there is a clear need for more discussion about the ways how do we get our linguistic data most effectively into statistical or analytical software we intend to use. This may sound like a topic that is not worth that much thought, but as is often said that 80% of data analysis is data manipulation, the topic is eventually more central for our daily work than we may think.</p>
+<p>There are numerous ways to work programmatically with ELAN files, and this can be very useful both while producing the new data or analysing existing files. Although the focus is in ELAN, I will also mention Praat from time to time. These two programs have somewhat different goals and niches, which are covered better in its own section. There is also a very different approach in these tools, since Praat can be very far manipulated through PraatScript, whereas with ELAN the means available are bit different.</p>
 <p>This course is not an introduction to ELAN or Praat, and it is neither an introduction to programming. Basic knowledge of R or Python will help a lot, but brave mind will probably be enough. I think we have to take as starting point that the majority of us are researchers first, and programming is neither our job or best skill. However, we can all learn to pay attention to some basic programming practices that make our work easier to adopt for others. These includes code comments and version control, among some other conventions.</p>
 <p>The main goal of this course is to help thinking about ways to automatize some parts of our workflows related to linguistic research. There are numerous tasks we do which demand hundreds and hundreds of clicks on mouse, and in all these situations we have to ask: <strong>are we spending time with something that can be automatized, or with something that demands our expert knowledge to be solved?</strong> We have to maximize the latter, also the time we spend when we try to get into that level of our work, instead of fighting against the cumbersome manual workflow where emphasis is easily in unnecessary parts of the task. Research necessarily is somewhat “boring”, it is inevitable that we do some thing thousands of times just to find out that we didn’t really learn that much. If we can find ways to speed up the manual parts of the process, we have the possibility to wander on even more unnecessary and poorly rewarding veins of though, which will eventually lead us to larger questions and their answers.</p>
 <!-- The course partially reflects my own background with longer use of R, with more regular use of Python in the last years. So especially from this perspective it should be clear that the ideas here are not necessarily central through their exact implementation, as lots of content could had been replaced with one language or another. Concepts behind the text and examples are, I assume, still valid no matter in which form they have been currently written in. -->
@@ -211,7 +235,6 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Structure of the ELAN file
 <ul>
 <li>XML structure</li>
-<li>Most needed XPath commands</li>
 <li>How ELAN interacts with its own XML?</li>
 </ul></li>
 <li>Python examples
@@ -228,8 +251,35 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li>Summary</li>
 </ol>
 </div>
+<div id="schedule" class="section level2">
+<h2><span class="header-section-number">1.3</span> Schedule</h2>
+<ul>
+<li>Thu 16.11. FRIAS
+<ul>
+<li>09:30-11:00 <strong>Course</strong> Topic: ELAN corpora &amp; Goals of programmatic workflows &amp; ELAN file</li>
+<li>11:00-11:30 Coffee</li>
+<li>11:30-13:00 <strong>Course</strong> Topic: Available ecosystem (R, Python, ELAN, Praat)</li>
+<li>13:00-14:00 Lunch (on own expenses)</li>
+<li>14:00-15:30 <strong>Course</strong> Topic: Parsing ELAN file + metadata</li>
+<li>15:30-16:00 Coffee</li>
+<li>16:00-17:30 <strong>Course</strong> Topic: Further interaction with ELAN corpus in R</li>
+</ul></li>
+<li>Thu 16.11. University
+<ul>
+<li>18:00–20:00 Guest lecture by <a href="https://en.wikipedia.org/wiki/Mark_Davies_(linguist)">Mark Davies</a> “Examining variation and change in language and culture with large online corpora”</li>
+</ul></li>
+<li>Fr 17.11. FRIAS
+<ul>
+<li>09:30-11:00 <strong>Course</strong> Topic: ELAN tier manipulation with Python</li>
+<li>11:00-11:30 Coffee</li>
+<li>11:30-13:00 <strong>Course</strong> Topic: Examples of tools in interaction</li>
+<li>13:00-14:00 Lunch (on own expenses)</li>
+<li>14:00-15:30 <strong>Course</strong> Topic: Summary</li>
+</ul></li>
+</ul>
+</div>
 <div id="resources" class="section level2">
-<h2><span class="header-section-number">1.3</span> Resources</h2>
+<h2><span class="header-section-number">1.4</span> Resources</h2>
 <p>The whole course exists as an R package, which contains all functions discussed in the material. It can be installed with:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># comment: fix this later</span>
 <span class="kw">library</span>(devtools)
@@ -238,8 +288,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>The course materials also contain an example ELAN corpus with associated audio files.</p>
 </div>
 <div id="practical-info" class="section level2">
-<h2><span class="header-section-number">1.4</span> Practical info</h2>
-<p>Place: Freiburg, November 2017. More info will follow.</p>
+<h2><span class="header-section-number">1.5</span> Practical info</h2>
+<p>I will teach with these materials, or their subset, in a workshop in Freiburg, around 16.-17. November 2017.</p>
 
 </div>
 </div>
@@ -281,7 +331,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["Advanced-ELAN.pdf"],
 "toc": {
 "collapse": "subsection"
 }

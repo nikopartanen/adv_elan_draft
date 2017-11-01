@@ -1,0 +1,479 @@
+\documentclass[]{book}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Advanced ELAN manipulation and analysis},
+            pdfauthor={Niko Partanen},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{natbib}
+\bibliographystyle{apalike}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{Advanced ELAN manipulation and analysis}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Niko Partanen}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{2017-11-01}
+
+\usepackage{booktabs}
+
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{corollary}{Corollary}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\theoremstyle{definition}
+\newtheorem{example}{Example}[chapter]
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercise}[chapter]
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{solution}{Solution}
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\chapter{Info}\label{info}
+
+\section{Course goals}\label{course-goals}
+
+I have been teaching on courses, informal workshops and meetings the
+basic use of ELAN and Praat. It seems to me that instructions of how
+these programs are used are included in many courses and summer schools,
+but it is not maybe so common to move beyond from that. In principle
+there is no need for this: once the researcher is familiar with the GUI,
+basic usage and search principles, there is not necessarily that much
+more to cover in the program itself. I strongly believe that a course of
+some week and intensive use of few more is enough to master ELAN.
+
+On the other hand, many courses and handbooks focus into statistical
+analysis of linguistic data. I think there is a clear need for more
+discussion about the ways how do we get our linguistic data most
+effectively into statistical or analytical software we intend to use.
+This may sound like a topic that is not worth that much thought, but as
+is often said that 80\% of data analysis is data manipulation, the topic
+is eventually more central for our daily work than we may think.
+
+There are numerous ways to work programmatically with ELAN files, and
+this can be very useful both while producing the new data or analysing
+existing files. Although the focus is in ELAN, I will also mention Praat
+from time to time. These two programs have somewhat different goals and
+niches, which are covered better in its own section. There is also a
+very different approach in these tools, since Praat can be very far
+manipulated through PraatScript, whereas with ELAN the means available
+are bit different.
+
+This course is not an introduction to ELAN or Praat, and it is neither
+an introduction to programming. Basic knowledge of R or Python will help
+a lot, but brave mind will probably be enough. I think we have to take
+as starting point that the majority of us are researchers first, and
+programming is neither our job or best skill. However, we can all learn
+to pay attention to some basic programming practices that make our work
+easier to adopt for others. These includes code comments and version
+control, among some other conventions.
+
+The main goal of this course is to help thinking about ways to
+automatize some parts of our workflows related to linguistic research.
+There are numerous tasks we do which demand hundreds and hundreds of
+clicks on mouse, and in all these situations we have to ask: \textbf{are
+we spending time with something that can be automatized, or with
+something that demands our expert knowledge to be solved?} We have to
+maximize the latter, also the time we spend when we try to get into that
+level of our work, instead of fighting against the cumbersome manual
+workflow where emphasis is easily in unnecessary parts of the task.
+Research necessarily is somewhat ``boring'', it is inevitable that we do
+some thing thousands of times just to find out that we didn't really
+learn that much. If we can find ways to speed up the manual parts of the
+process, we have the possibility to wander on even more unnecessary and
+poorly rewarding veins of though, which will eventually lead us to
+larger questions and their answers.
+
+\section{Course structure}\label{course-structure}
+
+The course materials will be divided into several parts, and which all
+are used depends from the length of the course. Some parts can be
+skipped, and some can be used only as a reference. For example, the part
+about tools contains brief descriptions of the R and Python packages
+mainly discussed here with their most commonly used functions, so that
+can be a good place to look for help. I have also included there a list
+of useful references and links about basic usage of R and Python, just
+to get everyone onward.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Introduction
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ELAN corpora
+  \item
+    Goals of this work
+  \item
+    Available tools
+  \end{itemize}
+\item
+  Structure of the ELAN file
+
+  \begin{itemize}
+  \tightlist
+  \item
+    XML structure
+  \item
+    How ELAN interacts with its own XML?
+  \end{itemize}
+\item
+  Python examples
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Creating new files with Pympi
+  \item
+    Manipulating ELAN file with Pympi
+  \end{itemize}
+\item
+  R examples
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Interaction with emuR
+  \item
+    Interaction between Praat and R
+  \item
+    Creating new ELAN tiers in R
+  \end{itemize}
+\item
+  Summary
+\end{enumerate}
+
+\section{Schedule}\label{schedule}
+
+\begin{itemize}
+\tightlist
+\item
+  Thu 16.11. FRIAS
+
+  \begin{itemize}
+  \tightlist
+  \item
+    09:30-11:00 \textbf{Course} Topic: ELAN corpora \& Goals of
+    programmatic workflows \& ELAN file
+  \item
+    11:00-11:30 Coffee
+  \item
+    11:30-13:00 \textbf{Course} Topic: Available ecosystem (R, Python,
+    ELAN, Praat)
+  \item
+    13:00-14:00 Lunch (on own expenses)
+  \item
+    14:00-15:30 \textbf{Course} Topic: Parsing ELAN file + metadata
+  \item
+    15:30-16:00 Coffee
+  \item
+    16:00-17:30 \textbf{Course} Topic: Further interaction with ELAN
+    corpus in R
+  \end{itemize}
+\item
+  Thu 16.11. University
+
+  \begin{itemize}
+  \tightlist
+  \item
+    18:00--20:00 Guest lecture by
+    \href{https://en.wikipedia.org/wiki/Mark_Davies_(linguist)}{Mark
+    Davies} ``Examining variation and change in language and culture
+    with large online corpora''
+  \end{itemize}
+\item
+  Fr 17.11. FRIAS
+
+  \begin{itemize}
+  \tightlist
+  \item
+    09:30-11:00 \textbf{Course} Topic: ELAN tier manipulation with
+    Python
+  \item
+    11:00-11:30 Coffee
+  \item
+    11:30-13:00 \textbf{Course} Topic: Examples of tools in interaction
+  \item
+    13:00-14:00 Lunch (on own expenses)
+  \item
+    14:00-15:30 \textbf{Course} Topic: Summary
+  \end{itemize}
+\end{itemize}
+
+\section{Resources}\label{resources}
+
+The whole course exists as an R package, which contains all functions
+discussed in the material. It can be installed with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# comment: fix this later}
+\KeywordTok{library}\NormalTok{(devtools)}
+\KeywordTok{install_github}\NormalTok{(}\StringTok{'langdoc/adv_elan'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Besides the R package, the course repository also contains all Python
+code examples from the course. They are maybe also put into a module if
+there is time.
+
+The course materials also contain an example ELAN corpus with associated
+audio files.
+
+\section{Practical info}\label{practical-info}
+
+I will teach with these materials, or their subset, in a workshop in
+Freiburg, around 16.-17. November 2017.
+
+\chapter{Introduction}\label{intro}
+
+\section{Elan and Praat -- strengths and
+weaknesses}\label{elan-and-praat-strengths-and-weaknesses}
+
+\section{Linguistic software}\label{linguistic-software}
+
+\section{ELAN corpora}\label{elan-corpora}
+
+\section{Preprocessing}\label{preprocessing}
+
+\subsection{Example of preprocessing
+workflow}\label{example-of-preprocessing-workflow}
+
+\section{Analysis workflows}\label{analysis-workflows}
+
+\section{When to write back to ELAN
+file}\label{when-to-write-back-to-elan-file}
+
+\section{Annotations as an independent
+dataset}\label{annotations-as-an-independent-dataset}
+
+\chapter{Tools}\label{tools}
+
+\section{Git}\label{git}
+
+\section{R}\label{r}
+
+\subsection{\texorpdfstring{\texttt{tidytext}}{tidytext}}\label{tidytext}
+
+\subsection{\texorpdfstring{\texttt{xml2}}{xml2}}\label{xml2}
+
+\section{Python}\label{python}
+
+\subsection{\texorpdfstring{\texttt{pympi}}{pympi}}\label{pympi}
+
+\section{Anaconda}\label{anaconda}
+
+\section{reticulate}\label{reticulate}
+
+\section{PraatScript}\label{praatscript}
+
+\section{XPath}\label{xpath}
+
+\subsection{Examples}\label{examples}
+
+\chapter{ELAN file structure}\label{elan-file-structure}
+
+\section{Minimal file}\label{minimal-file}
+
+\subsection{Participant name
+convention}\label{participant-name-convention}
+
+\section{Tier type naming convention}\label{tier-type-naming-convention}
+
+\section{Hierarchies}\label{hierarchies}
+
+\section{Discussion}\label{discussion}
+
+\chapter{Parsing ELAN files to R}\label{parsing-elan-files-to-r}
+
+\section{Why to read ELAN files into
+R?}\label{why-to-read-elan-files-into-r}
+
+\section{Parsing with FRelan package}\label{parsing-with-frelan-package}
+
+\chapter{Manipulating ELAN files with
+Pympi}\label{manipulating-elan-files-with-pympi}
+
+\chapter{Pympi examples}\label{pympi-examples}
+
+\section{Creating a new ELAN file}\label{creating-a-new-elan-file}
+
+\section{Populating the ELAN file with
+content}\label{populating-the-elan-file-with-content}
+
+\section{Merging ELAN files}\label{merging-elan-files}
+
+\chapter{Shiny components}\label{shiny-components}
+
+\section{DT}\label{dt}
+
+\section{Leaflet}\label{leaflet}
+
+\section{ggplot2}\label{ggplot2}
+
+\section{Advantages and disadvantages of
+Shiny}\label{advantages-and-disadvantages-of-shiny}
+
+\chapter{Example: Interaction with
+emuR}\label{example-interaction-with-emur}
+
+\section{Procedure}\label{procedure}
+
+\chapter{Example: Interaction with
+Praat}\label{example-interaction-with-praat}
+
+\section{Research questions}\label{research-questions}
+
+\section{Implementation}\label{implementation}
+
+\section{Shiny application}\label{shiny-application}
+
+\section{Observations}\label{observations}
+
+\section{Exercise}\label{exercise}
+
+\chapter{Example: Concordances and
+map}\label{example-concordances-and-map}
+
+\section{Use}\label{use}
+
+\chapter{Example: Preprocessing
+workflow}\label{example-preprocessing-workflow}
+
+\section{From points to polygon}\label{from-points-to-polygon}
+
+\section{based on this:}\label{based-on-this}
+
+\section{\texorpdfstring{\url{https://gis.stackexchange.com/questions/222978/lon-lat-to-simple-features-sfg-and-sfc-in-r}}{https://gis.stackexchange.com/questions/222978/lon-lat-to-simple-features-sfg-and-sfc-in-r}}\label{httpsgis.stackexchange.comquestions222978lon-lat-to-simple-features-sfg-and-sfc-in-r}
+
+\chapter{Final Words}\label{final-words}
+
+\chapter{Placeholder}\label{placeholder}
+
+\bibliography{packages.bib,book.bib}
+
+
+\end{document}

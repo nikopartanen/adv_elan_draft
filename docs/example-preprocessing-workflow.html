@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Advanced ELAN manipulation and analysis</title>
+  <meta name="description" content="These are teaching materials on Niko Partanen’s course.">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Advanced ELAN manipulation and analysis" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="These are teaching materials on Niko Partanen’s course." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Advanced ELAN manipulation and analysis" />
+  
+  <meta name="twitter:description" content="These are teaching materials on Niko Partanen’s course." />
+  
+
+<meta name="author" content="Niko Partanen">
+
+
+<meta name="date" content="2017-11-01">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="example-concordances-and-map.html">
+<link rel="next" href="final-words.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script src="libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<script src="libs/d3-3.3.8/d3.min.js"></script>
+<script src="libs/dagre-0.4.0/dagre-d3.min.js"></script>
+<link href="libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
+<script src="libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/chromatography-0.1/chromatography.js"></script>
+<script src="libs/DiagrammeR-binding-0.9.2/DiagrammeR.js"></script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Advanced ELAN</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Info</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#course-goals"><i class="fa fa-check"></i><b>1.1</b> Course goals</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#course-structure"><i class="fa fa-check"></i><b>1.2</b> Course structure</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#schedule"><i class="fa fa-check"></i><b>1.3</b> Schedule</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i><b>1.4</b> Resources</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#practical-info"><i class="fa fa-check"></i><b>1.5</b> Practical info</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#elan-and-praat-strengths-and-weaknesses"><i class="fa fa-check"></i><b>2.1</b> Elan and Praat – strengths and weaknesses</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#linguistic-software"><i class="fa fa-check"></i><b>2.2</b> Linguistic software</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#elan-corpora"><i class="fa fa-check"></i><b>2.3</b> ELAN corpora</a></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#preprocessing"><i class="fa fa-check"></i><b>2.4</b> Preprocessing</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#example-of-preprocessing-workflow"><i class="fa fa-check"></i><b>2.4.1</b> Example of preprocessing workflow</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#analysis-workflows"><i class="fa fa-check"></i><b>2.5</b> Analysis workflows</a></li>
+<li class="chapter" data-level="2.6" data-path="intro.html"><a href="intro.html#when-to-write-back-to-elan-file"><i class="fa fa-check"></i><b>2.6</b> When to write back to ELAN file</a></li>
+<li class="chapter" data-level="2.7" data-path="intro.html"><a href="intro.html#annotations-as-an-independent-dataset"><i class="fa fa-check"></i><b>2.7</b> Annotations as an independent dataset</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="tools.html"><a href="tools.html"><i class="fa fa-check"></i><b>3</b> Tools</a><ul>
+<li class="chapter" data-level="3.1" data-path="tools.html"><a href="tools.html#git"><i class="fa fa-check"></i><b>3.1</b> Git</a></li>
+<li class="chapter" data-level="3.2" data-path="tools.html"><a href="tools.html#r"><i class="fa fa-check"></i><b>3.2</b> R</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="tools.html"><a href="tools.html#tidytext"><i class="fa fa-check"></i><b>3.2.1</b> <code>tidytext</code></a></li>
+<li class="chapter" data-level="3.2.2" data-path="tools.html"><a href="tools.html#xml2"><i class="fa fa-check"></i><b>3.2.2</b> <code>xml2</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="tools.html"><a href="tools.html#python"><i class="fa fa-check"></i><b>3.3</b> Python</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="tools.html"><a href="tools.html#pympi"><i class="fa fa-check"></i><b>3.3.1</b> <code>pympi</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="tools.html"><a href="tools.html#anaconda"><i class="fa fa-check"></i><b>3.4</b> Anaconda</a></li>
+<li class="chapter" data-level="3.5" data-path="tools.html"><a href="tools.html#reticulate"><i class="fa fa-check"></i><b>3.5</b> reticulate</a></li>
+<li class="chapter" data-level="3.6" data-path="tools.html"><a href="tools.html#praatscript"><i class="fa fa-check"></i><b>3.6</b> PraatScript</a></li>
+<li class="chapter" data-level="3.7" data-path="tools.html"><a href="tools.html#xpath"><i class="fa fa-check"></i><b>3.7</b> XPath</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="tools.html"><a href="tools.html#examples"><i class="fa fa-check"></i><b>3.7.1</b> Examples</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="elan-file-structure.html"><a href="elan-file-structure.html"><i class="fa fa-check"></i><b>4</b> ELAN file structure</a><ul>
+<li class="chapter" data-level="4.1" data-path="elan-file-structure.html"><a href="elan-file-structure.html#minimal-file"><i class="fa fa-check"></i><b>4.1</b> Minimal file</a><ul>
+<li class="chapter" data-level="4.1.1" data-path="elan-file-structure.html"><a href="elan-file-structure.html#participant-name-convention"><i class="fa fa-check"></i><b>4.1.1</b> Participant name convention</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="elan-file-structure.html"><a href="elan-file-structure.html#tier-type-naming-convention"><i class="fa fa-check"></i><b>4.2</b> Tier type naming convention</a></li>
+<li class="chapter" data-level="4.3" data-path="elan-file-structure.html"><a href="elan-file-structure.html#hierarchies"><i class="fa fa-check"></i><b>4.3</b> Hierarchies</a></li>
+<li class="chapter" data-level="4.4" data-path="elan-file-structure.html"><a href="elan-file-structure.html#discussion"><i class="fa fa-check"></i><b>4.4</b> Discussion</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html"><i class="fa fa-check"></i><b>5</b> Parsing ELAN files to R</a><ul>
+<li class="chapter" data-level="5.1" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html#why-to-read-elan-files-into-r"><i class="fa fa-check"></i><b>5.1</b> Why to read ELAN files into R?</a></li>
+<li class="chapter" data-level="5.2" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html#parsing-with-frelan-package"><i class="fa fa-check"></i><b>5.2</b> Parsing with FRelan package</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="manipulating-elan-files-with-pympi.html"><a href="manipulating-elan-files-with-pympi.html"><i class="fa fa-check"></i><b>6</b> Manipulating ELAN files with Pympi</a></li>
+<li class="chapter" data-level="7" data-path="pympi-examples.html"><a href="pympi-examples.html"><i class="fa fa-check"></i><b>7</b> Pympi examples</a><ul>
+<li class="chapter" data-level="7.1" data-path="pympi-examples.html"><a href="pympi-examples.html#creating-a-new-elan-file"><i class="fa fa-check"></i><b>7.1</b> Creating a new ELAN file</a></li>
+<li class="chapter" data-level="7.2" data-path="pympi-examples.html"><a href="pympi-examples.html#populating-the-elan-file-with-content"><i class="fa fa-check"></i><b>7.2</b> Populating the ELAN file with content</a></li>
+<li class="chapter" data-level="7.3" data-path="pympi-examples.html"><a href="pympi-examples.html#merging-elan-files"><i class="fa fa-check"></i><b>7.3</b> Merging ELAN files</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="shiny-components.html"><a href="shiny-components.html"><i class="fa fa-check"></i><b>8</b> Shiny components</a><ul>
+<li class="chapter" data-level="8.1" data-path="shiny-components.html"><a href="shiny-components.html#dt"><i class="fa fa-check"></i><b>8.1</b> DT</a></li>
+<li class="chapter" data-level="8.2" data-path="shiny-components.html"><a href="shiny-components.html#leaflet"><i class="fa fa-check"></i><b>8.2</b> Leaflet</a></li>
+<li class="chapter" data-level="8.3" data-path="shiny-components.html"><a href="shiny-components.html#ggplot2"><i class="fa fa-check"></i><b>8.3</b> ggplot2</a></li>
+<li class="chapter" data-level="8.4" data-path="shiny-components.html"><a href="shiny-components.html#advantages-and-disadvantages-of-shiny"><i class="fa fa-check"></i><b>8.4</b> Advantages and disadvantages of Shiny</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="example-interaction-with-emur.html"><a href="example-interaction-with-emur.html"><i class="fa fa-check"></i><b>9</b> Example: Interaction with emuR</a><ul>
+<li class="chapter" data-level="9.1" data-path="example-interaction-with-emur.html"><a href="example-interaction-with-emur.html#procedure"><i class="fa fa-check"></i><b>9.1</b> Procedure</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html"><i class="fa fa-check"></i><b>10</b> Example: Interaction with Praat</a><ul>
+<li class="chapter" data-level="10.1" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#research-questions"><i class="fa fa-check"></i><b>10.1</b> Research questions</a></li>
+<li class="chapter" data-level="10.2" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#implementation"><i class="fa fa-check"></i><b>10.2</b> Implementation</a></li>
+<li class="chapter" data-level="10.3" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#shiny-application"><i class="fa fa-check"></i><b>10.3</b> Shiny application</a></li>
+<li class="chapter" data-level="10.4" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#observations"><i class="fa fa-check"></i><b>10.4</b> Observations</a></li>
+<li class="chapter" data-level="10.5" data-path="example-interaction-with-praat.html"><a href="example-interaction-with-praat.html#exercise"><i class="fa fa-check"></i><b>10.5</b> Exercise</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="example-concordances-and-map.html"><a href="example-concordances-and-map.html"><i class="fa fa-check"></i><b>11</b> Example: Concordances and map</a><ul>
+<li class="chapter" data-level="11.1" data-path="example-concordances-and-map.html"><a href="example-concordances-and-map.html#use"><i class="fa fa-check"></i><b>11.1</b> Use</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="example-preprocessing-workflow.html"><a href="example-preprocessing-workflow.html"><i class="fa fa-check"></i><b>12</b> Example: Preprocessing workflow</a><ul>
+<li class="chapter" data-level="12.1" data-path="example-preprocessing-workflow.html"><a href="example-preprocessing-workflow.html#from-points-to-polygon"><i class="fa fa-check"></i><b>12.1</b> From points to polygon</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>13</b> Final Words</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Draft version, not to be cited without permission.</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced ELAN manipulation and analysis</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="example-preprocessing-workflow" class="section level1">
+<h1><span class="header-section-number">Section 12</span> Example: Preprocessing workflow</h1>
+<p>In this example I walk through a preliminary exploration of one morphological variable in Komi-Zyrian dialects. I use general dplyr and purrr functions described in section Tools: R. <!-- NOTE TO NIKO: ADD THIS --></p>
+<p>In principle there are four patterns that occur regularly: мунісныс, мунісны, муніны, муніныс. Only two first occur in this data, but the regex would in principle capture all of them.</p>
+<p>The idea is to define a general function that with the simplest possible example data finds and classifies the wanted examples. This way we can differentiate the query and processing from the data we apply it into. So in principle we could take another Komi dialect sample and run similar analysis into that.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dummy_data &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">token =</span> <span class="kw">c</span>(<span class="st">&#39;мунісныс&#39;</span>, <span class="st">&#39;мунісны&#39;</span>, <span class="st">&#39;муніны&#39;</span>, <span class="st">&#39;муніныс&#39;</span>))
+
+filter_verbs &lt;-<span class="st"> </span><span class="cf">function</span>(data){
+  data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">type =</span> <span class="kw">if_else</span>(<span class="kw">str_detect</span>(token, <span class="st">&#39;сн..$&#39;</span>) <span class="op">&amp;</span><span class="st"> </span><span class="kw">str_detect</span>(token, <span class="st">&#39;с$&#39;</span>), 
+                        <span class="dt">true =</span> <span class="st">&#39;isnɨs&#39;</span>, 
+                        <span class="dt">false =</span> <span class="kw">if_else</span>(<span class="kw">str_detect</span>(token, <span class="st">&#39;сн.&#39;</span>) <span class="op">&amp;</span><span class="st"> </span><span class="kw">str_detect</span>(token, <span class="st">&#39;ы$&#39;</span>),
+                                        <span class="dt">true =</span> <span class="st">&#39;isnɨ&#39;</span>, 
+                                        <span class="dt">false =</span> <span class="kw">if_else</span>(<span class="kw">str_detect</span>(token, <span class="st">&#39;([^с]ныс$)&#39;</span>),
+                                                                   <span class="dt">true =</span> <span class="st">&#39;inɨs&#39;</span>, 
+                                                                   <span class="dt">false =</span> <span class="st">&#39;inɨ&#39;</span>)))) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">type_final =</span> <span class="kw">as.factor</span>(<span class="kw">if_else</span>(<span class="kw">str_detect</span>(type, <span class="st">&#39;s$&#39;</span>), 
+                                        <span class="dt">true =</span> <span class="st">&#39;s-final&#39;</span>, 
+                                        <span class="dt">false =</span> <span class="st">&#39;vowel-final&#39;</span>))) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">type_medial =</span> <span class="kw">as.factor</span>(<span class="kw">if_else</span>(<span class="kw">str_detect</span>(type, <span class="st">&#39;sn&#39;</span>), 
+                                        <span class="dt">true =</span> <span class="st">&#39;s-medial&#39;</span>, 
+                                        <span class="dt">false =</span> <span class="st">&#39;vowel-medial&#39;</span>)))
+}
+
+dummy_data <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter_verbs</span>() <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">token</th>
+<th align="left">type</th>
+<th align="left">type_final</th>
+<th align="left">type_medial</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">мунісныс</td>
+<td align="left">isnɨs</td>
+<td align="left">s-final</td>
+<td align="left">s-medial</td>
+</tr>
+<tr class="even">
+<td align="left">мунісны</td>
+<td align="left">isnɨ</td>
+<td align="left">vowel-final</td>
+<td align="left">s-medial</td>
+</tr>
+<tr class="odd">
+<td align="left">муніны</td>
+<td align="left">inɨ</td>
+<td align="left">vowel-final</td>
+<td align="left">vowel-medial</td>
+</tr>
+<tr class="even">
+<td align="left">муніныс</td>
+<td align="left">inɨs</td>
+<td align="left">s-final</td>
+<td align="left">vowel-medial</td>
+</tr>
+</tbody>
+</table>
+<p>It seems that the result is correct, so we can start to apply it to the real data. However, if we find problems along the way, we can always return to this point and modify the function, as long as we haven’t started to do manual edits in the derived files.</p>
+<p>In the next step we load the corpus directly into R from previously saved RDS file. How these can be worked with was described in section Tools: R. <!-- NOTE TO NIKO: ADD THIS --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">kpv &lt;-<span class="st"> </span><span class="kw">read_rds</span>(<span class="st">&#39;corpus.rds&#39;</span>)</code></pre></div>
+<p>Of course if the corpus is small enough we can also just read it directly from whatever source we have. However, as this process is repeated every time we compile this website, it is easier to read it this way.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs &lt;-<span class="st"> </span>kpv <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span>participant <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;NTP-M-1986&#39;</span>, <span class="st">&#39;MR-M-1974&#39;</span>, <span class="st">&#39;RB-1974&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># this simply removes the western researchers Niko Partanen, Michael Rießler and Rogier Blokland</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(token, <span class="st">&#39;(и|і)(с)?ны(с)?$&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># This selects the wanted tokens</span>
+<span class="st">  </span><span class="kw">filter_verbs</span>() <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># Here we call the function we set up above</span>
+<span class="st">  </span><span class="kw">select</span>(token, type, <span class="kw">everything</span>())</code></pre></div>
+<p>We can easily look into how many types we have and which are the most common tokens. This doesn’t modify the data frame, but gives us information about how sensical the result is. Usually this kind of more finished document doesn’t show the whole workflow how the preprocessing function was edited iteratively while examination of the results shows something is off, but in principle older versions should usually be present in older Git commits. This can be useful when it is realized later that some of the older version was indeed the correct one.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(type) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">type</th>
+<th align="right">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">inɨ</td>
+<td align="right">300</td>
+</tr>
+<tr class="even">
+<td align="left">inɨs</td>
+<td align="right">250</td>
+</tr>
+<tr class="odd">
+<td align="left">isnɨ</td>
+<td align="right">1803</td>
+</tr>
+<tr class="even">
+<td align="left">isnɨs</td>
+<td align="right">1196</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(token) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">token</th>
+<th align="right">n</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">вӧліны</td>
+<td align="right">176</td>
+</tr>
+<tr class="even">
+<td align="left">вӧліныс</td>
+<td align="right">113</td>
+</tr>
+<tr class="odd">
+<td align="left">кучисныс</td>
+<td align="right">84</td>
+</tr>
+<tr class="even">
+<td align="left">воисныс</td>
+<td align="right">67</td>
+</tr>
+<tr class="odd">
+<td align="left">олісны</td>
+<td align="right">67</td>
+</tr>
+<tr class="even">
+<td align="left">шуисны</td>
+<td align="right">57</td>
+</tr>
+<tr class="odd">
+<td align="left">локтісны</td>
+<td align="right">46</td>
+</tr>
+<tr class="even">
+<td align="left">ветлісны</td>
+<td align="right">45</td>
+</tr>
+<tr class="odd">
+<td align="left">карисны</td>
+<td align="right">44</td>
+</tr>
+<tr class="even">
+<td align="left">олісныс</td>
+<td align="right">44</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(type <span class="op">==</span><span class="st"> &#39;inɨs&#39;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">token</th>
+<th align="left">type</th>
+<th align="left">utterance</th>
+<th align="left">reference</th>
+<th align="left">participant</th>
+<th align="right">time_start</th>
+<th align="right">time_end</th>
+<th align="left">session_name</th>
+<th align="left">filename</th>
+<th align="left">word</th>
+<th align="left">type_final</th>
+<th align="left">type_medial</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">муніныс</td>
+<td align="left">inɨs</td>
+<td align="left">Нужник бӧкас сулалэ и бӧр муніныс.</td>
+<td align="left">kpv_izva19300000ArtijevI-135-10</td>
+<td align="left">IXA-M-18XX</td>
+<td align="right">90000</td>
+<td align="right">100000</td>
+<td align="left">kpv_izva19300000ArtijevI-135</td>
+<td align="left">/Volumes/langdoc/langs/kpv/kpv_izva19300000ArtijevI-135/kpv_izva19300000ArtijevI-135.eaf</td>
+<td align="left">муніныс</td>
+<td align="left">s-final</td>
+<td align="left">vowel-medial</td>
+</tr>
+<tr class="even">
+<td align="left">муніныс</td>
+<td align="left">inɨs</td>
+<td align="left">Муніныс ныа вӧлӧн.</td>
+<td align="left">kpv_izva19570000-290_3bz-11</td>
+<td align="left">XXV-M-19XX</td>
+<td align="right">52900</td>
+<td align="right">54220</td>
+<td align="left">kpv_izva19570000-290_3bz-Bakur</td>
+<td align="left">/Volumes/langdoc/langs/kpv/kpv_izva19570000-290_3bz-Bakur/kpv_izva19570000-290_3bz-Bakur.eaf</td>
+<td align="left">Муніныс</td>
+<td align="left">s-final</td>
+<td align="left">vowel-medial</td>
+</tr>
+<tr class="odd">
+<td align="left">вӧліныс</td>
+<td align="left">inɨs</td>
+<td align="left">Баракъясас вӧліныс гразнӧйӧсь зэй.</td>
+<td align="left">kpv_izva19570000-290_3bz-23</td>
+<td align="left">XXV-M-19XX</td>
+<td align="right">111380</td>
+<td align="right">114420</td>
+<td align="left">kpv_izva19570000-290_3bz-Bakur</td>
+<td align="left">/Volumes/langdoc/langs/kpv/kpv_izva19570000-290_3bz-Bakur/kpv_izva19570000-290_3bz-Bakur.eaf</td>
+<td align="left">вӧліныс</td>
+<td align="left">s-final</td>
+<td align="left">vowel-medial</td>
+</tr>
+<tr class="even">
+<td align="left">лэччаніныс</td>
+<td align="left">inɨs</td>
+<td align="left">Рытнас шонді лэччаніныс ке сӧстэм - мӧдасылас лоэ шондіа лун ,</td>
+<td align="left">kpv_izva19590000IgusevJA-280</td>
+<td align="left">JAI-M-1939</td>
+<td align="right">1104086</td>
+<td align="right">1109573</td>
+<td align="left">kpv_izva19590000IgusevJA</td>
+<td align="left">/Volumes/langdoc/langs/kpv/kpv_izva19590000IgusevJA/kpv_izva19590000IgusevJA.eaf</td>
+<td align="left">лэччаніныс</td>
+<td align="left">s-final</td>
+<td align="left">vowel-medial</td>
+</tr>
+<tr class="odd">
+<td align="left">лэччаніныс</td>
+<td align="left">inɨs</td>
+<td align="left">Шонді лэччаніныс ке гӧрд , мӧдасылас лоас тӧла лун .</td>
+<td align="left">kpv_izva19590000IgusevJA-288</td>
+<td align="left">JAI-M-1939</td>
+<td align="right">1165648</td>
+<td align="right">1169283</td>
+<td align="left">kpv_izva19590000IgusevJA</td>
+<td align="left">/Volumes/langdoc/langs/kpv/kpv_izva19590000IgusevJA/kpv_izva19590000IgusevJA.eaf</td>
+<td align="left">лэччаніныс</td>
+<td align="left">s-final</td>
+<td align="left">vowel-medial</td>
+</tr>
+<tr class="even">
+<td align="left">уудиныс</td>
+<td align="left">inɨs</td>
+<td align="left">уудиныс (водьпомыс) ляпкыд.</td>
+<td align="left">kpv_izva19591216-05582_2az.29</td>
+<td align="left">MXV-F-1937</td>
+<td align="right">147886</td>
+<td align="right">150661</td>
+<td align="left">kpv_izva19591216-05582_2az</td>
+<td align="left">/Volumes/langdoc/langs/kpv/kpv_izva19591216-05582_2az/kpv_izva19591216-05582_2az.eaf</td>
+<td align="left">уудиныс</td>
+<td align="left">s-final</td>
+<td align="left">vowel-medial</td>
+</tr>
+<tr class="odd">
+<td align="left">лоиныс</td>
+<td align="left">inɨs</td>
+<td align="left">а сыри- сыритяяс ӧні нин лоиныс важынкаяс:</td>
+<td align="left">kpv_izva19591216-05582_4a.078</td>
+<td align="left">MXV-F-1937</td>
+<td align="right">519866</td>
+<td align="right">526876</td>
+<td align="left">kpv_izva19591216-05582_4a</td>
+<td align="left">/Volumes/langdoc/langs/kpv/kpv_izva19591216-05582_4a/kpv_izva19591216-05582_4a.eaf</td>
+<td align="left">лоиныс</td>
+<td align="left">s-final</td>
+<td align="left">vowel-medial</td>
+</tr>
+<tr class="even">
+<td align="left">кӧйиныс</td>
+<td align="left">inɨs</td>
+<td align="left">кӧйиныс сёяс и кулэ.</td>
+<td align="left">kpv_izva19591216-05582_4a.101</td>
+<td align="left">MXV-F-1937</td>
+<td align="right">717843</td>
+<td align="right">720943</td>
+<td align="left">kpv_izva19591216-05582_4a</td>
+<td align="left">/Volumes/langdoc/langs/kpv/kpv_izva19591216-05582_4a/kpv_izva19591216-05582_4a.eaf</td>
+<td align="left">кӧйиныс</td>
+<td align="left">s-final</td>
+<td align="left">vowel-medial</td>
+</tr>
+<tr class="odd">
+<td align="left">кӧйиныс</td>
+<td align="left">inɨs</td>
+<td align="left">кӧйиныс верме кӧрлы джагедны и луна.</td>
+<td align="left">kpv_izva19591216-05582_4a.112</td>
+<td align="left">MXV-F-1937</td>
+<td align="right">774030</td>
+<td align="right">779556</td>
+<td align="left">kpv_izva19591216-05582_4a</td>
+<td align="left">/Volumes/langdoc/langs/kpv/kpv_izva19591216-05582_4a/kpv_izva19591216-05582_4a.eaf</td>
+<td align="left">кӧйиныс</td>
+<td align="left">s-final</td>
+<td align="left">vowel-medial</td>
+</tr>
+<tr class="even">
+<td align="left">кӧйиныс</td>
+<td align="left">inɨs</td>
+<td align="left">кӧйиныс дебсе росся костэ;</td>
+<td align="left">kpv_izva19591216-05582_4a.113</td>
+<td align="left">MXV-F-1937</td>
+<td align="right">779556</td>
+<td align="right">783611</td>
+<td align="left">kpv_izva19591216-05582_4a</td>
+<td align="left">/Volumes/langdoc/langs/kpv/kpv_izva19591216-05582_4a/kpv_izva19591216-05582_4a.eaf</td>
+<td align="left">кӧйиныс</td>
+<td align="left">s-final</td>
+<td align="left">vowel-medial</td>
+</tr>
+</tbody>
+</table>
+<p>Often the actual benefit of having the data in a programmatic environment instead of just ELAN is that can use in the research variables from metadata that cannot be accessed in ELAN. In our participant naming system we use usually the convention where the gender and birthyear are marked to the name id.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs &lt;-<span class="st"> </span>verbs <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mutate</span>(<span class="dt">gender =</span> <span class="kw">str_extract</span>(participant, <span class="st">&#39;(?&lt;=-)[MF](?=-)&#39;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(token, type, gender, participant, <span class="kw">everything</span>()) 
+
+verbs <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>(gender)</code></pre></div>
+<pre><code>## # A tibble: 3 x 2
+##   gender     n
+##    &lt;chr&gt; &lt;int&gt;
+## 1      F  2455
+## 2      M  1029
+## 3   &lt;NA&gt;    65</code></pre>
+<p>Here we see that for some speakers we didn’t find the gender specified as is described in the convention. The reason is that there are some old transcribed texts for which we don’t know who is the speaker – very likely the same text has been elicitated from several speakers and is some kind of a synthesis of those. We simply don’t know. This is somewhat typical for fieldwork data from the 19th and early 20th century, although variation in practices is also great. In this case we know (after looking a bit better which files are having this problem) what is the reason for this problem, and we can decide to leave out those cases if necessary. However, it is good to take into account that if there are missing values, it is very important to examine what is going on behind them.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="kw">is.na</span>(gender)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>(type)</code></pre></div>
+<pre><code>## # A tibble: 4 x 2
+##    type     n
+##   &lt;chr&gt; &lt;int&gt;
+## 1   inɨ     7
+## 2  inɨs     3
+## 3  isnɨ    52
+## 4 isnɨs     3</code></pre>
+<p>In this point we can take a note that in the oldest data available there are very few examples of the s-final forms, but it is also a very small subset of the corpus.</p>
+<p>Before advancing further, we can add one more variable to the dataframe we are working with.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs &lt;-<span class="st"> </span>verbs <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">str_extract</span>(session_name, <span class="st">&#39;</span><span class="ch">\\</span><span class="st">d{4}(?=</span><span class="ch">\\</span><span class="st">d{4})&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(token, type, gender, year, <span class="kw">everything</span>())</code></pre></div>
+<p>Year is of course a bit problematic variable as we aren’t really having that much data for each year. So let’s add a new column for the decade.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs &lt;-<span class="st"> </span>verbs <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">type =</span> <span class="kw">as.factor</span>(type)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">year =</span> <span class="kw">as.numeric</span>(year)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">decade =</span> (year <span class="op">%/%</span><span class="st"> </span><span class="dv">10</span>) <span class="op">*</span><span class="st"> </span><span class="dv">10</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(token, type, gender, year, decade, <span class="kw">everything</span>())</code></pre></div>
+<p>After this the plotting will work nicely. We can analyze the distribution of tokens per decade:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(verbs,
+       <span class="kw">aes</span>(<span class="dt">x =</span> decade)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>()</code></pre></div>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p>This reflects well the data distribution of IKDP corpus, which makes sense as these verb forms should occur everywhere.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(verbs) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> decade, <span class="dt">fill =</span> type_medial), <span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>)</code></pre></div>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(verbs <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">filter</span>(year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1930</span>)) <span class="op">+</span><span class="st"> </span><span class="co"># This leaves older data out as it is so gappy</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> decade, <span class="dt">fill =</span> type_medial), <span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>)</code></pre></div>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-24-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(verbs <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">filter</span>(year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1930</span>) <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(gender))) <span class="op">+</span><span class="st"> </span><span class="co"># If we want to use a variable later, we have to make sure it is available</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> decade, <span class="dt">fill =</span> type_medial), <span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_grid</span>(. <span class="op">~</span><span class="st"> </span>gender)</code></pre></div>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>Next thing I want to try is to associate birth places with areas and plot those. For this we need bit more metadata, which I’m now reading from our Filemaker Pro database, but which should be set up better for the actual teaching. <!-- Note for Niko: do this --></p>
+<p>Once we have set up the processing workflow to the point where we have something useful, and maybe get into phase where we don’t know what we are doing, it can be an useful practice to write the dataframe into a new variable so that it is not necessary to do all previous changes when something goes wrong. In this case I create a new variable called <code>verbs_test</code>, and when we accidentally do something we didn’t want to it is easy to run the code from this point onward.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&#39;/Volumes/langdoc/langs/kpv/FM_meta.R&#39;</span>)</code></pre></div>
+<pre><code>## Loading required package: DBI</code></pre>
+<pre><code>## Loading required package: rJava</code></pre>
+<pre><code>## Joining, by = &quot;Actor_ID&quot;</code></pre>
+<pre><code>## Joining, by = &quot;Session_ID&quot;</code></pre>
+<pre><code>## Joining, by = &quot;RecPlace_OSM_ID&quot;</code></pre>
+<pre><code>## Joining, by = &quot;PlaceofRes_OSM_ID&quot;</code></pre>
+<pre><code>## Joining, by = &quot;Birthplace_OSM_ID&quot;</code></pre>
+<pre><code>## Warning in eval(ei, envir): NAs introduced by coercion
+
+## Warning in eval(ei, envir): NAs introduced by coercion
+
+## Warning in eval(ei, envir): NAs introduced by coercion
+
+## Warning in eval(ei, envir): NAs introduced by coercion
+
+## Warning in eval(ei, envir): NAs introduced by coercion
+
+## Warning in eval(ei, envir): NAs introduced by coercion
+
+## Warning in eval(ei, envir): NAs introduced by coercion</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># meta %&gt;% distinct(place_birth, birthplace_osm_id, lat_birth, lon_birth) %&gt;% </span>
+<span class="co">#   arrange(place_birth) %&gt;% </span>
+<span class="co">#   group_by(place_birth) %&gt;% </span>
+<span class="co">#   filter(n()&gt;1)</span>
+
+verbs_test &lt;-<span class="st"> </span><span class="kw">left_join</span>(verbs, meta <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>(participant, lat_birth, lon_birth, attr_foreign) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(participant <span class="op">%in%</span><span class="st"> </span>verbs<span class="op">$</span>participant)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">lat =</span> lat_birth,
+         <span class="dt">lon =</span> lon_birth)</code></pre></div>
+<pre><code>## Joining, by = &quot;participant&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs_test &lt;-<span class="st"> </span>verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variety =</span> <span class="kw">str_extract</span>(session_name, <span class="st">&#39;(?&lt;=kpv_)[a-z]+&#39;</span>))</code></pre></div>
+<div id="from-points-to-polygon" class="section level2">
+<h2><span class="header-section-number">12.1</span> From points to polygon</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#izva &lt;- st_read(&#39;https://raw.githubusercontent.com/langdoc/IKDP-2/025e817c25181b683661a21ab36facb63c830604/data/izva_dialects.geojson&#39;)</span>
+
+izva &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="st">&#39;/Users/niko/github/IKDP-2/data/izva_dialects-test.geojson&#39;</span>)</code></pre></div>
+<pre><code>## Reading layer `OGRGeoJSON&#39; from data source `/Users/niko/github/IKDP-2/data/izva_dialects-test.geojson&#39; using driver `GeoJSON&#39;
+## Simple feature collection with 19 features and 4 fields
+## geometry type:  POLYGON
+## dimension:      XY
+## bbox:           xmin: 28.96325 ymin: 55.94814 xmax: 74.33177 ymax: 70.39286
+## epsg (SRID):    4326
+## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(izva) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> variant)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> verbs_test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(lon)),
+             <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat))</code></pre></div>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs_test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="kw">is.na</span>(lat)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(participant) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n))</code></pre></div>
+<pre><code>## # A tibble: 31 x 2
+##    participant     n
+##          &lt;chr&gt; &lt;int&gt;
+##  1  IIB-M-1946    58
+##  2  TFA-F-1934    46
+##  3  APP-F-1957    39
+##  4     unknown    25
+##  5  AAZ-F-1940    20
+##  6  KOM-F-1964    13
+##  7  XXC-F-196X     8
+##  8  NGK-F-1956     6
+##  9      группа     6
+## 10          S1     5
+## # ... with 21 more rows</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## based on this:
+## https://gis.stackexchange.com/questions/222978/lon-lat-to-simple-features-sfg-and-sfc-in-r
+
+geo_inside &lt;-<span class="st"> </span><span class="cf">function</span>(lon, lat, map, variable) {
+
+  variable &lt;-<span class="st"> </span><span class="kw">enquo</span>(variable)
+  pt &lt;-
+<span class="st">    </span>tibble<span class="op">::</span><span class="kw">data_frame</span>(<span class="dt">x =</span> lon,
+                       <span class="dt">y =</span> lat) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">st_as_sf</span>(<span class="dt">coords =</span> <span class="kw">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), <span class="dt">crs =</span> <span class="kw">st_crs</span>(map))
+  pt <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">st_join</span>(map) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pull</span>(<span class="op">!!</span>variable)
+
+}
+
+verbs_test &lt;-<span class="st"> </span>verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(lon) <span class="op">|</span><span class="st"> </span><span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(lat)) 
+
+verbs_test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>()</code></pre></div>
+<pre><code>## # A tibble: 1 x 1
+##       n
+##   &lt;int&gt;
+## 1  3281</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs_test &lt;-<span class="st"> </span>verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">region =</span> <span class="kw">geo_inside</span>(lon, lat, izva, variant))</code></pre></div>
+<pre><code>## although coordinates are longitude/latitude, it is assumed that they are planar</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs_test &lt;-<span class="st"> </span>verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">dialect =</span> <span class="kw">geo_inside</span>(lon, lat, izva, dialect))</code></pre></div>
+<pre><code>## although coordinates are longitude/latitude, it is assumed that they are planar</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="dt">data =</span> verbs_test <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(dialect, <span class="st">&#39;zva&#39;</span>)),
+       <span class="kw">aes</span>(<span class="dt">x =</span> type)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_wrap</span>(region <span class="op">~</span><span class="st"> </span>gender)</code></pre></div>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-2.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs_test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(dialect)</code></pre></div>
+<pre><code>## # A tibble: 9 x 2
+##          dialect     n
+##           &lt;fctr&gt; &lt;int&gt;
+## 1 Central Sysola     6
+## 2           izva  1311
+## 3           Izva  1566
+## 4 Lower Vychegda     1
+## 5     Luza-Letka    12
+## 6      Syktyvdin     7
+## 7          Udora   257
+## 8   Upper Sysola    30
+## 9 Upper Vychegda    91</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(verbs_test <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(region)) <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(dialect, <span class="st">&#39;zva&#39;</span>))) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> region, <span class="dt">fill =</span> type), <span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="op">+</span>
+<span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</code></pre></div>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-3.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(verbs_test <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span>participant <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;MSF-F-1968&#39;</span>, <span class="st">&#39;VPC-M-1993&#39;</span>)) <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(region)) <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(dialect, <span class="st">&#39;zva&#39;</span>))) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> region, <span class="dt">fill =</span> type), <span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="op">+</span>
+<span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</code></pre></div>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-4.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(geofacet)
+
+mygrid &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
+  <span class="dt">code =</span> <span class="kw">c</span>(<span class="st">&quot;IZKA&quot;</span>, <span class="st">&quot;IZKP&quot;</span>, <span class="st">&quot;IZBT&quot;</span>, <span class="st">&quot;IZCO&quot;</span>, <span class="st">&quot;IZSIB&quot;</span>, <span class="st">&quot;IZEX&quot;</span>, <span class="st">&quot;IZKU&quot;</span>, <span class="st">&quot;UDVA&quot;</span>, <span class="st">&quot;UDMZ&quot;</span>, <span class="st">&quot;VM&quot;</span>, <span class="st">&quot;IZUP&quot;</span>, <span class="st">&quot;PE&quot;</span>, <span class="st">&quot;VYLO&quot;</span>, <span class="st">&quot;VYUP&quot;</span>, <span class="st">&quot;SK&quot;</span>, <span class="st">&quot;SD&quot;</span>, <span class="st">&quot;SC&quot;</span>, <span class="st">&quot;LL&quot;</span>, <span class="st">&quot;SU&quot;</span>),
+  <span class="dt">name =</span> <span class="kw">c</span>(<span class="st">&quot;Kanin&quot;</span>, <span class="st">&quot;Kola Peninsula&quot;</span>, <span class="st">&quot;Tundra&quot;</span>, <span class="st">&quot;Izhma core&quot;</span>, <span class="st">&quot;Siberia&quot;</span>, <span class="st">&quot;Izhma extension&quot;</span>, <span class="st">&quot;Kolva-Usa&quot;</span>, <span class="st">&quot;Vashka&quot;</span>, <span class="st">&quot;Mezen&quot;</span>, <span class="st">&quot;Vym&quot;</span>, <span class="st">&quot;Upper Izhma&quot;</span>, <span class="st">&quot;Pechora&quot;</span>, <span class="st">&quot;Lower Vychegda&quot;</span>, <span class="st">&quot;Upper Vychegda&quot;</span>, <span class="st">&quot;Syktyvkar&quot;</span>, <span class="st">&quot;Syktyvdin&quot;</span>, <span class="st">&quot;Central Sysola&quot;</span>, <span class="st">&quot;Luza-Letka&quot;</span>, <span class="st">&quot;Upper Sysola&quot;</span>),
+  <span class="dt">row =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">7</span>, <span class="dv">8</span>),
+  <span class="dt">col =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">7</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">5</span>),
+  <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>
+)
+geofacet<span class="op">::</span><span class="kw">grid_preview</span>(mygrid)</code></pre></div>
+<pre><code>## You provided a user-specified grid. If this is a generally-useful
+##   grid, please consider submitting it to become a part of the
+##   geofacet package. You can do this easily by calling:
+##   grid_submit(__grid_df_name__)</code></pre>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-5.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># verbs_test %&gt;% mutate(name = as.character(region)) %&gt;%</span>
+<span class="co">#          mutate(name = if_else(name == &#39;Bolshezyemelskaya Tundra&#39;, &#39;Tundra&#39;, name)) %&gt;%</span>
+<span class="co">#          left_join(mygrid) %&gt;%</span>
+<span class="co">#          filter(! is.na(region)) %&gt;% filter(variety == &#39;vym&#39;) %&gt;% select(name)</span>
+
+<span class="kw">ggplot</span>(verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">         </span><span class="kw">mutate</span>(<span class="dt">name =</span> <span class="kw">as.character</span>(region)) <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">mutate</span>(<span class="dt">name =</span> <span class="kw">if_else</span>(name <span class="op">==</span><span class="st"> &#39;Bolshezyemelskaya Tundra&#39;</span>, <span class="st">&#39;Tundra&#39;</span>, name)) <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">left_join</span>(mygrid) <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(region)) <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span>participant <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;MSF-F-1968&#39;</span>, <span class="st">&#39;VPC-M-1993&#39;</span>, <span class="st">&#39;VVF-F-1957&#39;</span>))) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">factor</span>(<span class="st">&quot;&quot;</span>), <span class="dt">fill =</span> type), <span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_geo</span>(<span class="op">~</span><span class="st"> </span>name, <span class="dt">grid =</span> mygrid) <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;First preterite plural verb allomorphs in Komi-Zyrian dialects&quot;</span>,
+       <span class="dt">subtitle =</span> <span class="st">&quot;Map approximates the location and contact relations of the dialects. For blanks no data available.&quot;</span>,
+    <span class="dt">caption =</span> <span class="st">&quot;Work done in LATTICE, Paris</span><span class="ch">\n</span><span class="st">Data Source: IKDP Author: Niko Partanen (2017)&quot;</span>,
+    <span class="dt">y =</span> <span class="st">&quot;Percentage of different types&quot;</span>,
+    <span class="dt">x =</span> <span class="st">&quot;&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme_bw</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.line=</span><span class="kw">element_blank</span>(),
+      <span class="dt">axis.text.x=</span><span class="kw">element_blank</span>(),
+      <span class="dt">axis.text.y=</span><span class="kw">element_blank</span>(),
+      <span class="dt">axis.ticks=</span><span class="kw">element_blank</span>(),
+<span class="co">#      axis.title.x=element_blank(),</span>
+<span class="co">#      axis.title.y=element_blank(),</span>
+<span class="co">#      legend.position=&quot;none&quot;,</span>
+      <span class="dt">panel.background=</span><span class="kw">element_blank</span>(),
+<span class="co">#      panel.border=element_blank(),</span>
+      <span class="dt">panel.grid.major=</span><span class="kw">element_blank</span>(),
+      <span class="dt">panel.grid.minor=</span><span class="kw">element_blank</span>()) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">strip.background =</span> <span class="kw">element_rect</span>(<span class="dt">fill=</span><span class="st">&quot;white&quot;</span>, <span class="dt">linetype =</span> <span class="st">&#39;blank&#39;</span>))<span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">strip.text =</span> <span class="kw">element_text</span>(<span class="dt">colour =</span> <span class="st">&#39;black&#39;</span>, <span class="dt">size =</span> <span class="dv">7</span>))</code></pre></div>
+<pre><code>## Joining, by = &quot;name&quot;</code></pre>
+<pre><code>## You provided a user-specified grid. If this is a generally-useful
+##   grid, please consider submitting it to become a part of the
+##   geofacet package. You can do this easily by calling:
+##   grid_submit(__grid_df_name__)</code></pre>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-6.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ggplot(verbs_test %&gt;%</span>
+<span class="co">#          filter(! participant %in% c(&#39;MSF-F-1968&#39;, &#39;VPC-M-1993&#39;)) %&gt;%</span>
+<span class="co">#          filter(! is.na(region)) %&gt;%</span>
+<span class="co">#          filter(! is.na(gender)) %&gt;%</span>
+<span class="co">#          filter(str_detect(dialect, &#39;zva&#39;))) +</span>
+<span class="co">#   geom_bar(mapping = aes(x = gender, fill = type), position = &quot;fill&quot;) +</span>
+<span class="co"># theme(axis.text.x = element_text(angle = 90, hjust = 1))</span>
+<span class="co"># </span>
+
+
+<span class="kw">ggplot</span>(verbs_test <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(region)) <span class="op">%&gt;%</span>
+<span class="st">         </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">str_detect</span>(dialect, <span class="st">&#39;zva&#39;</span>))) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> region, <span class="dt">fill =</span> type), <span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="op">+</span>
+<span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</code></pre></div>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-7.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># verbs_test %&gt;% filter(type == &#39;inɨ&#39;)</span>
+
+verb_stems &lt;-<span class="st"> </span>verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stem =</span> <span class="kw">str_extract</span>(token, <span class="st">&#39;.+(?=(и|і)с?ны?с?)&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">distinct</span>(stem) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">arrange</span>(stem)
+
+<span class="co"># verb_stems %&gt;% </span>
+<span class="co">#   filter(! str_detect(stem, &quot;(j|[&#39;])&quot;)) %&gt;%</span>
+<span class="co">#   write_csv(&#39;data/izva_verbs.csv&#39;)</span>
+
+<span class="co"># verbs_test %&gt;% </span>
+<span class="co">#   mutate(stem = str_extract(token, &#39;.+(?=(и|і)с?ны?с?)&#39;)) %&gt;% </span>
+<span class="co">#   count(stem) %&gt;%</span>
+<span class="co">#   arrange(desc(n)) %&gt;%</span>
+<span class="co">#   slice(10:20)</span>
+
+<span class="co"># verbs_test %&gt;% </span>
+<span class="co">#   filter(variety == &#39;izva&#39;) %&gt;%</span>
+<span class="co">#   mutate(stem = str_extract(token, &#39;.+(?=(и|і)с?ны?с?)&#39;)) %&gt;%</span>
+<span class="co">#   filter(! stem == &#39;в&#39;) %&gt;%</span>
+<span class="co">#   count(stem, type) %&gt;%</span>
+<span class="co">#   rename(hits = n) %&gt;%</span>
+<span class="co">#   arrange(stem) %&gt;%</span>
+<span class="co">#   split(.$stem) %&gt;%</span>
+<span class="co">#   map(~ mutate(.x, diff_types = n()) %&gt;%</span>
+<span class="co">#         mutate(type_ratio = hits / sum(hits)) %&gt;%</span>
+<span class="co">#         mutate(sum_hits = sum(hits))) %&gt;%</span>
+<span class="co">#   bind_rows %&gt;%</span>
+<span class="co">#   filter(sum_hits &gt; 10) %&gt;%</span>
+<span class="co">#   arrange(desc(diff_types)) %&gt;% View</span>
+  
+<span class="co"># verbs_test %&gt;% </span>
+<span class="co">#   filter(variety == &#39;izva&#39;) %&gt;%</span>
+<span class="co">#   mutate(stem = str_extract(token, &#39;.+(?=(и|і)с?ны?с?)&#39;)) %&gt;%</span>
+<span class="co">#   filter(stem == &#39;босьт&#39;) %&gt;%</span>
+<span class="co">#   filter(type == &#39;isnɨs&#39;) %&gt;%</span>
+<span class="co">#   select(utterance) %&gt;%</span>
+<span class="co">#   View</span>
+
+<span class="co"># verbs_test %&gt;% filter(str_detect(utterance, &#39;всю&#39;)) %&gt;% select(utterance, filename) %&gt;% open_eaf(3)</span>
+<span class="co"># kpv  %&gt;% filter(str_detect(utterance, &#39;кеде &#39;)) %&gt;% distinct(utterance, participant, filename) </span>
+<span class="co"># </span>
+<span class="co">#   split(.$type) %&gt;%</span>
+<span class="co">#   map(~ count(.x, stem) %&gt;%</span>
+<span class="co">#           arrange(desc(n)) %&gt;%</span>
+<span class="co">#           slice(10:20))</span>
+
+
+<span class="co"># verbs_test %&gt;% filter(str_detect(token, &#39;^кор&#39;)) %&gt;% select(utterance, participant, variety, year)</span>
+<span class="co"># verbs_test %&gt;% filter(str_detect(token, &#39;^торйед&#39;)) %&gt;% open_eaf(1)</span>
+
+verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stem =</span> <span class="kw">str_extract</span>(token, <span class="st">&#39;.+(?=(и|і)с?ны?с?)&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">left_join</span>(<span class="kw">read_csv</span>(<span class="st">&#39;data/izva_verbs.csv&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(category)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(stem <span class="op">!=</span><span class="st"> &#39;вӧл&#39;</span>) <span class="op">%&gt;%</span>
+<span class="co">#  select(token, type, type_medial, gender, year, participant, category, variety, region, dialect) %&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">data =</span> .,
+         <span class="kw">aes</span>(<span class="dt">x =</span> category)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_grid</span>(. <span class="op">~</span><span class="st"> </span>type)</code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   stem = col_character(),
+##   category = col_character(),
+##   remove = col_character()
+## )</code></pre>
+<pre><code>## Joining, by = &quot;stem&quot;</code></pre>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-8.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stem =</span> <span class="kw">str_extract</span>(token, <span class="st">&#39;.+(?=(и|і)с?ны?с?)&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">left_join</span>(<span class="kw">read_csv</span>(<span class="st">&#39;data/izva_verbs.csv&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(category)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(dialect <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;Udora&#39;</span>, <span class="st">&#39;izva&#39;</span>, <span class="st">&#39;Izva&#39;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(stem <span class="op">!=</span><span class="st"> &#39;вӧл&#39;</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(token, type, gender, year, participant, category, variety, region, dialect) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">ggplot</span>(<span class="dt">data =</span> .,
+         <span class="kw">aes</span>(<span class="dt">x =</span> category)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">facet_grid</span>(type <span class="op">~</span><span class="st"> </span>variety)</code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   stem = col_character(),
+##   category = col_character(),
+##   remove = col_character()
+## )
+## Joining, by = &quot;stem&quot;</code></pre>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-9.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">int &lt;-<span class="st"> </span>verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stem =</span> <span class="kw">str_extract</span>(token, <span class="st">&#39;.+(?=(и|і)с?ны?с?)&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">left_join</span>(<span class="kw">read_csv</span>(<span class="st">&#39;data/izva_verbs.csv&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(category))</code></pre></div>
+<pre><code>## Parsed with column specification:
+## cols(
+##   stem = col_character(),
+##   category = col_character(),
+##   remove = col_character()
+## )
+## Joining, by = &quot;stem&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># int %&gt;% </span>
+<span class="co">#   left_join(count(int, stem) %&gt;% rename(token_count = n)) %&gt;% </span>
+<span class="co">#   arrange(desc(token_count)) %&gt;%</span>
+<span class="co">#   distinct(stem, token_count) %&gt;%</span>
+<span class="co">#   ggplot(data = .,</span>
+<span class="co">#          aes(x = token, y = token_count)) +</span>
+<span class="co">#   geom_bar()</span>
+
+<span class="co"># блиныс</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># verbs %&gt;% arrange(token) %&gt;% distinct(token) %&gt;% write_csv(&#39;data/izva_verbs.csv&#39;)</span>
+
+<span class="co"># verbs %&gt;% filter(str_detect(token, &#39;j&#39;))</span>
+
+<span class="co"># verbs %&gt;% mutate(variant = str_extract(session_name, &#39;(?&lt;=kpv_)[a-z]+(?=\\d)&#39;)) %&gt;% count(variant)</span>
+<span class="co">#verbs %&gt;% left_join()</span></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="example-concordances-and-map.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="final-words.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["Advanced-ELAN.pdf"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

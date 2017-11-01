@@ -25,7 +25,7 @@
 <meta name="author" content="Niko Partanen">
 
 
-<meta name="date" content="2017-09-05">
+<meta name="date" content="2017-11-01">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -47,6 +47,14 @@
 
 
 
+<script src="libs/htmlwidgets-0.9/htmlwidgets.js"></script>
+<script src="libs/d3-3.3.8/d3.min.js"></script>
+<script src="libs/dagre-0.4.0/dagre-d3.min.js"></script>
+<link href="libs/mermaid-0.3.0/dist/mermaid.css" rel="stylesheet" />
+<script src="libs/mermaid-0.3.0/dist/mermaid.slim.min.js"></script>
+<link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="libs/chromatography-0.1/chromatography.js"></script>
+<script src="libs/DiagrammeR-binding-0.9.2/DiagrammeR.js"></script>
 
 
 <style type="text/css">
@@ -106,24 +114,35 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Info</a><ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#course-goals"><i class="fa fa-check"></i><b>1.1</b> Course goals</a></li>
 <li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#course-structure"><i class="fa fa-check"></i><b>1.2</b> Course structure</a></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i><b>1.3</b> Resources</a></li>
-<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#practical-info"><i class="fa fa-check"></i><b>1.4</b> Practical info</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#schedule"><i class="fa fa-check"></i><b>1.3</b> Schedule</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#resources"><i class="fa fa-check"></i><b>1.4</b> Resources</a></li>
+<li class="chapter" data-level="1.5" data-path="index.html"><a href="index.html#practical-info"><i class="fa fa-check"></i><b>1.5</b> Practical info</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a><ul>
-<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#linguistic-software"><i class="fa fa-check"></i><b>2.1</b> Linguistic software</a></li>
-<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#elan-corpora"><i class="fa fa-check"></i><b>2.2</b> ELAN corpora</a></li>
+<li class="chapter" data-level="2.1" data-path="intro.html"><a href="intro.html#elan-and-praat-strengths-and-weaknesses"><i class="fa fa-check"></i><b>2.1</b> Elan and Praat – strengths and weaknesses</a></li>
+<li class="chapter" data-level="2.2" data-path="intro.html"><a href="intro.html#linguistic-software"><i class="fa fa-check"></i><b>2.2</b> Linguistic software</a></li>
+<li class="chapter" data-level="2.3" data-path="intro.html"><a href="intro.html#elan-corpora"><i class="fa fa-check"></i><b>2.3</b> ELAN corpora</a></li>
+<li class="chapter" data-level="2.4" data-path="intro.html"><a href="intro.html#preprocessing"><i class="fa fa-check"></i><b>2.4</b> Preprocessing</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="intro.html"><a href="intro.html#example-of-preprocessing-workflow"><i class="fa fa-check"></i><b>2.4.1</b> Example of preprocessing workflow</a></li>
+</ul></li>
+<li class="chapter" data-level="2.5" data-path="intro.html"><a href="intro.html#analysis-workflows"><i class="fa fa-check"></i><b>2.5</b> Analysis workflows</a></li>
+<li class="chapter" data-level="2.6" data-path="intro.html"><a href="intro.html#when-to-write-back-to-elan-file"><i class="fa fa-check"></i><b>2.6</b> When to write back to ELAN file</a></li>
+<li class="chapter" data-level="2.7" data-path="intro.html"><a href="intro.html#annotations-as-an-independent-dataset"><i class="fa fa-check"></i><b>2.7</b> Annotations as an independent dataset</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="tools.html"><a href="tools.html"><i class="fa fa-check"></i><b>3</b> Tools</a><ul>
-<li class="chapter" data-level="3.1" data-path="tools.html"><a href="tools.html#r"><i class="fa fa-check"></i><b>3.1</b> R</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="tools.html"><a href="tools.html#tidytext"><i class="fa fa-check"></i><b>3.1.1</b> <code>tidytext</code></a></li>
-<li class="chapter" data-level="3.1.2" data-path="tools.html"><a href="tools.html#xml2"><i class="fa fa-check"></i><b>3.1.2</b> <code>xml2</code></a></li>
+<li class="chapter" data-level="3.1" data-path="tools.html"><a href="tools.html#git"><i class="fa fa-check"></i><b>3.1</b> Git</a></li>
+<li class="chapter" data-level="3.2" data-path="tools.html"><a href="tools.html#r"><i class="fa fa-check"></i><b>3.2</b> R</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="tools.html"><a href="tools.html#tidytext"><i class="fa fa-check"></i><b>3.2.1</b> <code>tidytext</code></a></li>
+<li class="chapter" data-level="3.2.2" data-path="tools.html"><a href="tools.html#xml2"><i class="fa fa-check"></i><b>3.2.2</b> <code>xml2</code></a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="tools.html"><a href="tools.html#python"><i class="fa fa-check"></i><b>3.2</b> Python</a><ul>
-<li class="chapter" data-level="3.2.1" data-path="tools.html"><a href="tools.html#pympi"><i class="fa fa-check"></i><b>3.2.1</b> <code>pympi</code></a></li>
+<li class="chapter" data-level="3.3" data-path="tools.html"><a href="tools.html#python"><i class="fa fa-check"></i><b>3.3</b> Python</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="tools.html"><a href="tools.html#pympi"><i class="fa fa-check"></i><b>3.3.1</b> <code>pympi</code></a></li>
 </ul></li>
-<li class="chapter" data-level="3.3" data-path="tools.html"><a href="tools.html#praatscript"><i class="fa fa-check"></i><b>3.3</b> PraatScript</a></li>
-<li class="chapter" data-level="3.4" data-path="tools.html"><a href="tools.html#xpath"><i class="fa fa-check"></i><b>3.4</b> XPath</a><ul>
-<li class="chapter" data-level="3.4.1" data-path="tools.html"><a href="tools.html#examples"><i class="fa fa-check"></i><b>3.4.1</b> Examples</a></li>
+<li class="chapter" data-level="3.4" data-path="tools.html"><a href="tools.html#anaconda"><i class="fa fa-check"></i><b>3.4</b> Anaconda</a></li>
+<li class="chapter" data-level="3.5" data-path="tools.html"><a href="tools.html#reticulate"><i class="fa fa-check"></i><b>3.5</b> reticulate</a></li>
+<li class="chapter" data-level="3.6" data-path="tools.html"><a href="tools.html#praatscript"><i class="fa fa-check"></i><b>3.6</b> PraatScript</a></li>
+<li class="chapter" data-level="3.7" data-path="tools.html"><a href="tools.html#xpath"><i class="fa fa-check"></i><b>3.7</b> XPath</a><ul>
+<li class="chapter" data-level="3.7.1" data-path="tools.html"><a href="tools.html#examples"><i class="fa fa-check"></i><b>3.7.1</b> Examples</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="elan-file-structure.html"><a href="elan-file-structure.html"><i class="fa fa-check"></i><b>4</b> ELAN file structure</a><ul>
@@ -135,7 +154,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.4" data-path="elan-file-structure.html"><a href="elan-file-structure.html#discussion"><i class="fa fa-check"></i><b>4.4</b> Discussion</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html"><i class="fa fa-check"></i><b>5</b> Parsing ELAN files to R</a><ul>
-<li class="chapter" data-level="5.1" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html#parsing-with-frelan-package"><i class="fa fa-check"></i><b>5.1</b> Parsing with FRelan package</a></li>
+<li class="chapter" data-level="5.1" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html#why-to-read-elan-files-into-r"><i class="fa fa-check"></i><b>5.1</b> Why to read ELAN files into R?</a></li>
+<li class="chapter" data-level="5.2" data-path="parsing-elan-files-to-r.html"><a href="parsing-elan-files-to-r.html#parsing-with-frelan-package"><i class="fa fa-check"></i><b>5.2</b> Parsing with FRelan package</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="manipulating-elan-files-with-pympi.html"><a href="manipulating-elan-files-with-pympi.html"><i class="fa fa-check"></i><b>6</b> Manipulating ELAN files with Pympi</a></li>
 <li class="chapter" data-level="7" data-path="pympi-examples.html"><a href="pympi-examples.html"><i class="fa fa-check"></i><b>7</b> Pympi examples</a><ul>
@@ -162,7 +182,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="11" data-path="example-concordances-and-map.html"><a href="example-concordances-and-map.html"><i class="fa fa-check"></i><b>11</b> Example: Concordances and map</a><ul>
 <li class="chapter" data-level="11.1" data-path="example-concordances-and-map.html"><a href="example-concordances-and-map.html#use"><i class="fa fa-check"></i><b>11.1</b> Use</a></li>
 </ul></li>
-<li class="chapter" data-level="12" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>12</b> Final Words</a></li>
+<li class="chapter" data-level="12" data-path="example-preprocessing-workflow.html"><a href="example-preprocessing-workflow.html"><i class="fa fa-check"></i><b>12</b> Example: Preprocessing workflow</a><ul>
+<li class="chapter" data-level="12.1" data-path="example-preprocessing-workflow.html"><a href="example-preprocessing-workflow.html#from-points-to-polygon"><i class="fa fa-check"></i><b>12.1</b> From points to polygon</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>13</b> Final Words</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Draft version, not to be cited without permission.</a></li>
@@ -188,59 +211,80 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>The kind of structures I have usually been working with in R are like this:</p>
 <p><strong>Note:</strong> Update the example to have better column names</p>
 <div class="figure">
-<img src="./images/elan-R.png" />
+<img src="images/elan-R.png" />
 
 </div>
 <p>This is one place where standardized and cross-comparable metadata would be useful.</p>
 <p>The idea behind this structure is that we can consider each token as one observation, and this format with one token per row allows easy plotting and statistical testing without issues.</p>
-<p>I have written in <a href="">this blog</a> about more exact conventions in parsing ELAN files, especially within <a href="">FRelan</a> R package that I have built to work with Freiburg project ELAN files. However, I have not been very succesful in getting some system to work so that it would be easily and intuitively adapted into project with an entirely different tier structure. Probably the easiest way is to modify the code every time there is a new tier structure.</p>
+<p>I have written in <a href="http://langdoc.github.io/2016-06-04-ELAN-to-R.html">this blog</a> about more exact conventions in parsing ELAN files, especially within <a href="https://github.com/langdoc/FRelan">FRelan</a> R package that I have built to work with Freiburg project ELAN files. However, I have not been very succesful in getting some system to work so that it would be easily and intuitively adapted into project with an entirely different tier structure. Probably the easiest way is to modify the code every time there is a new tier structure.</p>
+<div id="why-to-read-elan-files-into-r" class="section level2">
+<h2><span class="header-section-number">5.1</span> Why to read ELAN files into R?</h2>
+<p>I have often seen and read the idea that in order to analyze linguistic data in R the first task should be to export data from ELAN into a spreadsheet. The problems with this approachs are manifold:</p>
+<ul>
+<li>The spreadsheet has to be manually updated every time the ELAN file changes</li>
+<li>If the spreadsheet is annotated further, it will not match with the updates done into ELAN files after original export</li>
+</ul>
+<p>From this point of view the ideal solution would be to store all information into ELAN file and create an automatic export procedure to analyse the data further, or store it in other format such as spreadsheet in case this is needed for some reason.</p>
+<p>Only way to keep this working is through meticulous working practices. There is no way over this. However, these practices can be easened and made more robust by adopting workflows which minimize the possibilities to deviate from the convention. The most simple mechanism for this is to have a system that is as minimal as possible, still allowing the tasks we want to achieve.</p>
+<p>Unfortunately the situations and the tools we work with are never perfect, and there may be situations where we settle into a workflow far from ideal, due to different constraints: time, practicality, limitations of software. In these cases it is important to notice where these compromises have been made. I have included into each example presented here also the points which will make this procedure difficult to maintain, if these can be easily imagined.</p>
+</div>
 <div id="parsing-with-frelan-package" class="section level2">
-<h2><span class="header-section-number">5.1</span> Parsing with FRelan package</h2>
+<h2><span class="header-section-number">5.2</span> Parsing with FRelan package</h2>
 <p>The function I have in the FRelan package for parsing one tier looks like this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">FRelan<span class="op">::</span>read_tier</code></pre></div>
-<pre><code>## function (eaf_file = &quot;/Volumes/langdoc/langs/kpv/kpv_izva20140404IgusevJA/kpv_izva20140404IgusevJA.eaf&quot;, 
-##     linguistic_type = &quot;wordT&quot;, read_file = T, xml_object = F) 
-## {
-##     `%&gt;%` &lt;- dplyr::`%&gt;%`
-##     if (read_file == F) {
-##         file = xml_object
-##     }
-##     else {
-##         file &lt;- xml2::read_xml(eaf_file)
-##     }
-##     participants_in_file &lt;- file %&gt;% xml2::xml_find_all(paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, 
-##         linguistic_type, &quot;&#39;]&quot;)) %&gt;% xml2::xml_attr(&quot;PARTICIPANT&quot;)
-##     coerce_data_frame &lt;- function(participant) {
-##         dplyr::data_frame(content = file %&gt;% xml2::xml_find_all(paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, 
-##             linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, participant, 
-##             &quot;&#39;]/ANNOTATION/*/ANNOTATION_VALUE&quot;)) %&gt;% xml2::xml_text(), 
-##             annot_id = file %&gt;% xml2::xml_find_all(paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, 
-##                 linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, participant, 
-##                 &quot;&#39;]/ANNOTATION/*/ANNOTATION_VALUE/..&quot;)) %&gt;% xml2::xml_attr(&quot;ANNOTATION_ID&quot;), 
-##             ref_id = file %&gt;% xml2::xml_find_all(paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, 
-##                 linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, participant, 
-##                 &quot;&#39;]/ANNOTATION/*/ANNOTATION_VALUE/..&quot;)) %&gt;% xml2::xml_attr(&quot;ANNOTATION_REF&quot;), 
-##             participant = file %&gt;% xml2::xml_find_all(paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, 
-##                 linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, participant, 
-##                 &quot;&#39;]/ANNOTATION/*/ANNOTATION_VALUE/../../..&quot;)) %&gt;% 
-##                 xml2::xml_attr(&quot;PARTICIPANT&quot;), tier_id = file %&gt;% 
-##                 xml2::xml_find_all(paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, 
-##                   linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, participant, 
-##                   &quot;&#39;]/ANNOTATION/*/ANNOTATION_VALUE/../../..&quot;)) %&gt;% 
-##                 xml2::xml_attr(&quot;TIER_ID&quot;), type = file %&gt;% xml2::xml_find_all(paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, 
-##                 linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, participant, 
-##                 &quot;&#39;]/ANNOTATION/*/ANNOTATION_VALUE/../../..&quot;)) %&gt;% 
-##                 xml2::xml_attr(&quot;LINGUISTIC_TYPE_REF&quot;), time_slot_1 = file %&gt;% 
-##                 xml2::xml_find_all(paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, 
-##                   linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, participant, 
-##                   &quot;&#39;]/ANNOTATION/*&quot;)) %&gt;% xml2::xml_attr(&quot;TIME_SLOT_REF1&quot;), 
-##             time_slot_2 = file %&gt;% xml2::xml_find_all(paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, 
-##                 linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, participant, 
-##                 &quot;&#39;]/ANNOTATION/*&quot;)) %&gt;% xml2::xml_attr(&quot;TIME_SLOT_REF2&quot;))
-##     }
-##     plyr::ldply(participants_in_file, coerce_data_frame) %&gt;% 
-##         dplyr::tbl_df()
-## }
+<pre><code>## function(eaf_file = &quot;/Volumes/langdoc/langs/kpv/kpv_izva20140404IgusevJA/kpv_izva20140404IgusevJA.eaf&quot;, linguistic_type = &quot;wordT&quot;, read_file = T, xml_object = F){
+## 
+##                 `%&gt;%` &lt;- dplyr::`%&gt;%`
+## 
+##                 if (read_file == F){
+## 
+##                         file = xml_object
+## 
+##                         } else {
+## 
+##                 file &lt;- xml2::read_xml(eaf_file)
+## 
+##                 }
+## 
+##                 participants_in_file &lt;- file %&gt;% xml2::xml_find_all(paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, linguistic_type, &quot;&#39;]&quot;)) %&gt;%
+##                         xml2::xml_attr(&quot;PARTICIPANT&quot;)
+## 
+##                 coerce_data_frame &lt;- function(current_participant){
+##                         dplyr::data_frame(
+##                                 content = file %&gt;%
+##                                         xml2::xml_find_all(
+##                                                 paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, current_participant,&quot;&#39;]/ANNOTATION/*/ANNOTATION_VALUE&quot;)) %&gt;%
+##                                         xml2::xml_text(),
+##                                 annot_id = file %&gt;%
+##                                         xml2::xml_find_all(
+##                                                 paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, current_participant,&quot;&#39;]/ANNOTATION/*/ANNOTATION_VALUE/..&quot;)) %&gt;%
+##                                         xml2::xml_attr(&quot;ANNOTATION_ID&quot;),
+##                                 ref_id = file %&gt;%
+##                                         xml2::xml_find_all(
+##                                                 paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, current_participant,&quot;&#39;]/ANNOTATION/*/ANNOTATION_VALUE/..&quot;)) %&gt;%
+##                                         xml2::xml_attr(&quot;ANNOTATION_REF&quot;),
+##                                 speaker = current_participant,
+##                                 tier_id = file %&gt;%
+##                                         xml2::xml_find_all(
+##                                                 paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, current_participant,&quot;&#39;]/ANNOTATION/*/ANNOTATION_VALUE/../../..&quot;)) %&gt;%
+##                                         xml2::xml_attr(&quot;TIER_ID&quot;),
+##                                 type = file %&gt;%
+##                                         xml2::xml_find_all(
+##                                                 paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, current_participant,&quot;&#39;]/ANNOTATION/*/ANNOTATION_VALUE/../../..&quot;)) %&gt;%
+##                                         xml2::xml_attr(&quot;LINGUISTIC_TYPE_REF&quot;),
+##                                 time_slot_1 = file %&gt;%
+##                                         xml2::xml_find_all(
+##                                                 paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, current_participant,&quot;&#39;]/ANNOTATION/*&quot;)) %&gt;%
+##                                         xml2::xml_attr(&quot;TIME_SLOT_REF1&quot;),
+##                                 time_slot_2 = file %&gt;%
+##                                         xml2::xml_find_all(
+##                                                 paste0(&quot;//TIER[@LINGUISTIC_TYPE_REF=&#39;&quot;, linguistic_type, &quot;&#39; and @PARTICIPANT=&#39;&quot;, current_participant,&quot;&#39;]/ANNOTATION/*&quot;)) %&gt;%
+##                                         xml2::xml_attr(&quot;TIME_SLOT_REF2&quot;))
+##                 }
+## 
+##                 plyr::ldply(participants_in_file, coerce_data_frame) %&gt;% dplyr::tbl_df() %&gt;% dplyr::rename(participant = speaker)
+## 
+##         }
 ## &lt;environment: namespace:FRelan&gt;</code></pre>
 <p>It works fine, but I have not yet updated it to use <code>map()</code> function from <code>purrr</code> package. It also has some extra parts in it to parse either an XML file or an XML file already read into memory. We usually want to read several tiers and merge them together, and in this context it is not good to open the XML file again every time we read it, as this would slow the function down very much.</p>
 
@@ -284,7 +328,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": null,
+"download": ["Advanced-ELAN.pdf"],
 "toc": {
 "collapse": "subsection"
 }
