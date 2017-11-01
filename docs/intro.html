@@ -284,40 +284,18 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>There are numerous ways to arrange the workflows around research. It is also important to realize it may not be possible to arrange everything perfectly. One reason is that at times the software we use just doesn’t allow the structure that would be ideal. Or it is allowed, but actually using it would be too slow and impractical. This depends entirely from the question, but it is something good to keep in mind.</p>
 <p>There are situations where the corpora we use already contain all the annotations we need. Everything. But this is often not the case, and it is necessary to make some new annotations, or modify the existing ones to mark some distinctions which are not currently there. However, it is worth noting that for quite tasks and especially corpus inspection we can just read the corpus in as it is.</p>
 <p>These new annotations in all cases create a derivative work from the earlier corpus. This makes it important to consider the licenses of the corpora being used. It also rises the question whether the new annotations should be integrated into the corpus itself.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(DiagrammeR)
-<span class="kw">mermaid</span>(<span class="st">&#39;</span>
-<span class="st">graph LR</span>
-<span class="st">ELAN --&gt; analysis&#39;</span>
-)</code></pre></div>
-<div id="htmlwidget-ba99d357c76b5cfbe616" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ba99d357c76b5cfbe616">{"x":{"diagram":"\ngraph LR\nELAN --> analysis"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c09ffcaf397cc88d5a02" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c09ffcaf397cc88d5a02">{"x":{"diagram":"\ngraph LR\nELAN --> analysis"},"evals":[],"jsHooks":[]}</script>
 <p>One possible workflow is diagrammed below. It includes creating a CSV export with R or Python, manipulating that manually, then reading that into analytical environment for further work.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mermaid</span>(<span class="st">&#39;</span>
-<span class="st">graph LR</span>
-<span class="st">ELAN --&gt; processing</span>
-<span class="st">processing --&gt; CSV </span>
-<span class="st">CSV --&gt; analysis&#39;</span>)</code></pre></div>
-<div id="htmlwidget-09da113698ffa7f7863d" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-09da113698ffa7f7863d">{"x":{"diagram":"\ngraph LR\nELAN --> processing\nprocessing --> CSV \nCSV --> analysis"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-0663d2da492825f27eed" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0663d2da492825f27eed">{"x":{"diagram":"\ngraph LR\nELAN --> processing\nprocessing --> CSV \nCSV --> analysis"},"evals":[],"jsHooks":[]}</script>
 <p>In this scenario the new annotations are made in CSV, and are thus eventually disconnected from the ELAN corpus. It is important to understand that they are disconnected only after the original ELAN corpus is modified in one way or another. If no changes occur, and the spreadsheet contains some identifiers for each processed unit, then in principle the situation is entirely unproblematic.</p>
 <p>The drawback of this method is that we lose easy connection to the interactive environment in ELAN. Most important part of that being the possibility to listen audio files easily on utterance level. The workflow below describes a method where the annotations are written back to ELAN, either through a spreadsheet or directly from the programming language used for preprocessing.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mermaid</span>(<span class="st">&#39;</span>
-<span class="st">graph LR</span>
-<span class="st">ELAN --&gt; processing</span>
-<span class="st">processing --&gt; CSV</span>
-<span class="st">processing --&gt; ELAN</span>
-<span class="st">CSV --&gt; ELAN</span>
-<span class="st">ELAN --&gt; analysis&#39;</span>)</code></pre></div>
-<div id="htmlwidget-3416741ae62108df2715" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-3416741ae62108df2715">{"x":{"diagram":"\ngraph LR\nELAN --> processing\nprocessing --> CSV\nprocessing --> ELAN\nCSV --> ELAN\nELAN --> analysis"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-df64accbdbf18c56c1bc" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-df64accbdbf18c56c1bc">{"x":{"diagram":"\ngraph LR\nELAN --> processing\nprocessing --> CSV\nprocessing --> ELAN\nCSV --> ELAN\nELAN --> analysis"},"evals":[],"jsHooks":[]}</script>
 <p>On the other hand, ELAN doesn’t offer a very smooth environment to annotate anything below the word-level, so especially in cases where where we want to work with phonetics it can be more desiderable to write the interesting units into Praat’s TextGrid files.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">mermaid</span>(<span class="st">&#39;</span>
-<span class="st">graph LR</span>
-<span class="st">ELAN --&gt; processing</span>
-<span class="st">processing --&gt; Praat</span>
-<span class="st">Praat --&gt; analysis&#39;</span>)</code></pre></div>
-<div id="htmlwidget-f453c86bb0afe762ac9b" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f453c86bb0afe762ac9b">{"x":{"diagram":"\ngraph LR\nELAN --> processing\nprocessing --> Praat\nPraat --> analysis"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-669e8b426fb255729d11" style="width:672px;height:480px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-669e8b426fb255729d11">{"x":{"diagram":"\ngraph LR\nELAN --> processing\nprocessing --> Praat\nPraat --> analysis"},"evals":[],"jsHooks":[]}</script>
 <p>The advantage of this is that we can use <a href="">PraatScript</a> to do different kind of analysis to the annotated units.</p>
 </div>
 <div id="when-to-write-back-to-elan-file" class="section level2">

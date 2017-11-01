@@ -553,21 +553,21 @@ verbs <span class="op">%&gt;%</span>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(verbs,
        <span class="kw">aes</span>(<span class="dt">x =</span> decade)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>()</code></pre></div>
-<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>This reflects well the data distribution of IKDP corpus, which makes sense as these verb forms should occur everywhere.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(verbs) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> decade, <span class="dt">fill =</span> type_medial), <span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>)</code></pre></div>
-<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(verbs <span class="op">%&gt;%</span>
 <span class="st">         </span><span class="kw">filter</span>(year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1930</span>)) <span class="op">+</span><span class="st"> </span><span class="co"># This leaves older data out as it is so gappy</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> decade, <span class="dt">fill =</span> type_medial), <span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>)</code></pre></div>
-<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-24-2.png" width="672" /></p>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-19-2.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(verbs <span class="op">%&gt;%</span>
 <span class="st">         </span><span class="kw">filter</span>(year <span class="op">&gt;</span><span class="st"> </span><span class="dv">1930</span>) <span class="op">%&gt;%</span>
 <span class="st">         </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(gender))) <span class="op">+</span><span class="st"> </span><span class="co"># If we want to use a variable later, we have to make sure it is available</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> decade, <span class="dt">fill =</span> type_medial), <span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">facet_grid</span>(. <span class="op">~</span><span class="st"> </span>gender)</code></pre></div>
-<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p>Next thing I want to try is to associate birth places with areas and plot those. For this we need bit more metadata, which I’m now reading from our Filemaker Pro database, but which should be set up better for the actual teaching. <!-- Note for Niko: do this --></p>
 <p>Once we have set up the processing workflow to the point where we have something useful, and maybe get into phase where we don’t know what we are doing, it can be an useful practice to write the dataframe into a new variable so that it is not necessary to do all previous changes when something goes wrong. In this case I create a new variable called <code>verbs_test</code>, and when we accidentally do something we didn’t want to it is easy to run the code from this point onward.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">source</span>(<span class="st">&#39;/Volumes/langdoc/langs/kpv/FM_meta.R&#39;</span>)</code></pre></div>
@@ -618,7 +618,7 @@ izva &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="
 <span class="st">  </span><span class="kw">geom_sf</span>(<span class="kw">aes</span>(<span class="dt">fill =</span> variant)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> verbs_test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(lon)),
              <span class="kw">aes</span>(<span class="dt">x =</span> lon, <span class="dt">y =</span> lat))</code></pre></div>
-<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs_test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="kw">is.na</span>(lat)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(participant) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(n))</code></pre></div>
 <pre><code>## # A tibble: 31 x 2
 ##    participant     n
@@ -667,7 +667,7 @@ verbs_test <span class="op">%&gt;%</span><span class="st"> </span><span class="k
        <span class="kw">aes</span>(<span class="dt">x =</span> type)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">facet_wrap</span>(region <span class="op">~</span><span class="st"> </span>gender)</code></pre></div>
-<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-2.png" width="672" /></p>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs_test <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>(dialect)</code></pre></div>
 <pre><code>## # A tibble: 9 x 2
 ##          dialect     n
@@ -686,14 +686,14 @@ verbs_test <span class="op">%&gt;%</span><span class="st"> </span><span class="k
 <span class="st">         </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(dialect, <span class="st">&#39;zva&#39;</span>))) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> region, <span class="dt">fill =</span> type), <span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="op">+</span>
 <span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</code></pre></div>
-<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-3.png" width="672" /></p>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-22-3.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(verbs_test <span class="op">%&gt;%</span>
 <span class="st">         </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span>participant <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;MSF-F-1968&#39;</span>, <span class="st">&#39;VPC-M-1993&#39;</span>)) <span class="op">%&gt;%</span>
 <span class="st">         </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">is.na</span>(region)) <span class="op">%&gt;%</span>
 <span class="st">         </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(dialect, <span class="st">&#39;zva&#39;</span>))) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> region, <span class="dt">fill =</span> type), <span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="op">+</span>
 <span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</code></pre></div>
-<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-4.png" width="672" /></p>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-22-4.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(geofacet)
 
 mygrid &lt;-<span class="st"> </span><span class="kw">data.frame</span>(
@@ -708,7 +708,7 @@ geofacet<span class="op">::</span><span class="kw">grid_preview</span>(mygrid)</
 ##   grid, please consider submitting it to become a part of the
 ##   geofacet package. You can do this easily by calling:
 ##   grid_submit(__grid_df_name__)</code></pre>
-<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-5.png" width="672" /></p>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-22-5.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># verbs_test %&gt;% mutate(name = as.character(region)) %&gt;%</span>
 <span class="co">#          mutate(name = if_else(name == &#39;Bolshezyemelskaya Tundra&#39;, &#39;Tundra&#39;, name)) %&gt;%</span>
 <span class="co">#          left_join(mygrid) %&gt;%</span>
@@ -746,7 +746,7 @@ geofacet<span class="op">::</span><span class="kw">grid_preview</span>(mygrid)</
 ##   grid, please consider submitting it to become a part of the
 ##   geofacet package. You can do this easily by calling:
 ##   grid_submit(__grid_df_name__)</code></pre>
-<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-6.png" width="672" /></p>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-22-6.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ggplot(verbs_test %&gt;%</span>
 <span class="co">#          filter(! participant %in% c(&#39;MSF-F-1968&#39;, &#39;VPC-M-1993&#39;)) %&gt;%</span>
 <span class="co">#          filter(! is.na(region)) %&gt;%</span>
@@ -762,7 +762,7 @@ geofacet<span class="op">::</span><span class="kw">grid_preview</span>(mygrid)</
 <span class="st">         </span><span class="kw">filter</span>(<span class="op">!</span><span class="st"> </span><span class="kw">str_detect</span>(dialect, <span class="st">&#39;zva&#39;</span>))) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">mapping =</span> <span class="kw">aes</span>(<span class="dt">x =</span> region, <span class="dt">fill =</span> type), <span class="dt">position =</span> <span class="st">&quot;fill&quot;</span>) <span class="op">+</span>
 <span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</code></pre></div>
-<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-7.png" width="672" /></p>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-22-7.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># verbs_test %&gt;% filter(type == &#39;inɨ&#39;)</span>
 
 verb_stems &lt;-<span class="st"> </span>verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
@@ -832,7 +832,7 @@ verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
 ##   remove = col_character()
 ## )</code></pre>
 <pre><code>## Joining, by = &quot;stem&quot;</code></pre>
-<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-8.png" width="672" /></p>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-22-8.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stem =</span> <span class="kw">str_extract</span>(token, <span class="st">&#39;.+(?=(и|і)с?ны?с?)&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">left_join</span>(<span class="kw">read_csv</span>(<span class="st">&#39;data/izva_verbs.csv&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
@@ -851,7 +851,7 @@ verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
 ##   remove = col_character()
 ## )
 ## Joining, by = &quot;stem&quot;</code></pre>
-<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-27-9.png" width="672" /></p>
+<p><img src="Advanced-ELAN_files/figure-html/unnamed-chunk-22-9.png" width="672" /></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">int &lt;-<span class="st"> </span>verbs_test <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">stem =</span> <span class="kw">str_extract</span>(token, <span class="st">&#39;.+(?=(и|і)с?ны?с?)&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">left_join</span>(<span class="kw">read_csv</span>(<span class="st">&#39;data/izva_verbs.csv&#39;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
