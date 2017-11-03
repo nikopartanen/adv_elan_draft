@@ -32,8 +32,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="example-interaction-with-praat.html">
-<link rel="next" href="example-preprocessing-workflow.html">
+<link rel="prev" href="parsing-elan-files-to-r.html">
+<link rel="next" href="pympi-examples.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -222,21 +222,43 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="example-concordances-and-map" class="section level1">
-<h1><span class="header-section-number">Section 11</span> Example: Concordances and map</h1>
-<p>This example is very simple and involves some manipulation of data table object created with <a href="">DT</a> package. Idea is to create a simple search interface, which can be used conveniently in the end of longer command with the pipe operator.</p>
-<div class="figure">
-<img src="./images/FRorpus_example_ig.png" />
-
+<div id="exploring-and-manipulation" class="section level1">
+<h1><span class="header-section-number">Section 6</span> Exploring and manipulation</h1>
+<div id="basic-exploration-with-r" class="section level2">
+<h2><span class="header-section-number">6.1</span> Basic exploration with R</h2>
+<p>I go through in this point some of the most important <code>dplyr</code> verbs that can be used to examine data from ELAN files. There are more thorough introduction in the internet, so this treatment is not very complete view.</p>
+<div id="filter" class="section level3">
+<h3><span class="header-section-number">6.1.1</span> filter()</h3>
 </div>
-<p>Since DT package outputs normal JavaScript object, there are numerous ways to manipulate it with JavaScript besides R. I’m not going into this now.</p>
-<p>This application also illustrates some ways to add new information into different tabs.</p>
-<p>Because the object displayed in the table is just a data frame that has gone through the filtering specified in the boxes above, it is also possible to visualize data that is part of the same data frame, even when it is not present in that table. So in this case all the data comes also with coordinates, which are mapped with the package <a href="">leaflet</a>.</p>
-<div id="use" class="section level2">
-<h2><span class="header-section-number">11.1</span> Use</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">corpus <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">filter</span>(gender <span class="op">==</span><span class="st"> &#39;M&#39;</span>) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">FRorpus</span>()</code></pre></div>
+<div id="slice" class="section level3">
+<h3><span class="header-section-number">6.1.2</span> slice()</h3>
+</div>
+<div id="count-add_count" class="section level3">
+<h3><span class="header-section-number">6.1.3</span> count(), add_count()</h3>
+</div>
+<div id="mutate" class="section level3">
+<h3><span class="header-section-number">6.1.4</span> mutate</h3>
+</div>
+<div id="rename" class="section level3">
+<h3><span class="header-section-number">6.1.5</span> rename</h3>
+</div>
+<div id="lag-lead" class="section level3">
+<h3><span class="header-section-number">6.1.6</span> lag(), lead()</h3>
+<p>These functions can be used to access rows above or below another token</p>
+</div>
+<div id="str_extract" class="section level3">
+<h3><span class="header-section-number">6.1.7</span> str_extract()</h3>
+</div>
+<div id="str_detect" class="section level3">
+<h3><span class="header-section-number">6.1.8</span> str_detect()</h3>
+</div>
+<div id="if_else" class="section level3">
+<h3><span class="header-section-number">6.1.9</span> if_else()</h3>
+</div>
+</div>
+<div id="manipulating-elan-files-with-pympi" class="section level2">
+<h2><span class="header-section-number">6.2</span> Manipulating ELAN files with Pympi</h2>
+<p>Pympi is a very mature Python library and using it is enjoyable. However, I myself usually feel the most comfortable when I have the data in an R data frame, so I often fall back into that no matter what. I strongly encourage to test further data manipulation and analysis in Python, I assume that especially <a href="http://pandas.pydata.org/">pandas</a> should be very useful.</p>
 
 </div>
 </div>
@@ -245,8 +267,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-<a href="example-interaction-with-praat.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="example-preprocessing-workflow.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="parsing-elan-files-to-r.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="pympi-examples.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
