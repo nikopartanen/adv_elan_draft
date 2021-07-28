@@ -1,6 +1,6 @@
 # ELAN file structure
 
-In this part we go into deeper details of ELAN XML structure. It is important to understand how ELAN stores information into different tiers, so that we can easily extract the parts we need. It is also very good test for data integrity to parse all the data from ELAN file, since this verifies that all data is stored in retrievable manner.
+In this part we go into deeper details of ELAN XML structure. It is important to understand how ELAN stores information into different tiers, so that we can easily extract the parts we need. It is also very good test for data integrity to parse all the data from ELAN file, since this verifies that all data is stored in a retrievable manner.
 
 ## Minimal file
 
@@ -56,6 +56,7 @@ This is one file with three tiers. The first is reference tier, containing the I
 
 - Each content type should have its own tier type
 - If there is a hierarchical relation, it should be used instead of independent tiers
+    - Ideally each speaker has his/her independent group of tiers which have shared structure between speakers
 
 ### Participant name convention
 
@@ -63,7 +64,7 @@ Some parts are more a matter of preferred convention. Each tier contains informa
 
     PARTICIPANT="Niko" TIER_ID="ref@Niko
 
-This makes a difference in which convention has to be used in order to select the nodes of this speaker.
+This makes a difference in which convention has to be used in order to select the nodes of this speaker. If we want to know who is the speaker on a tier, we can either pick the attribute `PARTICIPANT` or the content after @-character in the tier id.
 
 ## Tier type naming convention
 

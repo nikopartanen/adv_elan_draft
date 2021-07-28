@@ -5,8 +5,17 @@ editor_options:
 ---
 # Introduction {#intro}
 
-## Elan and Praat -- strengths and weaknesses
 
+```{r libraries, echo=FALSE}
+library(tidyverse)
+library(FRelan)
+library(sf)
+library(ggplot2)
+library(stringr)
+```
+
+
+## Elan and Praat -- strengths and weaknesses
 
 
 ## Linguistic software
@@ -54,363 +63,6 @@ Some of the most basic preprocessing tools are `stringr` library and `if_else` f
 
 While coming up with a regular expression and `if_else` loop, it makes sense to test it first with a dummy data that you know contains all the cases, or all the cases you can envision, in the real data. Already in this point we can wrap the preprocessing workflow into a function that can be applied in an identical manner to the dummy data and the real data.
 
-```{r}
-library(tidyverse)
-library(FRelan)
-library(sf)
-library(ggplot2)
-library(stringr)
-```
-
-
-```{r}
-## In principle four patterns: мунісныс, мунісны, муніны, муніныс
-## Only two first occur in this data, but the regex would in principle capture all of them
-
-dummy_data <- tibble(token = c('мунісныс', 'мунісны', 'муніны', 'муніныс'))
-
-filter_verbs <- function(data){
-  data %>% mutate(type = if_else(str_detect(token, 'сн..$') & str_detect(token, 'с$'), 
-                        true = 'isnɨs', 
-                        false = if_else(str_detect(token, 'сн.') & str_detect(token, 'ы$'),
-                                        true = 'isnɨ', 
-                                        false = if_else(str_detect(token, '([^с]ныс$)'),
-                                                                   true = 'inɨs', 
-                                                                   false = 'inɨ')))) %>%
-    mutate(type_final = as.factor(if_else(str_detect(type, 's$'), 
-                                        true = 's-final', 
-                                        false = 'vowel-final'))) %>%
-    mutate(type_medial = as.factor(if_else(str_detect(type, 'sn'), 
-                                        true = 's-medial', 
-                                        false = 'vowel-medial')))
-}
-
-dummy_data %>% filter_verbs()
-
-```
-
-It seems that the result is correct, so we can start to apply it to the real data. However, if we find problems along the way, we can always return to this point and modify the function, as long as we haven't started to do manual edits in the derived files.
-
-```{r}
-
-kpv <- read_rds('corpus.rds')
-verbs <- kpv %>% 
-  filter(! participant %in% c('NTP-M-1986', 'MR-M-1974', 'RB-1974')) %>%
-  filter(str_detect(token, '(и|і)(с)?ны(с)?$')) %>%
-  filter_verbs() %>% # Here we call the function we set up above
-  select(token, type, everything())
-
-verbs %>% count(type)
-verbs %>% count(token) %>% arrange(desc(n))
-
-```
-
-Often the actual benefit of having the data in a programmatic environment instead of just ELAN is that can use in the research variables from metadata that cannot be accessed in ELAN. In our participant naming system we use usually the convention
-
-```{r}
-
-verbs <- verbs %>% mutate(gender = str_extract(participant, '(?<=-)[MF](?=-)')) %>%
-  select(token, type, gender, participant, everything()) 
-
-verbs %>%
-  count(gender)
-
-```
-
-Here we see that for some speakers we didn't find the gender specified as is described in the convention. The reason is that there are some old transcribed texts for which we don't know who is the speaker -- very likely the same text has been elicitated from several speakers and is some kind of a synthesis of those. We simply don't know. This is somewhat typical for fieldwork data from the 19th and early 20th century, although variation in practices is also great. In this case we know (after looking a bit better which files are having this problem) what is the reason for this problem, and we can decide to leave out those cases if necessary. However, it is good to take into account that if there are missing values, it is very important to examine what is going on behind them.
-
-```{r}
-
-verbs %>%
-  filter(is.na(gender)) %>%
-  count(type)
-
-```
-
-In this point we can take a note that in the oldest data available there are very few examples of the s-final forms.
-
-Before advancing further, we can add one more variable to the dataframe we are working with.
-
-```{r}
-verbs <- verbs %>% 
-  mutate(year = str_extract(session_name, '\\d{4}(?=\\d{4})')) %>% 
-  select(token, type, gender, year, everything())
-```
-
-Year is of course a bit problematic variable as we aren't really having that much data for each year. So let's add a new column for the decade.
-
-```{r}
-verbs <- verbs %>% 
-  mutate(type = as.factor(type)) %>%
-  mutate(year = as.numeric(year)) %>%
-  mutate(decade = (year %/% 10) * 10) %>%
-  select(token, type, gender, year, decade, everything())
-
-```
-
-
-After this the plotting will work nicely:
-
-```{r}
-ggplot(verbs,
-       aes(x = decade)) +
-  geom_bar()
-
-ggplot(verbs %>%
-         filter(year > 1930)) +
-  geom_bar(mapping = aes(x = decade, fill = type_medial), position = "fill")
-
-ggplot(verbs %>%
-         filter(year > 1930) %>%
-         filter(! is.na(gender))) +
-  geom_bar(mapping = aes(x = decade, fill = type_medial), position = "fill") +
-  facet_grid(. ~ gender)
-
-```
-
-Next thing I want to try is to associate birth places with areas and plot those.
-
-```{r}
-
-source('/Volumes/langdoc/langs/kpv/FM_meta.R')
-meta %>% distinct(place_birth, birthplace_osm_id, lat_birth, lon_birth) %>% 
-  arrange(place_birth) %>% 
-  group_by(place_birth) %>% 
-  filter(n()>1)
-
-verbs_test <- left_join(verbs, meta %>% distinct(participant, lat_birth, lon_birth, attr_foreign) %>% filter(participant %in% verbs$participant)) %>%
-  rename(lat = lat_birth,
-         lon = lon_birth)
-
-verbs_test <- verbs_test %>% 
-  mutate(variety = str_extract(session_name, '(?<=kpv_)[a-z]+'))
-
-#izva <- st_read('https://raw.githubusercontent.com/langdoc/IKDP-2/025e817c25181b683661a21ab36facb63c830604/data/izva_dialects.geojson')
-
-izva <- st_read('/Users/niko/github/IKDP-2/data/izva_dialects-test.geojson')
-
-ggplot(izva) +
-  geom_sf(aes(fill = variant)) +
-  geom_point(data = verbs_test %>% filter(! is.na(lon)),
-             aes(x = lon, y = lat))
-
-verbs_test %>% filter(is.na(lat)) %>% count(participant) %>% arrange(desc(n))
-
-## based on this:
-## https://gis.stackexchange.com/questions/222978/lon-lat-to-simple-features-sfg-and-sfc-in-r
-
-# verbs_test <- st_as_sf(verbs_test %>% 
-#                          filter(! is.na(lon) | ! is.na(lat)), 
-#                        coords = c("lon", "lat"), 
-#                        crs = 4326, agr = "constant")
-
-geo_inside <- function(lon, lat, map, variable) {
-
-  variable <- enquo(variable)
-  # slow if lots of lons and lats or big sf - needs improvement
-  pt <-
-    tibble::data_frame(x = lon,
-                       y = lat) %>%
-    st_as_sf(coords = c("x", "y"), crs = st_crs(map))
-  pt %>% st_join(map) %>% pull(!!variable)
-
-}
-
-verbs_test <- verbs_test %>% 
-  filter(! is.na(lon) | ! is.na(lat)) 
-
-verbs_test %>% count()
-
-verbs_test <- verbs_test %>% 
-  mutate(region = geo_inside(lon, lat, izva, variant))
-
-verbs_test <- verbs_test %>% 
-  mutate(dialect = geo_inside(lon, lat, izva, dialect))
-
-ggplot(data = verbs_test %>%
-         filter(str_detect(dialect, 'zva')),
-       aes(x = type)) +
-  geom_bar() +
-  facet_wrap(region ~ gender)
-
-verbs_test %>% count(dialect)
-
-ggplot(verbs_test %>%
-         filter(! is.na(region)) %>%
-         filter(str_detect(dialect, 'zva'))) +
-  geom_bar(mapping = aes(x = region, fill = type), position = "fill") +
-theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
-
-ggplot(verbs_test %>%
-         filter(! participant %in% c('MSF-F-1968', 'VPC-M-1993')) %>%
-         filter(! is.na(region)) %>%
-         filter(str_detect(dialect, 'zva'))) +
-  geom_bar(mapping = aes(x = region, fill = type), position = "fill") +
-theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
-library(geofacet)
-
-mygrid <- data.frame(
-  code = c("IZKA", "IZKP", "IZBT", "IZCO", "IZSIB", "IZEX", "IZKU", "UDVA", "UDMZ", "VM", "IZUP", "PE", "VYLO", "VYUP", "SK", "SD", "SC", "LL", "SU"),
-  name = c("Kanin", "Kola Peninsula", "Tundra", "Izhma core", "Siberia", "Izhma extension", "Kolva-Usa", "Vashka", "Mezen", "Vym", "Upper Izhma", "Pechora", "Lower Vychegda", "Upper Vychegda", "Syktyvkar", "Syktyvdin", "Central Sysola", "Luza-Letka", "Upper Sysola"),
-  row = c(1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 5, 6, 7, 7, 8),
-  col = c(2, 1, 3, 4, 7, 5, 6, 1, 2, 3, 4, 5, 3, 4, 3, 3, 4, 2, 5),
-  stringsAsFactors = FALSE
-)
-geofacet::grid_preview(mygrid)
-
-verbs_test %>% mutate(name = as.character(region)) %>%
-         mutate(name = if_else(name == 'Bolshezyemelskaya Tundra', 'Tundra', name)) %>%
-         left_join(mygrid) %>%
-         filter(! is.na(region)) %>% filter(variety == 'vym') %>% select(name)
-
-ggplot(verbs_test %>% 
-         mutate(name = as.character(region)) %>%
-         mutate(name = if_else(name == 'Bolshezyemelskaya Tundra', 'Tundra', name)) %>%
-         left_join(mygrid) %>%
-         filter(! is.na(region)) %>%
-         filter(! participant %in% c('MSF-F-1968', 'VPC-M-1993', 'VVF-F-1957'))) +
-  geom_bar(mapping = aes(x = factor(""), fill = type), position = "fill") +
-  facet_geo(~ name, grid = mygrid) + 
-  labs(title = "First preterite plural verb allomorphs in Komi-Zyrian dialects",
-       subtitle = "Map approximates the location and contact relations of the dialects. For blanks no data available.",
-    caption = "Work done in LATTICE, Paris\nData Source: IKDP Author: Niko Partanen (2017)",
-    y = "Percentage of different types",
-    x = "") +
-  theme_bw() +
-  theme(axis.line=element_blank(),
-      axis.text.x=element_blank(),
-      axis.text.y=element_blank(),
-      axis.ticks=element_blank(),
-#      axis.title.x=element_blank(),
-#      axis.title.y=element_blank(),
-#      legend.position="none",
-      panel.background=element_blank(),
-#      panel.border=element_blank(),
-      panel.grid.major=element_blank(),
-      panel.grid.minor=element_blank()) +
-  theme(strip.background = element_rect(fill="white", linetype = 'blank'))+
-  theme(strip.text = element_text(colour = 'black', size = 7))
-
-
-ggplot(verbs_test %>%
-         filter(! participant %in% c('MSF-F-1968', 'VPC-M-1993')) %>%
-         filter(! is.na(region)) %>%
-         filter(! is.na(gender)) %>%
-         filter(str_detect(dialect, 'zva'))) +
-  geom_bar(mapping = aes(x = gender, fill = type), position = "fill") +
-theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
-
-
-ggplot(verbs_test %>%
-         filter(! is.na(region)) %>%
-         filter(! str_detect(dialect, 'zva'))) +
-  geom_bar(mapping = aes(x = region, fill = type), position = "fill") +
-theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
-
-verbs_test %>% filter(type == 'inɨ')
-
-verb_stems <- verbs_test %>% 
-  mutate(stem = str_extract(token, '.+(?=(и|і)с?ны?с?)')) %>% 
-  distinct(stem) %>% 
-  arrange(stem)
-
-# verb_stems %>% 
-#   filter(! str_detect(stem, "(j|['])")) %>%
-#   write_csv('data/izva_verbs.csv')
-
-verbs_test %>% 
-  mutate(stem = str_extract(token, '.+(?=(и|і)с?ны?с?)')) %>% 
-  count(stem) %>%
-  arrange(desc(n)) %>%
-  slice(10:20)
-
-verbs_test %>% 
-  filter(variety == 'izva') %>%
-  mutate(stem = str_extract(token, '.+(?=(и|і)с?ны?с?)')) %>%
-  filter(! stem == 'в') %>%
-  count(stem, type) %>%
-  rename(hits = n) %>%
-  arrange(stem) %>%
-  split(.$stem) %>%
-  map(~ mutate(.x, diff_types = n()) %>%
-        mutate(type_ratio = hits / sum(hits)) %>%
-        mutate(sum_hits = sum(hits))) %>%
-  bind_rows %>%
-  filter(sum_hits > 10) %>%
-  arrange(desc(diff_types)) %>% View
-  
-verbs_test %>% 
-  filter(variety == 'izva') %>%
-  mutate(stem = str_extract(token, '.+(?=(и|і)с?ны?с?)')) %>%
-  filter(stem == 'босьт') %>%
-  filter(type == 'isnɨs') %>%
-  select(utterance) %>%
-  View
-
-verbs_test %>% filter(str_detect(utterance, 'всю')) %>% select(utterance, filename) %>% open_eaf(3)
-kpv  %>% filter(str_detect(utterance, 'кеде ')) %>% distinct(utterance, participant, filename) 
-
-  split(.$type) %>%
-  map(~ count(.x, stem) %>%
-          arrange(desc(n)) %>%
-          slice(10:20))
-
-
-verbs_test %>% filter(str_detect(token, '^кор')) %>% select(utterance, participant, variety, year)
-verbs_test %>% filter(str_detect(token, '^торйед')) %>% open_eaf(1)
-
-verbs_test %>% 
-  mutate(stem = str_extract(token, '.+(?=(и|і)с?ны?с?)')) %>% 
-  left_join(read_csv('data/izva_verbs.csv')) %>% 
-  filter(! is.na(category)) %>% 
-  filter(stem != 'вӧл') %>%
-#  select(token, type, type_medial, gender, year, participant, category, variety, region, dialect) %>%
-  ggplot(data = .,
-         aes(x = category)) +
-  geom_bar() +
-  facet_grid(. ~ type)
-
-verbs_test %>% 
-  mutate(stem = str_extract(token, '.+(?=(и|і)с?ны?с?)')) %>% 
-  left_join(read_csv('data/izva_verbs.csv')) %>% 
-  filter(! is.na(category)) %>% 
-  filter(dialect %in% c('Udora', 'izva', 'Izva')) %>%
-  filter(stem != 'вӧл') %>%
-  select(token, type, gender, year, participant, category, variety, region, dialect) %>%
-  ggplot(data = .,
-         aes(x = category)) +
-  geom_bar() +
-  facet_grid(type ~ variety)
-
-int <- verbs_test %>% 
-  mutate(stem = str_extract(token, '.+(?=(и|і)с?ны?с?)')) %>% 
-  left_join(read_csv('data/izva_verbs.csv')) %>% 
-  filter(! is.na(category))
-
-int %>% 
-  left_join(count(int, stem) %>% rename(token_count = n)) %>% 
-  arrange(desc(token_count)) %>%
-  distinct(stem, token_count) %>%
-  ggplot(data = .,
-         aes(x = token, y = token_count)) +
-  geom_bar()
-
-# блиныс
-```
-
-
-```{r}
-# verbs %>% arrange(token) %>% distinct(token) %>% write_csv('data/izva_verbs.csv')
-
-# verbs %>% filter(str_detect(token, 'j'))
-
-# verbs %>% mutate(variant = str_extract(session_name, '(?<=kpv_)[a-z]+(?=\\d)')) %>% count(variant)
-#verbs %>% left_join()
-```
 
 This kind of file can be easily edited in LibreOffice.
 
@@ -424,7 +76,7 @@ There are situations where the corpora we use already contain all the annotation
 
 These new annotations in all cases create a derivative work from the earlier corpus. This makes it important to consider the licenses of the corpora being used. It also rises the question whether the new annotations should be integrated into the corpus itself.
 
-```{r}
+```{r diagram_1, echo=FALSE}
 library(DiagrammeR)
 mermaid('
 graph LR
@@ -434,7 +86,7 @@ ELAN --> analysis'
 
 One possible workflow is diagrammed below. It includes creating a CSV export with R or Python, manipulating that manually, then reading that into analytical environment for further work.
 
-```{r}
+```{r diagram2, echo=FALSE}
 mermaid('
 graph LR
 ELAN --> processing
@@ -446,7 +98,7 @@ In this scenario the new annotations are made in CSV, and are thus eventually di
 
 The drawback of this method is that we lose easy connection to the interactive environment in ELAN. Most important part of that being the possibility to listen audio files easily on utterance level. The workflow below describes a method where the annotations are written back to ELAN, either through a spreadsheet or directly from the programming language used for preprocessing.
 
-```{r}
+```{r, diagram3, echo=FALSE}
 mermaid('
 graph LR
 ELAN --> processing
@@ -458,7 +110,7 @@ ELAN --> analysis')
 
 On the other hand, ELAN doesn't offer a very smooth environment to annotate anything below the word-level, so especially in cases where where we want to work with phonetics it can be more desiderable to write the interesting units into Praat's TextGrid files.
 
-```{r}
+```{r, diagram4, echo=FALSE}
 mermaid('
 graph LR
 ELAN --> processing

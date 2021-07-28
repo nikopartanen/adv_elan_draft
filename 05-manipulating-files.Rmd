@@ -1,3 +1,64 @@
-# Manipulating ELAN files with Pympi
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# Exploring and manipulation
+
+## Basic exploration with R
+
+I go through in this point some of the most important `dplyr` verbs that can be used to examine data from ELAN files. There are more thorough introduction in the internet, so this treatment is not very complete view.
+
+### filter()
+
+### slice()
+
+### count(), add_count()
+
+### mutate
+
+### rename
+
+### lag(), lead()
+
+These functions can be used to access rows above or below another token
+
+### str_extract()
+
+### str_detect()
+
+### if_else()
+
+## Manipulating ELAN files with R
+
+Scenario: some ELAN files contain wrong linguistic types
+
+```{r}
+
+standards <- read_csv('https://raw.githubusercontent.com/langdoc/FRechdoc/master/standards/tier_types.csv')
+
+check_types <- function(elan_file = 'corpus//kpv_udo20120330SazinaJS-encounter.eaf', standards){
+
+  current_file <- xml2::read_xml(elan_file) %>% 
+    xml2::xml_find_all('//LINGUISTIC_TYPE') %>%
+    map(~ tibble(LINGUISTIC_TYPE_ID = .x %>% xml2::xml_attr('LINGUISTIC_TYPE_ID'),
+               CONSTRAINTS = .x %>% xml2::xml_attr('CONSTRAINTS'))) %>% bind_rows()
+
+  dplyr::setdiff(current_file, standards) %>%
+    mutate(filename = elan_file)
+
+}
+
+dir('corpus/', pattern = '.eaf$', full.names = TRUE) %>% map(check_types, standards)
+
+dir('corpus/', pattern = '.eaf$', full.names = TRUE) %>% map(check_types, standards)
+
+
+
+
+```
+
+
+## Manipulating ELAN files with Pympi
 
 Pympi is a very mature Python library and using it is enjoyable. However, I myself usually feel the most comfortable when I have the data in an R data frame, so I often fall back into that no matter what. I strongly encourage to test further data manipulation and analysis in Python, I assume that especially [pandas](http://pandas.pydata.org/) should be very useful.

@@ -1,8 +1,8 @@
 # Tools
 
-This course has in its name both R and Python. I understand this can be criticized, as it is often mentioned that focusing into one or another would be "the best choice" in the long run. I think this thinking fails to understand the actual landscape these programming languages are located in, at least from the perspective of a linguist. I think many discussions about which programming language to focus into comes also from the perspective of professional programmers, and it sounds very plausible that longer and more concentrated work with one language eventually pays off in grandeous mastering of that one. However, for many of us the primary goal may be to get something to work. One solution to this is R package [reticulate](https://rstudio.github.io/reticulate/index.html), which allows using Python from within an R session.
+This course has in its name both R and Python. I understand this can be criticized, as it is often mentioned that focusing into one or another would be "the best choice" in the long run. I think this thinking fails to understand the actual landscape these programming languages are located in, at least from the perspective of a linguist. I think many discussions like these arise from the perspective of professional programmers, and it sounds very plausible that longer and more concentrated work with one language eventually pays off in better mastering of that one. However, for many of us the primary goal may be to get something to work, and to get some practical tasks done one by one. If something exists in very finalized form in one programming language but not in another, it may make sense to move from one to another for specific tasks. This is especially the case with more complex tasks which have a large amount of corner cases and questions that aren't obvious in the beginning. Inventing a wheel at this level is not really our job! One solution to this is R package [reticulate](https://rstudio.github.io/reticulate/index.html), which allows using Python from within an R session.
 
-First thing to notice is that this ecosystem is on the move. The programming languages themselves are rather stable (well, R really is not), but there are continuously new packages and workflows that can be adapted into our uses. If something already exists in one language, but not in another, I think it is usually easiest to use the already finished and tested implementation. This is especially the case with more complex tasks which have a large amount of corner cases and questions that aren't obvious in the beginning.
+It also has to be noticed that this whole ecosystem is on the move. The programming languages themselves are rather stable, in some sense at least, but there are continuously new packages and workflows that can be adapted into our uses. Also from this perspective it is bit pointless to discuss which is the best approach for anything, as something better is probably already behind the corner.
 
 In this vein, none of the exact methods in this course are meant as something that will be forever applicable as such, but especially in several years many things get outdated and there will be better and more elegant methods available. However, I think the basic ideas should be valid also in the longer run. There are also tools such as [packrat](https://rstudio.github.io/packrat/) for R and [Anaconda](https://docs.anaconda.com/anaconda/) or [virtualenv](https://virtualenv.pypa.io/en/stable/) for Python, which allow storing exact information about the environment where the code was run.
 
@@ -12,21 +12,37 @@ So my main idea here is that just use all tools that are available and which you
 
 Maybe the most difficult part in programming nowadays is to figure out the ways how to call the things you want to do. Most of the problems we have are already solved, we just have to find the examples that can be adapted into our needs. In the beginning there are many difficulties, but this comes often from uncertainty of how to call what you want to do.
 
+## Notebooks
+
+In both R and Python there have been recent developments to create tools that can produce different kinds of notebooks, with HTML as the preferred output format. In R the best choice for this is RMarkdown and for Python probably Jupyter Notebook. They are rather similar in the sense that they contain chunks of text and code, and when the document is compiled, the code will be rendered on its places within the text.
+
+The concept of notebook comes from traditional laboratory notebooks where the tests were described and results discussed. This model works exceptionally well also with our tasks, and each example in this course is connected into its own little notebook document. 
+
 ## Git
 
 One of the most important tools we can use is a version control system. There are many alternatives, but at the moment Git can maybe be considered as one of the most supported and accessible systems. This is not to say that Git would be always very straightforward, but especially when we have scenarios where an individual researcher is working with one dataset, the things tend be quite simple.
 
 The biggest advantage of version control is that immediately when we get a corpus, we can put all files in it under monitoring that ensures they don't overgo changes. There is always a possibility that we accidentally change something we didn't intend, and this may even change our results in the longer run.
 
+One additional reason to use version control is that it helps you to keep track of in which order you did or tried things. Especially when writing code for more complicated study, you often end up moving different code blocks up and down when you understand in which order they must be executed.
+
 ## R
+
+The R language itself is currently overgoing large scale changes, although already this statement may be controversial to some. There is the base R that comes when R is installed into a computer, and it contains lots of functions as such. However, there are lots of little details in the base R that can make learning and using R bit of a challenge. Different functions, although similar, may take their arguments in different order, and it can be difficult to keep track of what is going on with deeply nested functions that surround one another in the brackets.
+
+Another part where R has been developing a lot in last years is data manipulation, as although R is very specified to data analysis, the data usually comes in very odd forms. There are ways how people who use Excel tend to arrange their spreadsheets, which are maybe good for human users, but not very convenient for statistical analysis or plotting. So many packages have been working toward different ways to bring poorly structured data into structures that are usually called **tidy**.
+
+In last years lots of these packages were tied together into [tidyverse](https://www.tidyverse.org/) framework, which is on its website also called as *an opinionated collection of R packages designed for data science*. In this point it is good to notice that some packages that were popular some time ago, such as `plyr`, are not part of the tidyverse, but kind of fall between current and traditional approaches. The current framework is neither complete, and the latest additions have related to something called tidy evaluation, such as [rlang](http://rlang.tidyverse.org/). These packages already change rather dramatically how some basic expressions in R can be executed, which on one hand makes many very useful things possible, but it also gets somewhat complicated. There is at times the idea that tidyverse makes R easier, and although this is to some degree true, it is not trivially simple to learn and use either.
 
 The R NLP ecosystem is now changing very fast. One of the most interesting new developments is [tidytext](https://cran.r-project.org/web/packages/tidytext/index.html), which is an R package that allows working with text data in so called *tidy* R framework. This package contains very good function for tokenization, `unnest_tokens()`, and generally speaking it is worth looking into. The package authors have also written a book, [Text mining with R](http://tidytextmining.com/).
 
-From ELAN perspective, the most useful package is certainly [xml2](https://cran.r-project.org/web/packages/xml2/index.html). There is also an older package [XML](https://cran.r-project.org/web/packages/XML/index.html), but it is rather difficult to use in the end.
+From ELAN perspective, the most useful package is certainly [xml2](https://cran.r-project.org/web/packages/xml2/index.html). There is also an older package [XML](https://cran.r-project.org/web/packages/XML/index.html), but it is rather difficult to use in the end. However, there may be some tasks that the older version can do but xml2 doesn't handle yet.
 
 
 
 ### `tidytext`
+
+This is one the newer NLP related 
 
 ### `xml2`
 

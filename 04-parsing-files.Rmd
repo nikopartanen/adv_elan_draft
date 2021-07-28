@@ -1,16 +1,293 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Parsing ELAN files to R
 
-The kind of structures I have usually been working with in R are like this:
+Let's assume we have a following kind of ELAN file:
 
-**Note:** Update the example to have better column names
+![Example ELAN file](https://i.imgur.com/vJQNjb8.png)
 
-![](./images/elan-R.png)
+If this would be parsed into R, the expected structure would be something like:
 
-This is one place where standardized and cross-comparable metadata would be useful.
+```{r elan_example}
+example <- tribble(~token, ~form, ~utterance, ~reference, ~participant, ~time_start, ~time_end, ~filename,
+        'words', 'Words', 'Words here.', '.001', 'Niko', 0, 1000,  'kpv_izva20171010test.eaf',
+        'here', 'here', 'Words here.', '.001', 'Niko', 0, 1000, 'kpv_izva20171010test.eaf',
+        '.', '.', 'Words here.', '.001', 'Niko', 0, 1000, 'kpv_izva20171010test.eaf') %>% 
+  mutate(session_name = str_extract(filename, '.+(?=.eaf)'))
 
-The idea behind this structure is that we can consider each token as one observation, and this format with one token per row allows easy plotting and statistical testing without issues.
+example %>% knitr::kable()
+```
+
+As far as I see, this is what we have in the ELAN file. Of course there are other pieces of information such as annotator, language of the tier, last editing time, media files and so on, but I have not needed those very much myself. The convention I have had with the media files is that each file has media files named identically with the ELAN file itself. Thereby their names (and paths) can be extracted from the ELAN file names if and when needed.
+
+Things can be complicated when there is more content below the tiers. For example, there often are glosses, lemmas and pos-tags below the word tokens. Those will be discussed below.
+
+First I want to mention the possibility to combine metadata into the ELAN files. The starting point here is, usually, that we usually have in this point two values we need: **participant** and **session name**. We didn't discuss the session names yet, but in my convention each ELAN file has an unique name, and this also serves as the general session name by which this recording instance can be distinguished from the rest.
+
+If we think metadata more generally, we normally have variables which are connected into one of these items. The session itself has a recording place and time, it has files, it has setting, more and genre, for example. The participants themselves have birthtime, age, place of residence, language skills, roles in the recording and so on.
+
+It is important to note that some of the variables listed above are quite different from others. Especially age and role are something that make sense only in the combination of the participant and the recording: the age is always different, and the roles can also vary. We have numerous recordings where the interviewer gets to be the interviewee and vice versa.
+
+So from this point of view the "result" we actually want to work with often looks more like this:
+
+```{r}
+
+place_meta <- tibble(session_name = c('kpv_izva20171010test', 'kpv_izva20171015test2'),
+         rec_place = c('Paris, France', 'Syktyvkar, Komi'),
+         rec_place_lat = c(48.864716, 0),
+         rec_place_lon = c(2.349014, 0))
+
+speaker_meta <- tibble(participant = 'Niko',
+         birthplace = 'Sulkava, Finland',
+         bplace_lat = 61.786100,
+         bplace_lon = 28.370586,
+         birthyear = 1986)
+
+corpus <- left_join(example, place_meta) %>% left_join(speaker_meta)
+
+corpus
+```
+
+As we are joining the tables by participant and session_name, we are able to handle the fact that some variables may have different values in different sessions. For example, in this case the session metadata table contained two different sessions from different years, but when the joins were done the non-matching ones were discarded. This is one of the properties of `left_join`, there are other join types that are also often useful.
+
+These examples reflect the naming convention that has been used in Freiburg based research projects.
+
+    {language}_{variety}{YYYYMMDD}-{Nth-recording}
+
+There are few variations of this, but the basic idea is similar. Some aspects of metadata are stored already in the filenames. I have heard regularly arguments that ideally the filenames would contain absolutely no metadata, which probably is good for personal privacy reasons. However, there are also pragmatic reasons to have filenames contain something that makes them easy or possible to navigate by humans. In the same sense it can be useful to have there some mnemonic element, which we have also at times added into the end, but this alos adds some new problems.
+
+However, having some pieces of information in the filenames allows us to get few more metadata columns in this point:
+
+```{r}
+
+corpus <- dir('corpus/', pattern = 'eaf$', full.names = TRUE) %>% map(read_eaf) %>% bind_rows()
+
+# We assume the session name starts with a three letter ISO code
+# If the system is entirely reliable, we can just take three first characters
+corpus <- corpus %>% mutate(lang = str_extract(session_name, '.{3}')) %>%
+  mutate(variety = str_extract(session_name, '(?<=.{3}_)[a-z]+(?=\\d)')) %>%
+  mutate(rec_year = as.numeric(str_extract(session_name, '\\d{4}(?=\\d{4})'))) %>%
+  mutate(gender = str_extract(participant, '(?<=-)(F|M)(?=-)'))
+
+corpus %>% select(lang, variety, rec_year, gender, everything()) 
+
+corpus %>% count(variety)
+corpus %>% count(gender)
+corpus %>% count(participant)
+
+```
+
+
+This is one place where standardized and cross-comparable metadata would be useful. It seems to me that lots of the metadata conversation has circulated around the archiving and later data foundability needs, but this questions come to us also on very concrete levels. How do we call the columns in an R dataframe? You have to refer to them all the time, so changing it later will break lots of code that worked earlier. I guess having something systematic that works for you is the best solution for now. Probably the naming conventions of different programming languages are also good to be taken into account. 
+
+The idea behind the structure in this data frame is that we can consider each token as one observation, and this format with one token per row allows easy plotting and statistical testing without issues. The main issue of this section is that we ultimately have to take quite much time to think from where different pieces of metadata come from, or whether they can or cannot be derived from the data we have at hand.
+
+### Questions
+
+- Places, coordinates?
+- How exact times we have and need?
+- Are there some pieces of metadata we need all the time?
+- What kind of data tends to change?
+
+### Example
 
 I have written in [this blog](http://langdoc.github.io/2016-06-04-ELAN-to-R.html) about more exact conventions in parsing ELAN files, especially within [FRelan](https://github.com/langdoc/FRelan) R package that I have built to work with Freiburg project ELAN files. However, I have not been very succesful in getting some system to work so that it would be easily and intuitively adapted into project with an entirely different tier structure. Probably the easiest way is to modify the code every time there is a new tier structure.
+
+## Customizing to tier pattern
+
+One of the example files has structure:
+
+    |-ref (id)
+    \- orth (kpv)
+      \- word (tokenized from orth)
+        \- lemma
+          \- pos
+    \- ft-rus (Russian translation)
+    \- ft-eng (English translation)
+    \- note (different notes on utterance level)
+
+The way I usually approach this is to read into R individual tiers, and join them together following the logic by which the ELAN tier structure has been set up.
+
+```{r}
+
+read_custom_eaf <- function(path_to_file){
+  
+  ref <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "refT") %>%
+    dplyr::select(content, annot_id, participant, time_slot_1, time_slot_2) %>%
+    dplyr::rename(ref = content) %>%
+    dplyr::rename(ref_id = annot_id)
+  
+  orth <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "orthT") %>%
+    dplyr::select(content, annot_id, ref_id, participant) %>%
+    dplyr::rename(orth = content) %>%
+    dplyr::rename(orth_id = annot_id)
+  
+  token <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "wordT") %>%
+    dplyr::select(content, annot_id, ref_id, participant) %>%
+    dplyr::rename(token = content) %>%
+    dplyr::rename(token_id = annot_id) %>%
+    dplyr::rename(orth_id = ref_id)
+
+  lemma <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "lemmaT") %>%
+    dplyr::select(content, annot_id, ref_id, participant) %>%
+    dplyr::rename(lemma = content) %>%
+    dplyr::rename(lemma_id = annot_id) %>%
+    dplyr::rename(token_id = ref_id)
+  
+  pos <- FRelan::read_tier(eaf_file = path_to_file, linguistic_type = "posT") %>%
+    dplyr::select(content, ref_id, participant) %>%
+    dplyr::rename(pos = content) %>%
+    dplyr::rename(lemma_id = ref_id)
+  
+  elan <- left_join(ref, orth) %>% 
+    left_join(token) %>% 
+    left_join(lemma) %>% 
+    left_join(pos) %>%
+    select(token, lemma, pos, time_slot_1, time_slot_2, everything(), -ends_with('_id'))
+    
+  time_slots <- FRelan::read_timeslots(path_to_file)
+  
+  elan %>% left_join(time_slots %>% rename(time_slot_1 = time_slot_id)) %>%
+    rename(time_start = time_value) %>%
+    left_join(time_slots %>% rename(time_slot_2 = time_slot_id)) %>%
+    rename(time_end = time_value) %>%
+    select(token, lemma, pos, participant, time_start, time_end, everything(), -starts_with('time_slot_'))
+}
+
+read_custom_eaf('corpus/kpv_udo20120330SazinaJS-encounter.eaf')
+read_custom_eaf('corpus/kpv_izva20140330-1-fragment.eaf')
+
+```
+
+In practice the files would be parsed in following manner:
+
+```{r}
+corpus <- dir('corpus', pattern = 'eaf$', full.names = TRUE) %>% map(read_custom_eaf) %>% bind_rows()
+
+utter <- corpus %>% filter(str_detect(ref, 'kpv_udo20120330SazinaJS-encounter')) %>% distinct(orth, time_start, time_end, participant, ref)
+
+library(lubridate)
+
+#utter %>% mutate(utter_span = interval(start = as_datetime(time_start), end = as_datetime(time_end))) %>%
+  #mutate(overlaps = int_overlaps(utter_span, utter_span)) %>%
+ # select(utter_span, everything())
+
+options(digits.secs=3)
+
+test <- utter %>% mutate(time_start = as_datetime(time_start / 1000), 
+                         time_end = as_datetime(time_end / 1000)) %>%
+  mutate(time_int = interval(time_start, time_end)) %>%
+ select(time_start, time_end, everything())
+
+test
+
+library(data.table)
+
+DT <- fread(
+  "ID    date1         date2       char
+15  2003-04-05  2003-05-06      E
+15  2003-04-20  2003-06-20      R
+16  2001-01-02  2002-03-04      M
+17  2003-03-05  2007-02-22      I   
+17  2005-04-15  2014-05-19      C
+17  2007-05-15  2008-02-05      I
+17  2008-02-05  2012-02-14      M
+17  2010-06-07  2011-02-14      V
+17  2010-09-22  2014-05-19      P
+17  2012-02-28  2013-03-04      R"
+)
+
+DT
+
+DT2 <- test %>% rename(date1 = time_start, date2 = time_end, ID = ref, char = participant)
+DT <- as.data.table(DT2)
+
+cols <- c("date1", "date2")
+
+DT[, (cols) := lapply(.SD, as.ITime), .SDcols = cols]
+
+options(datatable.print.class = TRUE)
+
+breaks <- DT[, {
+  tmp <- unique(sort(c(date1, date2)))
+  .(start = head(tmp, -1L), end = tail(tmp, -1L))
+  }, by = ID]
+breaks
+
+DT[breaks, on = .(ID, date1 <= start, date2 >= end), paste(char, collapse = "", sep = "break"),  
+   by = .EACHI, allow.cartesian = TRUE]
+
+# starting date to begin plot
+#start_date <- as.Date('2017-01-01')
+
+#df_melted <- reshape2::melt(utter %>% mutate(dur = time_end - time_start), measure.vars = c('time_start', 'time_end')) 
+ggplot(utter %>% mutate(duration = time_end - time_start), aes(colour=participant)) + 
+  geom_segment(aes(x=time_start, xend=time_end, y=participant, yend=participant, size=duration) ) +
+  xlab("Duration") +
+  theme_bw(base_size = 13)
+
+ggplot(utter, aes(participant)) + 
+  geom_segment(xend = time_start, yend = time_end) +
+  labs(x = '', y = '', title = 'Gantt chart using ggplot2') +
+#  theme_bw(base_size = 20) +
+  theme(plot.title = element_text(hjust = 0.5),
+#        panel.grid.major.x = element_line(colour="black", linetype = "dashed"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text.x = element_text(angle = 0))
+
+# 
+# +
+#   scale_x_date(date_labels = "%Y %b", limits = c(start_date, NA), date_breaks = '1 year')
+
+
+# remove_current_interval <- function(time = test$time_int[3], times = test$time_int){
+#   times <- times[! times == time]
+#   sapply(times, function(x) sum(x %within% times))
+# }
+# 
+# remove_current_interval(test$time_int)
+# 
+# sapply(test$time_int, function(x) sum(x %within% test$time_int))
+# 
+# int1 <- interval(as_datetime(0), as_datetime(60))
+# int2 <- c(interval(as_datetime(30), as_datetime(120)),
+#           interval(as_datetime(110), as_datetime(160)))
+# 
+# 
+# lubridate::setdiff(utter %>% filter(participant == 'NTP-M-1986'), 
+#         utter %>% filter(participant == 'JSS-F-1988'))
+
+library(glue)
+library(rlang)
+
+test %>% split(.$participant) %>% map(~ {
+  current_participant = .x$participant[1]
+  current_participant = sym(current_participant)
+  
+  tibble(value = intersect(.x$time_int, test$time_int),
+         ref = test$ref) %>%
+    rename( !! glue('overlap') := value) 
+  
+  }) %>% purrr::reduce(left_join, by = 'ref') %>% left_join(test) %>% View
+
+df <- test %>% split(.$participant) %>% .[1]
+
+  current_participant = df[[1]]$participant[1]
+  current_participant = quo(current_participant)
+  
+  tibble(value = intersect(.x$time_int, test$time_int),
+         reference = test$ref)  %>%
+    rename( !!current_participant = value) 
+
+
+intermediate %>% map(~ colnames(.x))
+
+```
+
 
 ## Why to read ELAN files into R?
 
