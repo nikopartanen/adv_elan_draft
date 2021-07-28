@@ -36,7 +36,6 @@ The course materials will be divided into several parts, and which all are used 
     - Available tools
 2. Structure of the ELAN file
     - XML structure
-    - Most needed XPath commands
     - How ELAN interacts with its own XML?
 3. Python examples
     - Creating new files with Pympi
@@ -46,6 +45,27 @@ The course materials will be divided into several parts, and which all are used 
     - Interaction between Praat and R
     - Creating new ELAN tiers in R
 5. Summary
+
+## Schedule
+
+- Thu 16.11. FRIAS
+    - 09:30-11:00 **Course** Topic: ELAN corpora & Goals of programmatic workflows & ELAN file
+    - 11:00-11:30 Coffee
+    - 11:30-13:00 **Course** Topic: Available ecosystem (R, Python, ELAN, Praat)
+    - 13:00-14:00 Lunch (on own expenses)
+    - 14:00-15:30 **Course** Topic: Parsing ELAN file + metadata
+    - 15:30-16:00 Coffee
+    - 16:00-17:30 **Course** Topic: Further interaction with ELAN corpus in R
+
+- Thu 16.11. University
+    - 18:00–20:00 Guest lecture by [Mark Davies](https://en.wikipedia.org/wiki/Mark_Davies_(linguist)) "Examining variation and change in language and culture with large online corpora"
+
+- Fr 17.11. FRIAS
+    - 09:30-11:00 **Course** Topic: ELAN tier manipulation with Python
+    - 11:00-11:30 Coffee
+    - 11:30-13:00 **Course** Topic: Examples of tools in interaction
+    - 13:00-14:00 Lunch (on own expenses)
+    - 14:00-15:30 **Course** Topic: Summary
 
 ## Resources
 
@@ -57,10 +77,10 @@ library(devtools)
 install_github('langdoc/adv_elan')
 ```
 
-Besides the R package, the course repository also contains all Python code examples from the course. They are maybe also put into a module if there is time.
+Besides the R package, the course repository also contains all Python code examples from the course. They are discussed within individual Jupyter Notebooks in the folder `notebooks`. The functions are maybe also put into a module if there is time.
 
-The course materials also contain an example ELAN corpus with associated audio files.
+The course materials also contain an example ELAN corpus with associated audio files. This can be found from `corpus` folder in the repository.
 
 ## Practical info
 
-Place: Freiburg, November 2017. More info will follow.
+I will teach with these materials, or their subset, in a workshop in Freiburg, around 16.-17. November 2017.
